@@ -60,7 +60,9 @@ struct DefaultNetworkClient: NetworkClient {
                 onResponse(result)
             }
         }
-        guard let urlRequest = create(request: request) else { return nil }
+        guard var urlRequest = create(request: request) else { return nil }
+
+        urlRequest.setValue("20a4069e-6e51-4477-894a-e6fdc9a4bb95", forHTTPHeaderField: "X-Practicum-Mobile-Token")
 
         let task = session.dataTask(with: urlRequest) { data, response, error in
             guard let response = response as? HTTPURLResponse else {
@@ -100,8 +102,10 @@ struct DefaultNetworkClient: NetworkClient {
         return send(request: request, completionQueue: completionQueue) { result in
             switch result {
             case let .success(data):
+                print("send \(data)")
                 self.parse(data: data, type: type, onResponse: onResponse)
             case let .failure(error):
+                print("send \(error)")
                 onResponse(.failure(error))
             }
         }
