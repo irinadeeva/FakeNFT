@@ -23,9 +23,6 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // TODO: check the color
-        view.backgroundColor = .systemBackground
-
         let assembly = ProfileDetailAssembly(servicesAssembler: servicesAssembly)
         let profileInput = ProfileDetailInput(id: Constants.id)
         let profileDetailViewController = assembly.build(with: profileInput)

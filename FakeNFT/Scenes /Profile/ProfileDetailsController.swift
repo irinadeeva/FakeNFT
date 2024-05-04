@@ -59,7 +59,7 @@ extension ProfileDetailsViewController {
         userDescription.font = .caption2
         // TODO: check how to "break down" the long text
         userDescription.lineBreakMode =  .byWordWrapping
-//        userDescription.numberOfLines = 0
+        userDescription.numberOfLines = 0
 
         [profileImage, userName, userDescription].forEach {
             view.addSubview($0)
