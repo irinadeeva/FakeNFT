@@ -11,7 +11,6 @@ protocol ProfileDetailsView: AnyObject, ErrorView, LoadingView {
     func updateProfile(_ profile: Profile)
 }
 
-
 final class ProfileDetailsViewController: UIViewController {
 
     private let presenter: ProfilePresenter
@@ -52,17 +51,15 @@ extension ProfileDetailsViewController {
         profileImage.image = UIImage(named: "ProfilePhoto")
 
         userName = UILabel()
-//        userName.text = "Joaquin Phoenix"
         userName.textColor = .text
         userName.font = .headline3
 
         userDescription = UILabel()
-////        userDescription.text =
-//        "Дизайнер из Казани, люблю цифровое искусство\n и бейглы. В моей коллекции уже 100+ NFT,\n и еще больше — на моём сайте. Открыт\n к коллаборациям."
         userDescription.textColor = .text
         userDescription.font = .caption2
         // TODO: check how to "break down" the long text
-        userDescription.numberOfLines = 0
+        userDescription.lineBreakMode =  .byWordWrapping
+//        userDescription.numberOfLines = 0
 
         [profileImage, userName, userDescription].forEach {
             view.addSubview($0)

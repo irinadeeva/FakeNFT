@@ -36,7 +36,6 @@ final class ProfileServiceImpl: ProfileService {
                 storage?.saveProfile(profile)
                 completion(.success(profile))
             case .failure(let error):
-                print("networkClient.send \(error)")
                 completion(.failure(error))
             }
         }
