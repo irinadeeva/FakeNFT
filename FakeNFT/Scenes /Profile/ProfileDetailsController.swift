@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 protocol ProfileDetailsView: AnyObject, ErrorView, LoadingView {
     func updateProfile(_ profile: Profile)
@@ -48,7 +49,6 @@ extension ProfileDetailsViewController {
 
     private func setupUI() {
         profileImage = UIImageView()
-        profileImage.image = UIImage(named: "ProfilePhoto")
 
         userName = UILabel()
         userName.textColor = .text
@@ -88,5 +88,18 @@ extension ProfileDetailsViewController: ProfileDetailsView {
     func updateProfile(_ profile: Profile) {
         userName.text = profile.userName
         userDescription.text = profile.description
+
+        let processor = RoundCornerImageProcessor(cornerRadius: 61)
+        let placeholder = UIImage(named: "Stub")
+
+        profileImage.kf.indicatorType = .activity
+
+        profileImage.kf.setImage(
+            with: profile.profileImage,
+            placeholder: placeholder,
+            options: [.processor(processor),
+                      .cacheMemoryOnly
+            ]
+        )
     }
 }
