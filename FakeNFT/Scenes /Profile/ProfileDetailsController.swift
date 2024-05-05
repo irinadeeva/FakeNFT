@@ -17,7 +17,11 @@ final class ProfileDetailsViewController: UIViewController {
     private let presenter: ProfilePresenter
 
     private lazy var profileImage: UIImageView = {
-        return UIImageView()
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 35
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        return imageView
     }()
 
     private lazy var userName: UILabel = {
