@@ -8,14 +8,13 @@
 import Foundation
 
 struct Profile: Codable {
-    // TODO: find out what is optional
     let userId: UUID
     let userName: String
-    let profileImage: URL?
-    let description: String?
-    let nftIds: [UUID]?
-    let userWebsite: URL?
-    let userRating: String?
+    let profileImage: URL
+    let description: String
+    let nftIds: [UUID]
+    let userWebsite: URL
+    let userRating: String
 
     private enum CodingKeys: String, CodingKey {
         case userId = "id"

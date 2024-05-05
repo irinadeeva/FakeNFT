@@ -16,9 +16,27 @@ final class ProfileDetailsViewController: UIViewController {
 
     private let presenter: ProfilePresenter
 
-    private var profileImage: UIImageView!
-    private var userName: UILabel!
-    private var userDescription: UILabel!
+    private lazy var profileImage: UIImageView = {
+        return UIImageView()
+    }()
+
+    private lazy var userName: UILabel = {
+        let label = UILabel()
+        label.textColor = .text
+        label.font = .headline3
+        label.lineBreakMode =  .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+
+    private lazy var userDescription: UILabel = {
+        let label = UILabel()
+        label.textColor = .text
+        label.font = .caption2
+        label.lineBreakMode =  .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
 
     internal lazy var activityIndicator = UIActivityIndicatorView()
 
@@ -48,19 +66,6 @@ extension ProfileDetailsViewController {
     // MARK: - Private
 
     private func setupUI() {
-        profileImage = UIImageView()
-
-        userName = UILabel()
-        userName.textColor = .text
-        userName.font = .headline3
-
-        userDescription = UILabel()
-        userDescription.textColor = .text
-        userDescription.font = .caption2
-        // TODO: check how to "break down" the long text
-        userDescription.lineBreakMode =  .byWordWrapping
-        userDescription.numberOfLines = 0
-
         [profileImage, userName, userDescription].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -74,9 +79,11 @@ extension ProfileDetailsViewController {
 
             userName.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 16),
             userName.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
+            userName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
 
             userDescription.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 20),
-            userDescription.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor)
+            userDescription.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
+            userDescription.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
     }
 }

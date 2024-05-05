@@ -24,20 +24,22 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
 
         let assembly = ProfileDetailAssembly(servicesAssembler: servicesAssembly)
-        let profileInput = ProfileDetailInput(id: Constants.id)
+        let profileInput = ProfileDetailInput(id: TokenConstant.id)
         let profileDetailViewController = assembly.build(with: profileInput)
 
         addChild(profileDetailViewController)
-//        profileDetailViewController.didMove(toParent: self)
+        profileDetailViewController.didMove(toParent: self)
 
         [profileDetailViewController.view].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-    }
-}
 
-// TODO: where to store?
-private enum Constants {
-    static let id = "20a4069e-6e51-4477-894a-e6fdc9a4bb95"
+        NSLayoutConstraint.activate([
+           profileDetailViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+           profileDetailViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+           profileDetailViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+           profileDetailViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+          ])
+    }
 }

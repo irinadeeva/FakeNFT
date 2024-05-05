@@ -62,8 +62,6 @@ struct DefaultNetworkClient: NetworkClient {
         }
         guard var urlRequest = create(request: request) else { return nil }
 
-        urlRequest.setValue("20a4069e-6e51-4477-894a-e6fdc9a4bb95", forHTTPHeaderField: "X-Practicum-Mobile-Token")
-
         let task = session.dataTask(with: urlRequest) { data, response, error in
             guard let response = response as? HTTPURLResponse else {
                 onResponse(.failure(NetworkClientError.urlSessionError))
@@ -125,6 +123,8 @@ struct DefaultNetworkClient: NetworkClient {
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
             urlRequest.httpBody = dtoEncoded
         }
+
+        urlRequest.setValue(TokenConstant.id, forHTTPHeaderField: "X-Practicum-Mobile-Token")
 
         return urlRequest
     }
