@@ -100,17 +100,23 @@ extension ProfileDetailsViewController: ProfileDetailsView {
         userName.text = profile.userName
         userDescription.text = profile.description
 
-        let processor = RoundCornerImageProcessor(cornerRadius: 61)
-        let placeholder = UIImage(named: "Stub")
+        if profile.imageURL != nil {
 
-        profileImage.kf.indicatorType = .activity
+            let processor = RoundCornerImageProcessor(cornerRadius: 61)
+            let placeholder = UIImage(named: "ProfileStub")
 
-        profileImage.kf.setImage(
-            with: profile.profileImage,
-            placeholder: placeholder,
-            options: [.processor(processor),
-                      .cacheMemoryOnly
-            ]
-        )
+            profileImage.kf.indicatorType = .activity
+
+            profileImage.kf.setImage(
+                with: profile.imageURL,
+                placeholder: placeholder,
+                options: [.processor(processor),
+                          .cacheMemoryOnly
+                ]
+            )
+        } else {
+            profileImage.image = UIImage(named: "AvatarStub")
+        }
+
     }
 }

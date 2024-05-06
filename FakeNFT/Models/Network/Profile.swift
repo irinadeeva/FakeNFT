@@ -10,7 +10,7 @@ import Foundation
 struct Profile: Codable {
     let userId: UUID
     let userName: String
-    let profileImage: URL
+    let imageURL: URL?
     let description: String
     let nftIds: [UUID]
     let userWebsite: URL
@@ -19,7 +19,7 @@ struct Profile: Codable {
     private enum CodingKeys: String, CodingKey {
         case userId = "id"
         case userName = "name"
-        case profileImage = "avatar"
+        case imageURL = "avatar"
         case description = "description"
         case userWebsite = "website"
         case nftIds = "nfts"

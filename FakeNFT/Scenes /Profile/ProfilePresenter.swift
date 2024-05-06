@@ -53,8 +53,8 @@ final class ProfilePresenterImpl: ProfilePresenter {
             view?.showLoading()
             loadProfile()
         case .data(let profile):
-            view?.hideLoading()
             view?.updateProfile(profile)
+            view?.hideLoading()
         case .failed(let error):
             let errorModel = makeErrorModel(error)
             view?.hideLoading()
