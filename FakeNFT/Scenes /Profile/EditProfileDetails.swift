@@ -19,7 +19,7 @@ final class EditProfileDetails: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
+        view.backgroundColor = .background
 
         view.addSubview(closeButton)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
