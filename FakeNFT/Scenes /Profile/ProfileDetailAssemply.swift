@@ -23,6 +23,7 @@ public final class ProfileDetailAssembly {
 
         let viewController = ProfileDetailsViewController(presenter: presenter)
         presenter.view = viewController
+
         return viewController
     }
 }

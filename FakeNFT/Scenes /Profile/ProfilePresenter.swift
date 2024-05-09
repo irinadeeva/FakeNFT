@@ -20,9 +20,9 @@ enum ProfileDetailState {
 }
 
 final class ProfilePresenterImpl: ProfilePresenter {
-
+    
     // MARK: - Properties
-
+    
     weak var view: ProfileDetailsView?
     private let input: ProfileDetailInput
     private let service: ProfileService
@@ -31,20 +31,20 @@ final class ProfilePresenterImpl: ProfilePresenter {
             stateDidChanged()
         }
     }
-
+    
     // MARK: - Init
-
+    
     init(input: ProfileDetailInput, service: ProfileService) {
         self.input = input
         self.service = service
     }
-
+    
     // MARK: - Functions
-
+    
     func viewDidLoad() {
         state = .loading
     }
-
+    
     private func stateDidChanged() {
         switch state {
         case .initial:
@@ -61,7 +61,7 @@ final class ProfilePresenterImpl: ProfilePresenter {
             view?.showError(errorModel)
         }
     }
-
+    
     private func loadProfile() {
         service.loadProfile(id: input.id) { [weak self] result in
             switch result {
@@ -72,7 +72,7 @@ final class ProfilePresenterImpl: ProfilePresenter {
             }
         }
     }
-
+    
     private func makeErrorModel(_ error: Error) -> ErrorModel {
         let message: String
         switch error {
@@ -81,7 +81,7 @@ final class ProfilePresenterImpl: ProfilePresenter {
         default:
             message = NSLocalizedString("Error.unknown", comment: "")
         }
-
+        
         let actionText = NSLocalizedString("Error.repeat", comment: "")
         return ErrorModel(message: message, actionText: actionText) { [weak self] in
             self?.state = .loading

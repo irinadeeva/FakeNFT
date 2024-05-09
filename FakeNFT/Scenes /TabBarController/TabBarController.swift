@@ -19,9 +19,13 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let profileController = ProfileViewController(
+        let profileController = UINavigationController(rootViewController: ProfileViewController(
             servicesAssembly: servicesAssembly
-        )
+        ))
+//        let profileController = ProfileViewController(
+//            servicesAssembly: servicesAssembly
+//        )
+
         profileController.tabBarItem = profileTabBarItem
 
         let catalogController = TestCatalogViewController(
