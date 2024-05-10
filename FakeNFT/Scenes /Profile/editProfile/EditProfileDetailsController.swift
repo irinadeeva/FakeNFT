@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 protocol EditProfileDetailsView: AnyObject, ErrorView, LoadingView {
     func fetchProfile(_ profile: Profile)
@@ -27,7 +28,6 @@ final class EditProfileDetailsViewController: UIViewController {
 
     private lazy var profileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "AvatarStub")
         imageView.layer.cornerRadius = 35
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -65,26 +65,35 @@ final class EditProfileDetailsViewController: UIViewController {
     }()
 
     private var nameTextField: UITextField = {
-        let textField = UITextField()
+        let textField = TextFieldWithPadding()
+        textField.textColor = .text
+        textField.font = .bodyRegular
         textField.backgroundColor = .textField
         textField.layer.cornerRadius = 12
         textField.textAlignment = .left
+        textField.clearButtonMode = .whileEditing
         return textField
     }()
 
-    private var descriptionTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .textField
-        textField.layer.cornerRadius = 12
-        textField.textAlignment = .left
-        return textField
+    private var descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.textColor = .text
+        textView.font = .bodyRegular
+        textView.backgroundColor = .textField
+        textView.layer.cornerRadius = 12
+        textView.textAlignment = .left
+        textView.textContainerInset = UIEdgeInsets(top: 11, left: 16, bottom: 11, right: 16)
+        return textView
     }()
 
     private var websiteTextField: UITextField = {
-        let textField = UITextField()
+        let textField = TextFieldWithPadding()
+        textField.textColor = .text
+        textField.font = .bodyRegular
         textField.backgroundColor = .textField
         textField.layer.cornerRadius = 12
         textField.textAlignment = .left
+        textField.clearButtonMode = .whileEditing
         return textField
     }()
 
@@ -116,15 +125,29 @@ extension EditProfileDetailsViewController {
     private func setupUI() {
         view.backgroundColor = .background
 
-        [closeButton, profileImage, nameLabel, descriptionLabel, websiteLabel, nameTextField, descriptionTextField, websiteTextField].forEach {
-            view.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+        nameTextField.delegate = self
+        websiteTextField.delegate = self
+        descriptionTextView.delegate = self
+
+        [closeButton,
+         profileImage,
+         nameLabel,
+         descriptionLabel,
+         websiteLabel,
+         nameTextField,
+         descriptionTextView,
+         websiteTextField]
+            .forEach {
+                view.addSubview($0)
+                $0.translatesAutoresizingMaskIntoConstraints = false
+            }
 
         NSLayoutConstraint.activate([
             closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 24),
             closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
 
+            profileImage.heightAnchor.constraint(equalToConstant: 70),
+            profileImage.widthAnchor.constraint(equalToConstant: 70),
             profileImage.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 22),
             profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
@@ -135,22 +158,25 @@ extension EditProfileDetailsViewController {
             nameTextField.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             nameTextField.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
             nameTextField.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+            nameTextField.heightAnchor.constraint(equalToConstant: 44),
 
             descriptionLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
             descriptionLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 24),
 
-            descriptionTextField.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            descriptionTextField.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-            descriptionTextField.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 8),
+            descriptionTextView.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            descriptionTextView.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
+            descriptionTextView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 8),
+            descriptionTextView.heightAnchor.constraint(equalToConstant: 132),
 
             websiteLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             websiteLabel.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-            websiteLabel.topAnchor.constraint(equalTo: descriptionTextField.bottomAnchor, constant: 24),
+            websiteLabel.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 24),
 
             websiteTextField.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
             websiteTextField.trailingAnchor.constraint(equalTo: nameLabel.trailingAnchor),
-            websiteTextField.topAnchor.constraint(equalTo: websiteLabel.bottomAnchor, constant: 8)
+            websiteTextField.topAnchor.constraint(equalTo: websiteLabel.bottomAnchor, constant: 8),
+            websiteTextField.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
 
@@ -166,7 +192,42 @@ extension EditProfileDetailsViewController: EditProfileDetailsView {
 
     func fetchProfile(_ profile: Profile) {
         nameTextField.text = profile.userName
-        descriptionTextField.text = profile.description
+        descriptionTextView.text = profile.description
         websiteTextField.text = profile.userWebsite.absoluteString
+
+        if profile.imageURL != nil {
+
+            let processor = RoundCornerImageProcessor(cornerRadius: 61)
+            let placeholder = UIImage(named: "ProfileStub")
+
+            profileImage.kf.indicatorType = .activity
+
+            profileImage.kf.setImage(
+                with: profile.imageURL,
+                placeholder: placeholder,
+                options: [.processor(processor),
+                          .cacheMemoryOnly
+                ]
+            )
+        } else {
+            profileImage.image = UIImage(named: "ProfileStub")
+        }
     }
 }
+
+extension EditProfileDetailsViewController: UITextFieldDelegate {
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return textField.resignFirstResponder()
+    }
+}
+
+ extension EditProfileDetailsViewController: UITextViewDelegate {
+
+     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+         if text == "\n" {
+             return textView.resignFirstResponder()
+         }
+         return true
+     }
+ }

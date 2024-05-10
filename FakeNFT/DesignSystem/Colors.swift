@@ -49,6 +49,8 @@ extension UIColor {
 
     static let yaBlueUniversal = UIColor(hexString: "0A84FF")
 
+    static let profileEditMode = UIColor(red: 26/255.0, green: 27/255.0, blue: 34/255.0, alpha: 0.6)
+
     static let segmentActive = UIColor { traits in
         return traits.userInterfaceStyle == .dark
         ? .yaBlackDark
