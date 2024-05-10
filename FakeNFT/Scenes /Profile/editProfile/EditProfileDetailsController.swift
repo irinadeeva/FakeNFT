@@ -68,9 +68,6 @@ final class EditProfileDetailsViewController: UIViewController {
         let textField = UITextField()
         textField.backgroundColor = .textField
         textField.layer.cornerRadius = 12
-        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 0))
-        textField.leftView = leftView
-        textField.leftViewMode = .always
         textField.textAlignment = .left
         return textField
     }()
