@@ -34,13 +34,30 @@ final class EditProfileDetailsViewController: UIViewController {
         return imageView
     }()
 
+    private lazy var stubEditLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Сменить\n фото"
+        label.textColor = .yaUniversalWhite
+        label.font = .small
+        label.textAlignment = .center
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+
+    private lazy var imageEditMode: UIView = {
+        let uiView = UIView()
+        uiView.layer.cornerRadius = 35
+        uiView.layer.masksToBounds = true
+        uiView.backgroundColor = .profileEditMode
+        return uiView
+    }()
+
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Имя"
         label.textColor = .text
         label.font = .headline3
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
         return label
     }()
 
@@ -49,8 +66,6 @@ final class EditProfileDetailsViewController: UIViewController {
         label.text = "Описание"
         label.textColor = .text
         label.font = .headline3
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
         return label
     }()
 
@@ -59,8 +74,6 @@ final class EditProfileDetailsViewController: UIViewController {
         label.text = "Сайт"
         label.textColor = .text
         label.font = .headline3
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
         return label
     }()
 
@@ -129,8 +142,12 @@ extension EditProfileDetailsViewController {
         websiteTextField.delegate = self
         descriptionTextView.delegate = self
 
+        imageEditMode.addSubview(stubEditLabel)
+        stubEditLabel.translatesAutoresizingMaskIntoConstraints = false
+
         [closeButton,
          profileImage,
+         imageEditMode,
          nameLabel,
          descriptionLabel,
          websiteLabel,
@@ -150,6 +167,16 @@ extension EditProfileDetailsViewController {
             profileImage.widthAnchor.constraint(equalToConstant: 70),
             profileImage.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 22),
             profileImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            imageEditMode.heightAnchor.constraint(equalToConstant: 70),
+            imageEditMode.widthAnchor.constraint(equalToConstant: 70),
+            imageEditMode.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 22),
+            imageEditMode.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            stubEditLabel.leadingAnchor.constraint(equalTo: imageEditMode.leadingAnchor, constant: 11),
+            stubEditLabel.trailingAnchor.constraint(equalTo: imageEditMode.trailingAnchor, constant: -11),
+            stubEditLabel.centerYAnchor.constraint(equalTo: imageEditMode.centerYAnchor),
+            stubEditLabel.centerXAnchor.constraint(equalTo: imageEditMode.centerXAnchor),
 
             nameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 24),
             nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
