@@ -22,9 +22,6 @@ final class TabBarController: UITabBarController {
         let profileController = UINavigationController(rootViewController: ProfileViewController(
             servicesAssembly: servicesAssembly
         ))
-//        let profileController = ProfileViewController(
-//            servicesAssembly: servicesAssembly
-//        )
 
         profileController.tabBarItem = profileTabBarItem
 
