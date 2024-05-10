@@ -78,4 +78,10 @@ extension UIColor {
         ? .yaBlackDark
         : .yaBlackLight
     }
+
+    static let textField = UIColor { traits in
+        return traits.userInterfaceStyle == .dark
+        ? .yaLightGrayDark
+        : .yaLightGrayLight
+    }
 }

@@ -13,11 +13,11 @@ protocol ProfileDetailsView: AnyObject, ErrorView, LoadingView {
 }
 
 final class ProfileDetailsViewController: UIViewController {
-    
+
     internal lazy var activityIndicator = UIActivityIndicatorView()
-    
+
     private let presenter: ProfilePresenter
-    
+
     private lazy var profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 35
@@ -25,7 +25,7 @@ final class ProfileDetailsViewController: UIViewController {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    
+
     private lazy var userName: UILabel = {
         let label = UILabel()
         label.textColor = .text
@@ -34,7 +34,7 @@ final class ProfileDetailsViewController: UIViewController {
         label.numberOfLines = 0
         return label
     }()
-    
+
     private lazy var userDescription: UILabel = {
         let label = UILabel()
         label.textColor = .text
@@ -43,7 +43,7 @@ final class ProfileDetailsViewController: UIViewController {
         label.numberOfLines = 0
         return label
     }()
-    
+
     private lazy var userWebsite: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .caption1
@@ -52,57 +52,57 @@ final class ProfileDetailsViewController: UIViewController {
         button.addTarget(self, action: #selector(openWebsite), for: .touchUpInside)
         return button
     }()
-    
+
     // MARK: - Init
-    
+
     init(presenter: ProfilePresenterImpl) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupUI()
         presenter.viewDidLoad()
     }
 }
 
 extension ProfileDetailsViewController {
-    
+
     // MARK: - Private
-    
+
     private func setupUI() {
         [profileImage, userName, userDescription, userWebsite].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
+
         NSLayoutConstraint.activate([
             profileImage.heightAnchor.constraint(equalToConstant: 70),
             profileImage.widthAnchor.constraint(equalToConstant: 70),
             profileImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             profileImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            
+
             userName.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 16),
             userName.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
             userName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
+
             userDescription.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 20),
             userDescription.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
             userDescription.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
+
             userWebsite.topAnchor.constraint(equalTo: userDescription.bottomAnchor, constant: 12),
             userWebsite.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor)
         ])
     }
-    
+
     @objc private func openWebsite() {
         let webView = WebViewViewController(userWebsiteAbsoluteString: userWebsite.currentTitle)
         present(webView, animated: true)
@@ -112,19 +112,19 @@ extension ProfileDetailsViewController {
 // MARK: - ProfileDetailsView
 
 extension ProfileDetailsViewController: ProfileDetailsView {
-    
+
     func updateProfile(_ profile: Profile) {
         userName.text = profile.userName
         userDescription.text = profile.description
         userWebsite.setTitle(profile.userWebsite.absoluteString, for: .normal)
-        
+
         if profile.imageURL != nil {
-            
+
             let processor = RoundCornerImageProcessor(cornerRadius: 61)
             let placeholder = UIImage(named: "ProfileStub")
-            
+
             profileImage.kf.indicatorType = .activity
-            
+
             profileImage.kf.setImage(
                 with: profile.imageURL,
                 placeholder: placeholder,
