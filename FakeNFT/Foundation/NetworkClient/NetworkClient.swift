@@ -124,6 +124,8 @@ struct DefaultNetworkClient: NetworkClient {
             urlRequest.httpBody = dtoEncoded
         }
 
+        urlRequest.setValue(TokenConstant.id, forHTTPHeaderField: "X-Practicum-Mobile-Token")
+
         return urlRequest
     }
 
