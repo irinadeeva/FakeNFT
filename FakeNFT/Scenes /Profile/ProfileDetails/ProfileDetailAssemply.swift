@@ -1,13 +1,13 @@
 //
-//  EditDetailAssemply.swift
+//  ProfileAssemply.swift
 //  FakeNFT
 //
-//  Created by Irina Deeva on 09/05/24.
+//  Created by Irina Deeva on 03/05/24.
 //
 
 import UIKit
 
-public final class EditProfileDetailsAssembly {
+public final class ProfileDetailAssembly {
 
     private let servicesAssembler: ServicesAssembly
 
@@ -15,13 +15,13 @@ public final class EditProfileDetailsAssembly {
         self.servicesAssembler = servicesAssembler
     }
 
-    public func build(with input: ProfileDetailInput) -> UIViewController {
-        let presenter = EditProfileDetailsPresenterImpl(
+    public func build(with input: ProfileInput) -> UIViewController {
+        let presenter = ProfileDetailsPresenterImpl(
             input: input,
             service: servicesAssembler.profileService
         )
 
-        let viewController = EditProfileDetailsViewController(presenter: presenter)
+        let viewController = ProfileDetailsViewController(presenter: presenter)
         presenter.view = viewController
 
         return viewController

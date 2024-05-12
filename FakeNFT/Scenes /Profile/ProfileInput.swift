@@ -7,6 +7,6 @@
 
 import Foundation
 
-public struct ProfileDetailInput {
+public struct ProfileInput {
     let id: String
 }

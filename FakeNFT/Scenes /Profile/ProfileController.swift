@@ -10,7 +10,7 @@ import UIKit
 final class ProfileViewController: UIViewController {
 
     let servicesAssembly: ServicesAssembly
-    private let profileInput = ProfileDetailInput(id: TokenConstant.id)
+    private let profileInput = ProfileInput(id: TokenConstant.id)
 
     init(servicesAssembly: ServicesAssembly) {
         self.servicesAssembly = servicesAssembly

@@ -1,32 +1,31 @@
 //
-//  ProfileViewPresenter.swift
+//  EditProfileDetailsPresenter.swift
 //  FakeNFT
 //
-//  Created by Irina Deeva on 03/05/24.
+//  Created by Irina Deeva on 09/05/24.
 //
 
 import Foundation
 
 // MARK: - Protocol
 
-protocol ProfilePresenter {
+protocol EditProfileDetailsPresenter {
     func viewDidLoad()
 }
 
 // MARK: - State
 
-enum ProfileDetailState {
+enum EditProfileDetailState {
     case initial, loading, failed(Error), data(Profile)
 }
 
-final class ProfilePresenterImpl: ProfilePresenter {
+final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
 
     // MARK: - Properties
-
-    weak var view: ProfileDetailsView?
-    private let input: ProfileDetailInput
+    weak var view: EditProfileDetailsView?
+    private let input: ProfileInput
     private let service: ProfileService
-    private var state = ProfileDetailState.initial {
+    private var state = EditProfileDetailState.initial {
         didSet {
             stateDidChanged()
         }
@@ -34,7 +33,7 @@ final class ProfilePresenterImpl: ProfilePresenter {
 
     // MARK: - Init
 
-    init(input: ProfileDetailInput, service: ProfileService) {
+    init(input: ProfileInput, service: ProfileService) {
         self.input = input
         self.service = service
     }
@@ -53,7 +52,7 @@ final class ProfilePresenterImpl: ProfilePresenter {
             view?.showLoading()
             loadProfile()
         case .data(let profile):
-            view?.updateProfile(profile)
+            view?.fetchProfile(profile)
             view?.hideLoading()
         case .failed(let error):
             let errorModel = makeErrorModel(error)

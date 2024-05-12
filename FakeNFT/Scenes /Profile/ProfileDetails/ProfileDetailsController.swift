@@ -53,9 +53,19 @@ final class ProfileDetailsViewController: UIViewController {
         return button
     }()
 
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.separatorStyle = .none
+        tableView.isScrollEnabled = false
+        tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.identifier)
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
+
     // MARK: - Init
 
-    init(presenter: ProfilePresenterImpl) {
+    init(presenter: ProfileDetailsPresenterImpl) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -79,7 +89,8 @@ extension ProfileDetailsViewController {
     // MARK: - Private
 
     private func setupUI() {
-        [profileImage, userName, userDescription, userWebsite].forEach {
+
+        [profileImage, userName, userDescription, userWebsite, tableView].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -99,7 +110,12 @@ extension ProfileDetailsViewController {
             userDescription.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
 
             userWebsite.topAnchor.constraint(equalTo: userDescription.bottomAnchor, constant: 12),
-            userWebsite.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor)
+            userWebsite.leadingAnchor.constraint(equalTo: profileImage.leadingAnchor),
+
+            tableView.topAnchor.constraint(equalTo: userWebsite.bottomAnchor, constant: 40),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 
@@ -134,6 +150,54 @@ extension ProfileDetailsViewController: ProfileDetailsView {
             )
         } else {
             profileImage.image = UIImage(named: "AvatarStub")
+        }
+
+        tableView.reloadData()
+    }
+}
+
+// MARK: - UITableViewDataSource
+
+extension ProfileDetailsViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: ProfileTableViewCell.identifier,
+            for: indexPath) as? ProfileTableViewCell else {
+            return UITableViewCell()
+        }
+
+        let label = presenter.fetchTitleForCell(with: indexPath)
+        cell.configureCell(text: label)
+
+        return cell
+    }
+
+}
+
+// MARK: - UITableViewDelegate
+
+extension ProfileDetailsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 54
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            let webView = WebViewViewController(userWebsiteAbsoluteString: userWebsite.currentTitle)
+            navigationController?.pushViewController(webView, animated: true)
+        case 1:
+            let myFavouriteNFTsView = MyFavouriteNFTsController()
+            navigationController?.pushViewController(myFavouriteNFTsView, animated: true)
+        case 2:
+            let webView = WebViewViewController(userWebsiteAbsoluteString: userWebsite.currentTitle)
+            navigationController?.pushViewController(webView, animated: true)
+        default:
+            return
         }
     }
 }

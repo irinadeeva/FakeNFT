@@ -1,39 +1,42 @@
 //
-//  EditProfileDetailsPresenter.swift
+//  ProfileViewPresenter.swift
 //  FakeNFT
 //
-//  Created by Irina Deeva on 09/05/24.
+//  Created by Irina Deeva on 03/05/24.
 //
 
 import Foundation
 
 // MARK: - Protocol
 
-protocol EditProfileDetailsPresenter {
+protocol ProfilePresenter {
     func viewDidLoad()
+    func fetchTitleForCell(with indexPath: IndexPath) -> String
 }
 
 // MARK: - State
 
-enum EditProfileDetailState {
+enum ProfileDetailState {
     case initial, loading, failed(Error), data(Profile)
 }
 
-final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
+final class ProfileDetailsPresenterImpl: ProfilePresenter {
 
     // MARK: - Properties
-    weak var view: EditProfileDetailsView?
-    private let input: ProfileDetailInput
+
+    weak var view: ProfileDetailsView?
+    private let input: ProfileInput
     private let service: ProfileService
-    private var state = EditProfileDetailState.initial {
+    private var state = ProfileDetailState.initial {
         didSet {
             stateDidChanged()
         }
     }
+    private var userNFTsIds: [UUID]?
 
     // MARK: - Init
 
-    init(input: ProfileDetailInput, service: ProfileService) {
+    init(input: ProfileInput, service: ProfileService) {
         self.input = input
         self.service = service
     }
@@ -44,6 +47,19 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
         state = .loading
     }
 
+    func fetchTitleForCell(with indexPath: IndexPath) -> String {
+        switch indexPath.row {
+        case 0:
+            return "Мои NFT (\(userNFTsIds?.count ?? 0))"
+        case 1:
+            return "Избранные NFT (0)"
+        case 2:
+            return "О разработчике"
+        default:
+            return ""
+        }
+    }
+
     private func stateDidChanged() {
         switch state {
         case .initial:
@@ -52,7 +68,8 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
             view?.showLoading()
             loadProfile()
         case .data(let profile):
-            view?.fetchProfile(profile)
+            userNFTsIds = profile.nftIds
+            view?.updateProfile(profile)
             view?.hideLoading()
         case .failed(let error):
             let errorModel = makeErrorModel(error)
@@ -84,6 +101,6 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
         let actionText = NSLocalizedString("Error.repeat", comment: "")
         return ErrorModel(message: message, actionText: actionText) { [weak self] in
             self?.state = .loading
-        }
+       }
     }
 }
