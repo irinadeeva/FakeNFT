@@ -188,9 +188,11 @@ extension ProfileDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
+
             let webView = WebViewViewController(userWebsiteAbsoluteString: userWebsite.currentTitle)
             navigationController?.pushViewController(webView, animated: true)
         case 1:
+            // TODO: this whole section
             let myFavouriteNFTsView = MyFavouriteNFTsController()
             navigationController?.pushViewController(myFavouriteNFTsView, animated: true)
         case 2:

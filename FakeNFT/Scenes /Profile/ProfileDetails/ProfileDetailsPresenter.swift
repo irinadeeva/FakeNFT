@@ -52,6 +52,7 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
         case 0:
             return "Мои NFT (\(userNFTsIds?.count ?? 0))"
         case 1:
+            // TODO: add counted
             return "Избранные NFT (0)"
         case 2:
             return "О разработчике"
