@@ -6,14 +6,12 @@ protocol UserNFTsProtocol {
     func getModel(indexPath: IndexPath) -> NftDataModel
 }
 
-final class CartPresenter: UserNFTsProtocol {
+final class UserNFTsPresenter: UserNFTsProtocol {
 
     weak var view: UserNFTsView?
-    private var userDefaults = UserDefaults.standard
     private let filterKey = "filter"
 
     var cartContent: [NftDataModel] = []
-    var orderIds: [String] = []
 
     var mock1 = NftDataModel(createdAt: "13-04-2024", name: "mock1", images: ["mock1"], rating: 5, description: "", price: 1.78, author: "", id: "1")
     var mock2 = NftDataModel(createdAt: "13-04-2024", name: "mock2", images: ["mock1"], rating: 2, description: "", price: 1.5, author: "", id: "2")

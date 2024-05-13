@@ -188,7 +188,7 @@ extension ProfileDetailsViewController: UITableViewDelegate {
         switch indexPath.row {
         case 0:
 
-            let presenter = CartPresenter()
+            let presenter = UserNFTsPresenter()
 
             let view = UserNFTsViewController(presenter: presenter)
             presenter.view = view

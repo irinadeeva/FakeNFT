@@ -21,6 +21,8 @@ final class UserNFTsViewController: UIViewController {
         tableView.register(NftCell.self, forCellReuseIdentifier: NftCell.identifier)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
+        tableView.delegate = self
+        tableView.dataSource = self
         return tableView
     }()
 
@@ -50,10 +52,7 @@ final class UserNFTsViewController: UIViewController {
 
         setupUI()
 
-        nftsTable.dataSource = self
-        nftsTable.delegate = self
         setupNavigationBar()
-
         showEmptyCart()
     }
 
