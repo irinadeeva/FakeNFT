@@ -18,14 +18,22 @@ final class NftCell: UITableViewCell {
         return imageView
     }()
 
-    private lazy var likeImageView: UIImageView = {
+    private lazy var likeView: UIImageView = {
         let image = UIImageView()
         return image
     }()
 
-    private lazy var nameCardLabel: UILabel = {
+    private lazy var nftNameLabel: UILabel = {
         let label = UILabel()
         label.font = .bodyBold
+        label.textColor = .text
+        return label
+    }()
+
+    private lazy var authorNftNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .caption2
+        label.text = "От John Doe"
         label.textColor = .text
         return label
     }()
@@ -70,9 +78,10 @@ final class NftCell: UITableViewCell {
         }
         cardImageView.image = imageData
 
-        nameCardLabel.text = model.name
+        nftNameLabel.text = model.name
         starImageView.setStar(with: model.rating)
         moneyLabel.text = "\(model.price) ETH"
+        likeView.image = UIImage(named: "Unfauvorite") ?? UIImage()
         self.id = model.id
     }
 }
@@ -81,13 +90,13 @@ extension NftCell {
     private func setupUI() {
         contentView.addSubview(cardView)
 
-        cardImageView.addSubview(likeImageView)
+        cardImageView.addSubview(likeView)
 
-        [cardView, cardImageView, likeImageView, nameCardLabel, starImageView, priceLabel, moneyLabel].forEach {
+        [cardView, cardImageView, likeView, nftNameLabel, starImageView, authorNftNameLabel, priceLabel, moneyLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        [cardImageView, nameCardLabel, starImageView, priceLabel, moneyLabel].forEach {
+        [cardImageView, nftNameLabel, starImageView, authorNftNameLabel, priceLabel, moneyLabel].forEach {
             cardView.addSubview($0)
         }
 
@@ -102,22 +111,25 @@ extension NftCell {
             cardImageView.topAnchor.constraint(equalTo: cardView.topAnchor),
             cardImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
 
-            likeImageView.heightAnchor.constraint(equalToConstant: 40),
-            likeImageView.widthAnchor.constraint(equalToConstant: 40),
-            likeImageView.topAnchor.constraint(equalTo: cardImageView.topAnchor),
-            likeImageView.trailingAnchor.constraint(equalTo: cardImageView.trailingAnchor),
+            likeView.heightAnchor.constraint(equalToConstant: 40),
+            likeView.widthAnchor.constraint(equalToConstant: 40),
+            likeView.topAnchor.constraint(equalTo: cardImageView.topAnchor),
+            likeView.trailingAnchor.constraint(equalTo: cardImageView.trailingAnchor),
 
-            nameCardLabel.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 20),
-            nameCardLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 8),
+            nftNameLabel.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 20),
+            nftNameLabel.bottomAnchor.constraint(equalTo: starImageView.topAnchor, constant: -8),
 
-            starImageView.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 20),
-            starImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 34),
+            starImageView.leadingAnchor.constraint(equalTo: nftNameLabel.leadingAnchor),
+            starImageView.centerYAnchor.constraint(equalTo: cardImageView.centerYAnchor),
 
-            priceLabel.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 20),
-            priceLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 58),
+            authorNftNameLabel.topAnchor.constraint(equalTo: starImageView.bottomAnchor, constant: 8),
+            authorNftNameLabel.leadingAnchor.constraint(equalTo: nftNameLabel.leadingAnchor),
 
-            moneyLabel.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 20),
-            moneyLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 78)
+            priceLabel.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 137),
+            priceLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 33),
+
+            moneyLabel.leadingAnchor.constraint(equalTo: priceLabel.leadingAnchor),
+            moneyLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 8)
         ])
     }
 }
