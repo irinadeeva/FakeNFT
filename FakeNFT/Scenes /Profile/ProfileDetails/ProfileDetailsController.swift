@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 protocol ProfileDetailsView: AnyObject, ErrorView, LoadingView {
-    func updateProfile(_ profile: Profile)
+    func fetchProfileDetails(_ profile: Profile)
 }
 
 final class ProfileDetailsViewController: UIViewController {
@@ -89,7 +89,6 @@ extension ProfileDetailsViewController {
     // MARK: - Private
 
     private func setupUI() {
-
         [profileImage, userName, userDescription, userWebsite, tableView].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -129,7 +128,7 @@ extension ProfileDetailsViewController {
 
 extension ProfileDetailsViewController: ProfileDetailsView {
 
-    func updateProfile(_ profile: Profile) {
+    func fetchProfileDetails(_ profile: Profile) {
         userName.text = profile.userName
         userDescription.text = profile.description
         userWebsite.setTitle(profile.userWebsite.absoluteString, for: .normal)
@@ -189,8 +188,12 @@ extension ProfileDetailsViewController: UITableViewDelegate {
         switch indexPath.row {
         case 0:
 
-            let webView = WebViewViewController(userWebsiteAbsoluteString: userWebsite.currentTitle)
-            navigationController?.pushViewController(webView, animated: true)
+            let presenter = CartPresenter()
+
+            let view = UserNFTsViewController(presenter: presenter)
+            presenter.view = view
+
+            navigationController?.pushViewController(view, animated: true)
         case 1:
             // TODO: this whole section
             let myFavouriteNFTsView = MyFavouriteNFTsController()

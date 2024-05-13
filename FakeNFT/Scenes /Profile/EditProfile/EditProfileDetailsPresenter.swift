@@ -52,7 +52,7 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
             view?.showLoading()
             loadProfile()
         case .data(let profile):
-            view?.fetchProfile(profile)
+            view?.fetchProfileDetails(profile)
             view?.hideLoading()
         case .failed(let error):
             let errorModel = makeErrorModel(error)

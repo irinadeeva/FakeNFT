@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 protocol EditProfileDetailsView: AnyObject, ErrorView, LoadingView {
-    func fetchProfile(_ profile: Profile)
+    func fetchProfileDetails(_ profile: Profile)
 }
 
 final class EditProfileDetailsViewController: UIViewController {
@@ -217,7 +217,7 @@ extension EditProfileDetailsViewController {
 
 extension EditProfileDetailsViewController: EditProfileDetailsView {
 
-    func fetchProfile(_ profile: Profile) {
+    func fetchProfileDetails(_ profile: Profile) {
         nameTextField.text = profile.userName
         descriptionTextView.text = profile.description
         websiteTextField.text = profile.userWebsite.absoluteString

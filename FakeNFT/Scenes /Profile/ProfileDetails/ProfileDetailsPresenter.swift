@@ -70,7 +70,7 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
             loadProfile()
         case .data(let profile):
             userNFTsIds = profile.nftIds
-            view?.updateProfile(profile)
+            view?.fetchProfileDetails(profile)
             view?.hideLoading()
         case .failed(let error):
             let errorModel = makeErrorModel(error)
