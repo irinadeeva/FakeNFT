@@ -209,6 +209,8 @@ extension EditProfileDetailsViewController {
 
     @objc
     private func close() {
+
+//        name = nameTextField.text ??
         dismiss(animated: true)
     }
 }

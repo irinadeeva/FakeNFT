@@ -10,9 +10,19 @@ final class UserNftViewController: UIViewController {
 
     private var presenter: UserNftPresenter
 
-    private lazy var sortButton: UIBarButtonItem = {
-        let button = UIBarButtonItem()
-        button.image = UIImage(named: "sort")
+    private lazy var chevronLeft: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "chevron.left")?
+            .withTintColor(.text, renderingMode: .alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var sortButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "sort")?
+            .withTintColor(.text, renderingMode: .alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(didTapSortButton), for: .touchUpInside)
         return button
     }()
 
@@ -51,31 +61,20 @@ final class UserNftViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         presenter.viewDidLoad()
         setupUI()
 
-        setupNavigationBar()
-        showEmptyCart()
-    }
-
-    private func showEmptyCart() {
         if nfts.count == 0 {
             emptyLabel.isHidden = false
         } else {
             emptyLabel.isHidden = true
-            setupNavigationBar()
             nftsTable.reloadData()
         }
     }
 
-    private func setupNavigationBar() {
-        guard let navigationBar = navigationController?.navigationBar else {
-            return
-
-        }
-        let rightButton = UIBarButtonItem(image: UIImage(named: "sort"), style: .plain, target: self, action: #selector(didTapSortButton))
-        rightButton.tintColor = UIColor(named: "Black")
-        navigationBar.topItem?.setRightBarButton(rightButton, animated: false)
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
 
     @objc private func didTapSortButton() {
@@ -105,6 +104,14 @@ final class UserNftViewController: UIViewController {
 
 extension UserNftViewController {
     private func setupUI() {
+        title = "Мои NFT"
+
+        let backButton = UIBarButtonItem(customView: chevronLeft)
+        navigationItem.leftBarButtonItem = backButton
+
+        let sortButton = UIBarButtonItem(customView: sortButton)
+        navigationItem.rightBarButtonItem = sortButton
+
         [emptyLabel, nftsTable].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -117,7 +124,7 @@ extension UserNftViewController {
             nftsTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             nftsTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             nftsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            nftsTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            nftsTable.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }

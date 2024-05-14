@@ -61,6 +61,10 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
         }
     }
 
+    private func putProfile() {
+
+    }
+
     private func loadProfile() {
         service.loadProfile(id: input.id) { [weak self] result in
             switch result {

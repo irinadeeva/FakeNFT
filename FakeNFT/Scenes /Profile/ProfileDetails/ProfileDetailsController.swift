@@ -191,13 +191,16 @@ extension ProfileDetailsViewController: UITableViewDelegate {
             let userNFTsPresenter = presenter.fetchUserNFTsPresenter()
             let view = UserNftViewController(presenter: userNFTsPresenter)
             userNFTsPresenter.view = view
+            view.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(view, animated: true)
         case 1:
             // TODO: this whole section
             let myFavouriteNFTsView = MyFavouriteNFTsController()
+            myFavouriteNFTsView.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(myFavouriteNFTsView, animated: true)
         case 2:
             let webView = WebViewViewController(userWebsiteAbsoluteString: userWebsite.currentTitle)
+            webView.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(webView, animated: true)
         default:
             return
