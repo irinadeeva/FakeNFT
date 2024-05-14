@@ -45,7 +45,6 @@ final class UserNftPresenterImpl: UserNftPresenter {
             loadNft()
         case .data(let nfts):
             view?.fetchNfts(nfts)
-            print(nfts)
             view?.hideLoading()
         case .failed(let error):
             let errorModel = makeErrorModel(error)

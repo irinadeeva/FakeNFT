@@ -71,8 +71,6 @@ final class NftCell: UITableViewCell {
     }
 
     func updateCell(with nft: Nft) {
-        var imageData: UIImage
-
         let processor = RoundCornerImageProcessor(cornerRadius: 61)
 
         cardImageView.kf.indicatorType = .activity
