@@ -55,27 +55,26 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
     
     private lazy var agreementTextView: UITextView = {
         let agreementTextView = UITextView()
-        
-//        agreementTextView.attributedText = NSMutableAttributedString(string: "Пользовательского соглашения", attributes:[NSAttributedString.Key.link: agreeUrl!])
         let attributedString = NSMutableAttributedString(string: "Пользовательского соглашения")
-        
-
         let lenOfLink = "Пользовательского соглашения".count
-        attributedString.setAttributes([.font: UIFont.caption2], range: NSMakeRange(0, attributedString.length))
-        attributedString.setAttributes([.link: agreeUrl], range: NSMakeRange(0, lenOfLink))
         
-        agreementTextView.font = .caption2
-        agreementTextView.textColor = UIColor(named: "Blue")
+        attributedString.setAttributes([.link : agreeUrl], range: NSMakeRange(0,  attributedString.length))
         
         agreementTextView.backgroundColor = .clear
         agreementTextView.attributedText = attributedString
         agreementTextView.isUserInteractionEnabled = true
         agreementTextView.isEditable = false
-
-        agreementTextView.delegate = self
+   
+        agreementTextView.linkTextAttributes = [
+            .foregroundColor: UIColor(named: "Blue"),
+            .font: UIFont.caption2
+        ]
         agreementTextView.translatesAutoresizingMaskIntoConstraints = false
+        agreementTextView.delegate = self
+        
         return agreementTextView
     }()
+
     
     private lazy var payButton: UIButton = {
         let button = UIButton()
@@ -145,11 +144,13 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
     private func setupLayoutImagePay() {
         NSLayoutConstraint.activate([
             
-            textLabel.leadingAnchor.constraint(equalTo: imagePay.leadingAnchor, constant: 16),
+            textLabel.leadingAnchor.constraint(equalTo: imagePay.leadingAnchor, constant: 18),
             textLabel.topAnchor.constraint(equalTo: imagePay.topAnchor, constant: 16),
-            
-            agreementTextView.leadingAnchor.constraint(equalTo: imagePay.leadingAnchor, constant: 16),
-            agreementTextView.topAnchor.constraint(equalTo: imagePay.topAnchor, constant: 38),
+
+            agreementTextView.heightAnchor.constraint(equalToConstant: 44),
+            agreementTextView.topAnchor.constraint(equalTo: imagePay.topAnchor, constant: 32),
+            agreementTextView.leadingAnchor.constraint(equalTo: imagePay.leadingAnchor, constant: 14),
+            agreementTextView.trailingAnchor.constraint(equalTo: imagePay.trailingAnchor, constant: -16),
             
             payButton.topAnchor.constraint(equalTo: imagePay.topAnchor, constant: 76),
             payButton.trailingAnchor.constraint(equalTo: imagePay.trailingAnchor, constant: -16),
