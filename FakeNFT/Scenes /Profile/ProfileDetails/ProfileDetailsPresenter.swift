@@ -12,6 +12,7 @@ import Foundation
 protocol ProfilePresenter {
     func viewDidLoad()
     func fetchTitleForCell(with indexPath: IndexPath) -> String
+    func fetchUserNFTsPresenter() -> UserNftPresenterImpl
 }
 
 // MARK: - State
@@ -26,19 +27,21 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
 
     weak var view: ProfileDetailsView?
     private let input: ProfileInput
-    private let service: ProfileService
+    private let profileService: ProfileService
+    private let nftService: NftService
     private var state = ProfileDetailState.initial {
         didSet {
             stateDidChanged()
         }
     }
-    private var userNFTsIds: [UUID]?
+    private var userNFTsIds: [String] = []
 
     // MARK: - Init
 
-    init(input: ProfileInput, service: ProfileService) {
+    init(input: ProfileInput, profileService: ProfileService, nftService: NftService) {
         self.input = input
-        self.service = service
+        self.profileService = profileService
+        self.nftService = nftService
     }
 
     // MARK: - Functions
@@ -50,7 +53,7 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
     func fetchTitleForCell(with indexPath: IndexPath) -> String {
         switch indexPath.row {
         case 0:
-            return "Мои NFT (\(userNFTsIds?.count ?? 0))"
+            return "Мои NFT (\(userNFTsIds.count))"
         case 1:
             // TODO: add counted
             return "Избранные NFT (0)"
@@ -59,6 +62,15 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
         default:
             return ""
         }
+    }
+
+    func fetchUserNFTsPresenter() -> UserNftPresenterImpl {
+        let presenter = UserNftPresenterImpl(
+            input: NftsInput(id: userNFTsIds),
+            service: nftService
+        )
+
+        return presenter
     }
 
     private func stateDidChanged() {
@@ -80,7 +92,7 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
     }
 
     private func loadProfile() {
-        service.loadProfile(id: input.id) { [weak self] result in
+        profileService.loadProfile(id: input.id) { [weak self] result in
             switch result {
             case .success(let profile):
                 self?.state = .data(profile)

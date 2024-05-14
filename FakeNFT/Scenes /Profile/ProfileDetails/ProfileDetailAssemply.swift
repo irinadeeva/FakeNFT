@@ -18,7 +18,8 @@ public final class ProfileDetailAssembly {
     public func build(with input: ProfileInput) -> UIViewController {
         let presenter = ProfileDetailsPresenterImpl(
             input: input,
-            service: servicesAssembler.profileService
+            profileService: servicesAssembler.profileService,
+            nftService: servicesAssembler.nftService
         )
 
         let viewController = ProfileDetailsViewController(presenter: presenter)

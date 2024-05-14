@@ -27,6 +27,8 @@ final class NftCell: UITableViewCell {
         let label = UILabel()
         label.font = .bodyBold
         label.textColor = .text
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
 
@@ -68,21 +70,24 @@ final class NftCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateCell(with model: NftDataModel) {
+    func updateCell(with nft: Nft) {
         var imageData: UIImage
 
-        if UIImage(named: model.images.first!) == nil {
-            imageData = UIImage(named: "NFT card") ?? UIImage()
-        } else {
-            imageData = UIImage(named: model.images.first!)!
-        }
-        cardImageView.image = imageData
+        let processor = RoundCornerImageProcessor(cornerRadius: 61)
 
-        nftNameLabel.text = model.name
-        starImageView.setStar(with: model.rating)
-        moneyLabel.text = "\(model.price) ETH"
+        cardImageView.kf.indicatorType = .activity
+
+        cardImageView.kf.setImage(
+            with: nft.images.first,
+                options: [.processor(processor),
+                          .cacheMemoryOnly
+                ]
+            )
+
+        nftNameLabel.text = nft.name
+        starImageView.setStar(with: nft.rating)
+        moneyLabel.text = "\(nft.price) ETH"
         likeView.image = UIImage(named: "Unfauvorite") ?? UIImage()
-        self.id = model.id
     }
 }
 
@@ -117,6 +122,7 @@ extension NftCell {
             likeView.trailingAnchor.constraint(equalTo: cardImageView.trailingAnchor),
 
             nftNameLabel.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 20),
+            nftNameLabel.trailingAnchor.constraint(equalTo: priceLabel.leadingAnchor, constant: -10),
             nftNameLabel.bottomAnchor.constraint(equalTo: starImageView.topAnchor, constant: -8),
 
             starImageView.leadingAnchor.constraint(equalTo: nftNameLabel.leadingAnchor),

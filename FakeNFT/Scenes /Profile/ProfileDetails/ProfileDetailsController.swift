@@ -188,11 +188,9 @@ extension ProfileDetailsViewController: UITableViewDelegate {
         switch indexPath.row {
         case 0:
 
-            let presenter = UserNFTsPresenter()
-
-            let view = UserNFTsViewController(presenter: presenter)
-            presenter.view = view
-
+            let userNFTsPresenter = presenter.fetchUserNFTsPresenter()
+            let view = UserNftViewController(presenter: userNFTsPresenter)
+            userNFTsPresenter.view = view
             navigationController?.pushViewController(view, animated: true)
         case 1:
             // TODO: this whole section

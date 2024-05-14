@@ -1,14 +1,14 @@
 import UIKit
 
-protocol UserNFTsView: AnyObject {
-    func showEmptyCart()
-    func updateCartTable()
-    func fetchNFTdetails(_ nftDataModel: NftDataModel)
+protocol UserNftView: AnyObject, ErrorView, LoadingView {
+    func fetchNfts(_ nft: [Nft])
 }
 
-final class UserNFTsViewController: UIViewController {
+final class UserNftViewController: UIViewController {
 
-    private var presenter: UserNFTsProtocol
+    internal lazy var activityIndicator = UIActivityIndicatorView()
+
+    private var presenter: UserNftPresenter
 
     private lazy var sortButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
@@ -34,9 +34,11 @@ final class UserNFTsViewController: UIViewController {
         return label
     }()
 
+    private var nfts: [Nft] = []
+
     // MARK: - Init
 
-    init(presenter: UserNFTsProtocol) {
+    init(presenter: UserNftPresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -49,11 +51,21 @@ final class UserNFTsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        presenter.viewDidLoad()
         setupUI()
 
         setupNavigationBar()
         showEmptyCart()
+    }
+
+    private func showEmptyCart() {
+        if nfts.count == 0 {
+            emptyLabel.isHidden = false
+        } else {
+            emptyLabel.isHidden = true
+            setupNavigationBar()
+            nftsTable.reloadData()
+        }
     }
 
     private func setupNavigationBar() {
@@ -91,7 +103,7 @@ final class UserNFTsViewController: UIViewController {
     }
 }
 
-extension UserNFTsViewController {
+extension UserNftViewController {
     private func setupUI() {
         [emptyLabel, nftsTable].forEach {
             view.addSubview($0)
@@ -112,33 +124,18 @@ extension UserNFTsViewController {
 
 // MARK: - UserNFTsView
 
-extension UserNFTsViewController: UserNFTsView {
-    func fetchNFTdetails(_ nftDataModel: NftDataModel) {
-
-    }
-
-    func showEmptyCart() {
-        if presenter.count() == 0 {
-            emptyLabel.isHidden = false
-        } else {
-            setupNavigationBar()
-            let count = presenter.count()
-            let totalPrice = presenter.totalPrice()
-            emptyLabel.isHidden = true
-            nftsTable.reloadData()
-        }
-    }
-
-    func updateCartTable() {
+extension UserNftViewController: UserNftView {
+    func fetchNfts(_ nft: [Nft]) {
+        self.nfts = nft
         nftsTable.reloadData()
     }
 }
 
 // MARK: - UITableViewDataSource
 
-extension UserNFTsViewController: UITableViewDataSource, UITableViewDelegate {
+extension UserNftViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.count()
+        return nfts.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -148,8 +145,8 @@ extension UserNFTsViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
 
-        let model = presenter.getModel(indexPath: indexPath)
-        cell.updateCell(with: model)
+        let nft = nfts[indexPath.row]
+        cell.updateCell(with: nft)
         return cell
     }
 

@@ -12,7 +12,7 @@ struct Profile: Codable {
     let userName: String
     let imageURL: URL?
     let description: String
-    let nftIds: [UUID]
+    let nftIds: [String]
     let userWebsite: URL
     let userRating: String
 
