@@ -19,7 +19,6 @@ final class StatisticsViewController: UIViewController {
         button.setImage(UIImage(named: "sort") ?? UIImage(), for: .normal)
         button.tintColor = UIColor.segmentActive
         button.addTarget(self, action: #selector(didTapSortingButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -27,7 +26,6 @@ final class StatisticsViewController: UIViewController {
         let tableView = UITableView()
         tableView.register(StatisticsTableCell.self)
         tableView.separatorStyle = .none
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
@@ -56,6 +54,11 @@ final class StatisticsViewController: UIViewController {
     }
     
     private func setupViews() {
+        
+        [sortingButton, statisticsTableView].forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+          }
         
         view.backgroundColor = .systemBackground
         
@@ -97,7 +100,8 @@ extension StatisticsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: StatisticsTableCell = statisticsTableView.dequeueReusableCell()
         let cellModel = cellModels[indexPath.row]
-        cell.configure(with: cellModel)
+        cell.configure(with: cellModel, cellNumber: indexPath.row + 1)
+        cell.selectionStyle = .none
         return cell
     }
 }

@@ -12,13 +12,11 @@ final class WebViewController: UIViewController {
         let progress = UIProgressView()
         progress.progress = 0.5
         progress.tintColor = .segmentActive
-        progress.translatesAutoresizingMaskIntoConstraints = false
         return progress
     }()
     
     private lazy var webView: WKWebView = {
         let webView = WKWebView(frame: view.safeAreaLayoutGuide.layoutFrame)
-        webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
     
@@ -29,8 +27,6 @@ final class WebViewController: UIViewController {
         let navItem = UINavigationItem(title: "")
         navItem.leftBarButtonItem =  UIBarButtonItem(customView: backButton)
         navBar.setItems([navItem], animated: false)
-        
-        navBar.translatesAutoresizingMaskIntoConstraints = false
         return navBar
     }()
     
@@ -38,7 +34,6 @@ final class WebViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "back") ?? UIImage(), for: .normal)
         button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -81,6 +76,11 @@ final class WebViewController: UIViewController {
         view.addSubview(navigationBar)
         view.addSubview(webView)
         view.addSubview(progressView)
+        
+        [progressView, webView, navigationBar, backButton].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+          }
     }
     
     private func setupConstraints() {
@@ -96,7 +96,6 @@ final class WebViewController: UIViewController {
             progressView.topAnchor.constraint(equalTo: navigationBar.bottomAnchor),
             progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            
         ])
     }
     

@@ -10,7 +10,6 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
         let label = UILabel()
         label.font = .caption1
         label.textColor = .textColor
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -19,7 +18,6 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
         view.layer.cornerRadius = 12
         view.clipsToBounds = true
         view.backgroundColor = .segmentInactive
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -27,7 +25,6 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 14
         imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -36,7 +33,6 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
         label.font = .headline3
         label.textColor = .textColor
         label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -44,7 +40,6 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
         let label = UILabel()
         label.font = .headline3
         label.textColor = .textColor
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -75,6 +70,12 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
     }
     
     private func setupConstraints() {
+        
+        [ratingPositionLabel, infoView, userAvatarImage, userNameLabel, countsNFTLabel].forEach {
+              contentView.addSubview($0)
+              $0.translatesAutoresizingMaskIntoConstraints = false
+          }
+        
         NSLayoutConstraint.activate([
             ratingPositionLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             ratingPositionLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -99,9 +100,9 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
     
     //MARK: - Functions
     
-    func configure(with cellModel: UserCellModel) {
+    func configure(with cellModel: UserCellModel, cellNumber: Int) {
         
-        ratingPositionLabel.text = String(cellModel.ratingPosition)
+        ratingPositionLabel.text = "\(cellNumber)"
         
         userAvatarImage.kf.setImage(with:  cellModel.avatar)
         

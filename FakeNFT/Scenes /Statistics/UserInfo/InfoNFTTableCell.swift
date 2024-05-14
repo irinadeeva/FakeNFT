@@ -2,6 +2,7 @@ import UIKit
 
 final class InfoNFTTableCell: UITableViewCell, ReuseIdentifying {
     
+    //MARK: - Properties
     static let defaultReuseIdentifier = "infoNFTCell"
     
     //MARK: - UI elements
@@ -10,7 +11,6 @@ final class InfoNFTTableCell: UITableViewCell, ReuseIdentifying {
         label.font = .bodyBold
         label.textColor = .textColor
         label.text = NSLocalizedString("UserInfo.nftCollections", comment: "")
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -18,14 +18,12 @@ final class InfoNFTTableCell: UITableViewCell, ReuseIdentifying {
         let label = UILabel()
         label.font = .bodyBold
         label.textColor = .textColor
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var forwardButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "forward") ?? UIImage(), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -50,9 +48,17 @@ final class InfoNFTTableCell: UITableViewCell, ReuseIdentifying {
         contentView.addSubview(infoLabel)
         contentView.addSubview(countsNFTLabel)
         contentView.addSubview(forwardButton)
+        
+        [infoLabel, countsNFTLabel, forwardButton].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview($0)
+          }
     }
     
     private func setupConstraints() {
+        
+
+        
         NSLayoutConstraint.activate([
             infoLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             infoLabel.centerYAnchor.constraint(equalTo: centerYAnchor),

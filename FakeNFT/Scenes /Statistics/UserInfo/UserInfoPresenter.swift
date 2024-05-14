@@ -17,7 +17,7 @@ final class UserInfoPresenter: UserInfoPresenterProtocol {
     
     // MARK: - Properties
     weak var view: UserInfoViewProtocol?
-    var user: UserInfo?
+    internal var user: UserInfo?
     
     private let userID: String
     private let service: UserInfoServiceProtocol

@@ -9,8 +9,8 @@ protocol UserInfoViewProtocol: AnyObject, ErrorView, LoadingView {
 final class UserInfoViewController: UIViewController {
    
     // MARK: - Properties
-    var activityIndicator = UIActivityIndicatorView()
     private let presenter: UserInfoPresenterProtocol
+    internal var activityIndicator = UIActivityIndicatorView()
     
     //MARK: - UI elements
     private lazy var navigationBar: UINavigationBar = {
@@ -24,7 +24,6 @@ final class UserInfoViewController: UIViewController {
         navBar.shadowImage = UIImage()
         navBar.setBackgroundImage(UIImage(), for: .default)
         
-        navBar.translatesAutoresizingMaskIntoConstraints = false
         return navBar
     }()
     
@@ -32,7 +31,6 @@ final class UserInfoViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "back") ?? UIImage(), for: .normal)
         button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -40,7 +38,6 @@ final class UserInfoViewController: UIViewController {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.distribution = .equalSpacing
-        stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
     
@@ -49,7 +46,6 @@ final class UserInfoViewController: UIViewController {
         imageView.layer.cornerRadius = 35
         imageView.clipsToBounds = true
         imageView.backgroundColor = .textColor
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -58,7 +54,6 @@ final class UserInfoViewController: UIViewController {
         label.font = .headline3
         label.textColor = .textColor
         label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -67,7 +62,6 @@ final class UserInfoViewController: UIViewController {
         label.font = .caption2
         label.textColor = .textColor
         label.numberOfLines = 6
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -81,7 +75,6 @@ final class UserInfoViewController: UIViewController {
         button.layer.borderColor = UIColor.textColor.cgColor
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(didTapOpenSiteButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -89,7 +82,6 @@ final class UserInfoViewController: UIViewController {
         let tableView = UITableView()
         tableView.register(InfoNFTTableCell.self)
         tableView.separatorStyle = .none
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
@@ -128,6 +120,11 @@ final class UserInfoViewController: UIViewController {
     
     //MARK: - Layout
     private func setupViews() {
+        
+        [navigationBar, backButton, stackView, avatarImage, nameLabel, descriptionLabel, openSiteButton, infoNFTTableView].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+          }
         
         view.backgroundColor = .systemBackground
         view.addSubview(activityIndicator)
@@ -194,6 +191,7 @@ extension UserInfoViewController: UITableViewDataSource {
         if let user = presenter.user {
             cell.configure(with: user.nfts.count)
         }
+        cell.selectionStyle = .none
         return cell
     }
 }
@@ -201,6 +199,6 @@ extension UserInfoViewController: UITableViewDataSource {
 extension UserInfoViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //code
+        // TODO: - Что нужно сделать
     }
 }
