@@ -4,6 +4,9 @@ import Foundation
 
 protocol UserNftPresenter {
     func viewDidLoad()
+    func sortByPrice(nfts: [Nft])
+    func sortByRating(nfts: [Nft])
+    func sortByName(nfts: [Nft])
 }
 
 // MARK: - State
@@ -34,6 +37,27 @@ final class UserNftPresenterImpl: UserNftPresenter {
 
     func viewDidLoad() {
         state = .loading
+    }
+
+    func sortByPrice(nfts: [Nft]) {
+        let sortedNfts = nfts.sorted {
+            $0.price < $1.price
+        }
+        view?.fetchNfts(sortedNfts)
+    }
+
+    func sortByRating(nfts: [Nft]) {
+        let sortedNfts = nfts.sorted {
+            $0.rating > $1.rating
+        }
+        view?.fetchNfts(sortedNfts)
+    }
+
+    func sortByName(nfts: [Nft]) {
+        let sortedNfts = nfts.sorted {
+            $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+    }
+        view?.fetchNfts(sortedNfts)
     }
 
     private func stateDidChanged() {

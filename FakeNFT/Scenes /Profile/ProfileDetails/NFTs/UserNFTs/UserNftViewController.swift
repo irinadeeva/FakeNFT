@@ -81,18 +81,21 @@ final class UserNftViewController: UIViewController {
         let alert = UIAlertController(title: "Сортировка", message: nil, preferredStyle: .actionSheet)
 
         alert.addAction(UIAlertAction(title: "По цене", style: .default, handler: { [weak self] (_) in
-            guard self != nil else { return }
-            // TODO: реализовать сортировку
+            guard let self else { return }
+
+            self.presenter.sortByPrice(nfts: self.nfts)
         }))
 
         alert.addAction(UIAlertAction(title: "По рейтингу", style: .default, handler: { [weak self] (_) in
-            guard self != nil else { return }
-            // TODO: реализовать сортировку
+            guard let self else { return }
+
+            self.presenter.sortByRating(nfts: self.nfts)
         }))
 
         alert.addAction(UIAlertAction(title: "По названию", style: .default, handler: { [weak self] (_) in
-            guard self != nil else { return }
-            // TODO: реализовать сортировку
+            guard let self else { return }
+
+            self.presenter.sortByName(nfts: self.nfts)
         }))
 
         alert.addAction(UIAlertAction(title: "Закрыть", style: .cancel, handler: { (_) in
