@@ -1,9 +1,9 @@
 import UIKit
 import Kingfisher
 
-final class NftCell: UITableViewCell {
+final class UserNftCell: UITableViewCell {
 
-    static let identifier = "NftCell"
+    static let identifier = "userNftCell"
     private var id: String?
 
     private lazy var cardView: UIView = {
@@ -89,7 +89,7 @@ final class NftCell: UITableViewCell {
     }
 }
 
-extension NftCell {
+extension UserNftCell {
     private func setupUI() {
         contentView.addSubview(cardView)
 

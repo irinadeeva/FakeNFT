@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - Protocol
 
-protocol UserNftPresenter {
+protocol NftPresenter {
     func viewDidLoad()
     func sortByPrice(nfts: [Nft])
     func sortByRating(nfts: [Nft])
@@ -15,11 +15,11 @@ enum UserNftState {
     case initial, loading, failed(Error), data([Nft])
 }
 
-final class UserNftPresenterImpl: UserNftPresenter {
+final class NftPresenterImpl: NftPresenter {
 
     // MARK: - Properties
 
-    weak var view: UserNftView?
+    weak var view: NftView?
     private let input: NftsInput
     private let service: NftService
     private var state = UserNftState.initial {

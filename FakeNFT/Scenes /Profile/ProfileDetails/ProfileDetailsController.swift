@@ -187,17 +187,18 @@ extension ProfileDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-
-            let userNFTsPresenter = presenter.fetchUserNFTsPresenter()
-            let view = UserNftViewController(presenter: userNFTsPresenter)
-            userNFTsPresenter.view = view
+            let nftPresenter = presenter.fetchUserNFTsPresenter()
+            let view = UserNftViewController(presenter: nftPresenter)
+            nftPresenter.view = view
             view.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(view, animated: true)
         case 1:
-            // TODO: this whole section
-            let myFavouriteNFTsView = MyFavouriteNFTsController()
-            myFavouriteNFTsView.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(myFavouriteNFTsView, animated: true)
+
+            let nftPresenter = presenter.fetchFavouriteNFTsPresenter()
+            let favouriteNftView = FavouriteNftViewController(presenter: nftPresenter)
+            nftPresenter.view = favouriteNftView
+            favouriteNftView.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(favouriteNftView, animated: true)
         case 2:
             let webView = WebViewViewController(userWebsiteAbsoluteString: userWebsite.currentTitle)
             webView.hidesBottomBarWhenPushed = true

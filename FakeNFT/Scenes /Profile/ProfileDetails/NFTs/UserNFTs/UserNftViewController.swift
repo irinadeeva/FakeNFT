@@ -1,14 +1,10 @@
 import UIKit
 
-protocol UserNftView: AnyObject, ErrorView, LoadingView {
-    func fetchNfts(_ nft: [Nft])
-}
-
 final class UserNftViewController: UIViewController {
 
     internal lazy var activityIndicator = UIActivityIndicatorView()
 
-    private var presenter: UserNftPresenter
+    private var presenter: NftPresenter
 
     private lazy var chevronLeft: UIButton = {
         let button = UIButton()
@@ -28,7 +24,7 @@ final class UserNftViewController: UIViewController {
 
     private lazy var nftsTable: UITableView = {
         let tableView = UITableView()
-        tableView.register(NftCell.self, forCellReuseIdentifier: NftCell.identifier)
+        tableView.register(UserNftCell.self, forCellReuseIdentifier: UserNftCell.identifier)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.delegate = self
@@ -40,7 +36,7 @@ final class UserNftViewController: UIViewController {
         let label = UILabel()
         label.text = "У Вас ещё нет NFT"
         label.font = .bodyBold
-        label.textColor = UIColor(named: "Black")
+        label.textColor = .text
         return label
     }()
 
@@ -48,7 +44,7 @@ final class UserNftViewController: UIViewController {
 
     // MARK: - Init
 
-    init(presenter: UserNftPresenter) {
+    init(presenter: NftPresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -71,6 +67,34 @@ final class UserNftViewController: UIViewController {
             emptyLabel.isHidden = true
             nftsTable.reloadData()
         }
+    }
+}
+
+extension UserNftViewController {
+
+    private func setupUI() {
+        title = "Мои NFT"
+
+        let backButton = UIBarButtonItem(customView: chevronLeft)
+        navigationItem.leftBarButtonItem = backButton
+
+        let sortButton = UIBarButtonItem(customView: sortButton)
+        navigationItem.rightBarButtonItem = sortButton
+
+        [emptyLabel, nftsTable].forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+
+        NSLayoutConstraint.activate([
+            emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+
+            nftsTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            nftsTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            nftsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            nftsTable.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
 
     @objc private func backButtonTapped() {
@@ -105,36 +129,9 @@ final class UserNftViewController: UIViewController {
     }
 }
 
-extension UserNftViewController {
-    private func setupUI() {
-        title = "Мои NFT"
-
-        let backButton = UIBarButtonItem(customView: chevronLeft)
-        navigationItem.leftBarButtonItem = backButton
-
-        let sortButton = UIBarButtonItem(customView: sortButton)
-        navigationItem.rightBarButtonItem = sortButton
-
-        [emptyLabel, nftsTable].forEach {
-            view.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-
-        NSLayoutConstraint.activate([
-            emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-
-            nftsTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            nftsTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            nftsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            nftsTable.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-}
-
 // MARK: - UserNFTsView
 
-extension UserNftViewController: UserNftView {
+extension UserNftViewController: NftView {
     func fetchNfts(_ nft: [Nft]) {
         self.nfts = nft
         nftsTable.reloadData()
@@ -150,8 +147,8 @@ extension UserNftViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: NftCell.identifier,
-            for: indexPath) as? NftCell else {
+            withIdentifier: UserNftCell.identifier,
+            for: indexPath) as? UserNftCell else {
             return UITableViewCell()
         }
 

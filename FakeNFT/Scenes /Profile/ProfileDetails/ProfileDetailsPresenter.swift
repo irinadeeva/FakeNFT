@@ -12,7 +12,8 @@ import Foundation
 protocol ProfilePresenter {
     func viewDidLoad()
     func fetchTitleForCell(with indexPath: IndexPath) -> String
-    func fetchUserNFTsPresenter() -> UserNftPresenterImpl
+    func fetchUserNFTsPresenter() -> NftPresenterImpl
+    func fetchFavouriteNFTsPresenter() -> NftPresenterImpl
 }
 
 // MARK: - State
@@ -34,6 +35,7 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
         }
     }
     private var userNFTsIds: [String] = []
+    private var favouriteNFTsIds: [String] = []
 
     // MARK: - Init
 
@@ -53,8 +55,7 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
         case 0:
             return "Мои NFT (\(userNFTsIds.count))"
         case 1:
-            // TODO: add counted
-            return "Избранные NFT (0)"
+            return "Избранные NFT (\(favouriteNFTsIds.count))"
         case 2:
             return "О разработчике"
         default:
@@ -62,9 +63,18 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
         }
     }
 
-    func fetchUserNFTsPresenter() -> UserNftPresenterImpl {
-        let presenter = UserNftPresenterImpl(
+    func fetchUserNFTsPresenter() -> NftPresenterImpl {
+        let presenter = NftPresenterImpl(
             input: NftsInput(id: userNFTsIds),
+            service: nftService
+        )
+
+        return presenter
+    }
+
+    func fetchFavouriteNFTsPresenter() -> NftPresenterImpl {
+        let presenter = NftPresenterImpl(
+            input: NftsInput(id: favouriteNFTsIds),
             service: nftService
         )
 
@@ -80,6 +90,7 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
             loadProfile()
         case .data(let profile):
             userNFTsIds = profile.nftIds
+            favouriteNFTsIds = profile.likes
             view?.fetchProfileDetails(profile)
             view?.hideLoading()
         case .failed(let error):
