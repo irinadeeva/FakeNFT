@@ -18,6 +18,8 @@ final class EditProfileDetailsViewController: UIViewController {
 
     private let presenter: EditProfileDetailsPresenter
 
+    private var profileImageUrl: URL?
+
     private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.tintColor = .closeButton
@@ -50,6 +52,9 @@ final class EditProfileDetailsViewController: UIViewController {
         uiView.layer.cornerRadius = 35
         uiView.layer.masksToBounds = true
         uiView.backgroundColor = .profileEditMode
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped))
+        uiView.addGestureRecognizer(tapGR)
+        uiView.isUserInteractionEnabled = true
         return uiView
     }()
 
@@ -84,7 +89,6 @@ final class EditProfileDetailsViewController: UIViewController {
         textField.backgroundColor = .textField
         textField.layer.cornerRadius = 12
         textField.textAlignment = .left
-        textField.clearButtonMode = .whileEditing
         return textField
     }()
 
@@ -106,7 +110,6 @@ final class EditProfileDetailsViewController: UIViewController {
         textField.backgroundColor = .textField
         textField.layer.cornerRadius = 12
         textField.textAlignment = .left
-        textField.clearButtonMode = .whileEditing
         return textField
     }()
 
@@ -207,11 +210,48 @@ extension EditProfileDetailsViewController {
         ])
     }
 
-    @objc
-    private func close() {
+    @objc private func close() {
+        guard let name = nameTextField.text,
+              let description = descriptionTextView.text,
+              let websiteString = websiteTextField.text,
+              let avatar = profileImageUrl
+        else {
+            return
+        }
 
-//        name = nameTextField.text ??
+        let website = URL(fileReferenceLiteralResourceName: websiteString)
+
+        let updatedProfile = UploadProfile(
+            name: name,
+            description: description,
+            website: website,
+            avatar: avatar,
+            likes: []
+        )
+        
         dismiss(animated: true)
+    }
+
+    @objc func imageTapped(sender: UITapGestureRecognizer) {
+        let alertController = UIAlertController(title: "Введите ссылку", message: "вставьте ссылку на новое изображение", preferredStyle: .alert)
+
+        alertController.addTextField { textField in
+            textField.placeholder = "ULR"
+        }
+
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
+            if let link = alertController.textFields?.first?.text {
+                if !link.isEmpty {
+                    self.profileImageUrl = URL(fileReferenceLiteralResourceName: link)
+                }
+            }
+        }
+
+        alertController.addAction(cancelAction)
+        alertController.addAction(saveAction)
+
+        present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -225,7 +265,7 @@ extension EditProfileDetailsViewController: EditProfileDetailsView {
         websiteTextField.text = profile.userWebsite.absoluteString
 
         if profile.imageURL != nil {
-
+            profileImageUrl = profile.imageURL
             let processor = RoundCornerImageProcessor(cornerRadius: 61)
             let placeholder = UIImage(named: "ProfileStub")
 
@@ -249,14 +289,41 @@ extension EditProfileDetailsViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         return textField.resignFirstResponder()
     }
+
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+
+        let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+
+        if !text.isEmpty {
+            closeButton.isUserInteractionEnabled = true
+            closeButton.alpha = 1.0
+        } else {
+            closeButton.isUserInteractionEnabled = false
+            closeButton.alpha = 0.5
+        }
+        return true
+    }
 }
 
- extension EditProfileDetailsViewController: UITextViewDelegate {
+extension EditProfileDetailsViewController: UITextViewDelegate {
 
-     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-         if text == "\n" {
-             return textView.resignFirstResponder()
-         }
-         return true
-     }
- }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            return textView.resignFirstResponder()
+        }
+        return true
+    }
+
+    func textViewDidChange(_ textView: UITextView) {
+        if !textView.text.isEmpty {
+            closeButton.isUserInteractionEnabled = true
+            closeButton.alpha = 1.0
+        } else {
+            closeButton.isUserInteractionEnabled = false
+            closeButton.alpha = 0.5
+        }
+    }
+
+}

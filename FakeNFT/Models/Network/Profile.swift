@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Profile: Codable {
+struct Profile: Decodable {
     let userId: UUID
     let userName: String
     let imageURL: URL?

@@ -43,6 +43,7 @@
 		3FC8C39129D2453B0081F015 /* ExampleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8C39029D2453B0081F015 /* ExampleRequest.swift */; };
 		3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC8C39229D246BA0081F015 /* DateFormatters+Presets.swift */; };
 		BE1BF1852BF34D3B006CD495 /* NftsInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BF1842BF34D3B006CD495 /* NftsInput.swift */; };
+		BE1BF1892BF4AFE7006CD495 /* UploadProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BF1882BF4AFE7006CD495 /* UploadProfile.swift */; };
 		BED4C7832BE0E9BF00213628 /* Decomposition Profile Deeva.md in Resources */ = {isa = PBXBuildFile; fileRef = BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */; };
 		BED4C78B2BE12C1E00213628 /* ProfileDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78A2BE12C1E00213628 /* ProfileDetailsController.swift */; };
 		BED4C78D2BE237A700213628 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78C2BE237A700213628 /* Profile.swift */; };
@@ -126,6 +127,7 @@
 		3FC8C39029D2453B0081F015 /* ExampleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleRequest.swift; sourceTree = "<group>"; };
 		3FC8C39229D246BA0081F015 /* DateFormatters+Presets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatters+Presets.swift"; sourceTree = "<group>"; };
 		BE1BF1842BF34D3B006CD495 /* NftsInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftsInput.swift; sourceTree = "<group>"; };
+		BE1BF1882BF4AFE7006CD495 /* UploadProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProfile.swift; sourceTree = "<group>"; };
 		BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "Decomposition Profile Deeva.md"; sourceTree = "<group>"; };
 		BED4C78A2BE12C1E00213628 /* ProfileDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsController.swift; sourceTree = "<group>"; };
 		BED4C78C2BE237A700213628 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 		3F6806D829CC979D00B4F915 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				BE1BF1882BF4AFE7006CD495 /* UploadProfile.swift */,
 				0CFCB7412A78013E0009A829 /* Nft.swift */,
 				BED4C78C2BE237A700213628 /* Profile.swift */,
 			);
@@ -667,6 +670,7 @@
 				BED4C7972BE4C59500213628 /* ProfileDetailsPresenter.swift in Sources */,
 				BED4C7E72BF171DF00213628 /* UserNftViewController.swift in Sources */,
 				3F478ECF29DB474E00F6D39E /* Colors.swift in Sources */,
+				BE1BF1892BF4AFE7006CD495 /* UploadProfile.swift in Sources */,
 				BED4C7992BE4CA5B00213628 /* ProfileDetailAssemply.swift in Sources */,
 				0C79EE662A76DDFF00EE90EA /* NftDetailViewController.swift in Sources */,
 				BED4C79F2BE7720A00213628 /* TokenConstants.swift in Sources */,

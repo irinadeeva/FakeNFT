@@ -44,6 +44,11 @@ final class ProfileServiceImpl: ProfileService {
     func updateProfile(id: String) {
         let profile = storage.getProfile(with: id)
 
-        networkClient
+        let request = ProfileRequest(id: id)
+
+//        request.dto = profile
+//        request.httpMethod = .put
+
+//        networkClient.send
     }
 }
