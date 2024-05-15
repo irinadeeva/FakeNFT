@@ -10,6 +10,7 @@ import Kingfisher
 
 protocol EditProfileDetailsView: AnyObject, ErrorView, LoadingView {
     func fetchProfileDetails(_ profile: Profile)
+    func dismissView()
 }
 
 final class EditProfileDetailsViewController: UIViewController {
@@ -247,8 +248,7 @@ extension EditProfileDetailsViewController {
             likes: []
         )
 
-        presenter.uploadProfile(with: updatedProfile)
-        dismiss(animated: true)
+        presenter.updateProfile(with: updatedProfile)
     }
 
     @objc func imageTapped(sender: UITapGestureRecognizer) {
@@ -288,6 +288,10 @@ extension EditProfileDetailsViewController: EditProfileDetailsView {
         profileImageUrl =  profile.imageURL
 
         updateProfileImage()
+    }
+
+    func dismissView() {
+        dismiss(animated: true)
     }
 }
 

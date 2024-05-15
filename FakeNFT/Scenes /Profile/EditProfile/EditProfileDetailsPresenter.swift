@@ -11,13 +11,13 @@ import Foundation
 
 protocol EditProfileDetailsPresenter {
     func viewDidLoad()
-    func uploadProfile(with profileToUpload: ProfileToUpload)
+    func updateProfile(with profileToUpload: ProfileToUpload)
 }
 
 // MARK: - State
 
 enum EditProfileDetailState {
-    case initial, loading, failed(Error), data(Profile)
+    case initial, loading, failed(Error), data(Profile), updating(ProfileToUpload), update(Profile)
 }
 
 final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
@@ -53,6 +53,12 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
         case .data(let profile):
             view?.fetchProfileDetails(profile)
             view?.hideLoading()
+        case .updating(let profileToUpload):
+            view?.showLoading()
+            upload(with: profileToUpload)
+        case .update(let profile):
+            view?.hideLoading()
+            view?.dismissView()
         case .failed(let error):
             let errorModel = makeErrorModel(error)
             view?.hideLoading()
@@ -60,11 +66,15 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
         }
     }
 
-    func uploadProfile(with profileToUpload: ProfileToUpload) {
+    func updateProfile(with profileToUpload: ProfileToUpload) {
+        state = .updating(profileToUpload)
+    }
+
+    private func upload(with profileToUpload: ProfileToUpload) {
         service.uploadProfile(with: profileToUpload) { [weak self] result in
             switch result {
             case .success(let profile):
-                self?.state = .data(profile)
+                self?.state = .update(profile)
             case .failure(let error):
                 self?.state = .failed(error)
             }
@@ -75,7 +85,7 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
         service.loadProfile { [weak self] result in
             switch result {
             case .success(let profile):
-                self?.state = .data(profile)
+                self?.state = .update(profile)
             case .failure(let error):
                 self?.state = .failed(error)
             }
