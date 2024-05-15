@@ -70,7 +70,6 @@ final class UserInfoViewController: UIViewController {
         button.setTitle(NSLocalizedString("UserInfo.openSite", comment: ""), for: .normal)
         button.setTitleColor(.textColor, for: .normal)
         button.titleLabel?.font = .caption1
-        button.backgroundColor = .systemBackground
         button.layer.borderWidth = 1.0
         button.layer.borderColor = UIColor.textColor.cgColor
         button.layer.cornerRadius = 16
@@ -82,6 +81,7 @@ final class UserInfoViewController: UIViewController {
         let tableView = UITableView()
         tableView.register(InfoNFTTableCell.self)
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .background
         return tableView
     }()
     
@@ -126,7 +126,7 @@ final class UserInfoViewController: UIViewController {
             view.addSubview($0)
           }
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .background
         view.addSubview(activityIndicator)
         view.addSubview(navigationBar)
         view.addSubview(stackView)
@@ -199,6 +199,15 @@ extension UserInfoViewController: UITableViewDataSource {
 extension UserInfoViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: - Что нужно сделать
+        if indexPath.row == 0 {
+            showUserNftsVC()
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+    
+    private func showUserNftsVC() {
+        let assembly = UserNftsAssembly()
+        let userNftsVC = assembly.build(with: presenter.getNftsStringArray())
+        present(userNftsVC, animated: true)
     }
 }
