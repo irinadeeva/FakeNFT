@@ -10,7 +10,8 @@ import Foundation
 typealias ProfileCompletion = (Result<Profile, Error>) -> Void
 
 protocol ProfileService {
-    func loadProfile(id: String, completion: @escaping ProfileCompletion)
+    func loadProfile(completion: @escaping ProfileCompletion)
+    func uploadProfile(with profileToUpload: ProfileToUpload, completion: @escaping ProfileCompletion)
 }
 
 final class ProfileServiceImpl: ProfileService {
@@ -23,13 +24,13 @@ final class ProfileServiceImpl: ProfileService {
         self.networkClient = networkClient
     }
 
-    func loadProfile(id: String, completion: @escaping ProfileCompletion) {
-        if let profile = storage.getProfile(with: id) {
+    func loadProfile(completion: @escaping ProfileCompletion) {
+        if let profile = storage.getProfile() {
             completion(.success(profile))
             return
         }
 
-        let request = ProfileRequest(id: id)
+        let request = ProfileRequest(httpMethod: .get)
         networkClient.send(request: request, type: Profile.self) { [weak storage] result in
             switch result {
             case .success(let profile):
@@ -41,14 +42,17 @@ final class ProfileServiceImpl: ProfileService {
         }
     }
 
-    func updateProfile(id: String) {
-        let profile = storage.getProfile(with: id)
+    func uploadProfile(with profileToUpload: ProfileToUpload, completion: @escaping ProfileCompletion) {
+        let request = ProfileRequest(httpMethod: .put, dto: profileToUpload)
 
-        let request = ProfileRequest(id: id)
-
-//        request.dto = profile
-//        request.httpMethod = .put
-
-//        networkClient.send
+        networkClient.send(request: request, type: Profile.self) { [weak storage] result in
+            switch result {
+            case .success(let profile):
+                storage?.saveProfile(profile)
+                completion(.success(profile))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 }

@@ -11,6 +11,7 @@ import Foundation
 
 protocol EditProfileDetailsPresenter {
     func viewDidLoad()
+    func uploadProfile(with profileToUpload: ProfileToUpload)
 }
 
 // MARK: - State
@@ -23,7 +24,6 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
 
     // MARK: - Properties
     weak var view: EditProfileDetailsView?
-    private let input: ProfileInput
     private let service: ProfileService
     private var state = EditProfileDetailState.initial {
         didSet {
@@ -33,8 +33,7 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
 
     // MARK: - Init
 
-    init(input: ProfileInput, service: ProfileService) {
-        self.input = input
+    init(service: ProfileService) {
         self.service = service
     }
 
@@ -61,12 +60,19 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
         }
     }
 
-    private func putProfile() {
-
+    func uploadProfile(with profileToUpload: ProfileToUpload) {
+        service.uploadProfile(with: profileToUpload) { [weak self] result in
+            switch result {
+            case .success(let profile):
+                self?.state = .data(profile)
+            case .failure(let error):
+                self?.state = .failed(error)
+            }
+        }
     }
 
     private func loadProfile() {
-        service.loadProfile(id: input.id) { [weak self] result in
+        service.loadProfile { [weak self] result in
             switch result {
             case .success(let profile):
                 self?.state = .data(profile)

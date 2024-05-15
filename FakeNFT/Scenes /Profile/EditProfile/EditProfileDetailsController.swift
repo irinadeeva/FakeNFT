@@ -239,19 +239,24 @@ extension EditProfileDetailsViewController {
 
         let website = URL(fileURLWithPath: websiteString)
 
-        let updatedProfile = UploadProfile(
-            name: name,
+        let updatedProfile = ProfileToUpload(
+            userName: name,
             description: description,
-            website: website,
-            avatar: profileImageUrl,
+            userWebsite: website,
+            imageURL: profileImageUrl,
             likes: []
         )
 
+        presenter.uploadProfile(with: updatedProfile)
         dismiss(animated: true)
     }
 
     @objc func imageTapped(sender: UITapGestureRecognizer) {
-        let alertController = UIAlertController(title: "Введите ссылку", message: "вставьте ссылку на новое изображение", preferredStyle: .alert)
+        let alertController =
+        UIAlertController(title: "Введите ссылку",
+                          message: "вставьте ссылку на новое изображение",
+                          preferredStyle: .alert
+        )
 
         alertController.addTextField { textField in
             textField.placeholder = "ULR"

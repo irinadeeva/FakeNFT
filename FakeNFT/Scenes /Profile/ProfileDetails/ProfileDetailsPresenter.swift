@@ -26,7 +26,6 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
     // MARK: - Properties
 
     weak var view: ProfileDetailsView?
-    private let input: ProfileInput
     private let profileService: ProfileService
     private let nftService: NftService
     private var state = ProfileDetailState.initial {
@@ -38,8 +37,7 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
 
     // MARK: - Init
 
-    init(input: ProfileInput, profileService: ProfileService, nftService: NftService) {
-        self.input = input
+    init(profileService: ProfileService, nftService: NftService) {
         self.profileService = profileService
         self.nftService = nftService
     }
@@ -92,7 +90,7 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
     }
 
     private func loadProfile() {
-        profileService.loadProfile(id: input.id) { [weak self] result in
+        profileService.loadProfile { [weak self] result in
             switch result {
             case .success(let profile):
                 self?.state = .data(profile)

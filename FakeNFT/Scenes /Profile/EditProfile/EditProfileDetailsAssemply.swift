@@ -15,9 +15,8 @@ public final class EditProfileDetailsAssembly {
         self.servicesAssembler = servicesAssembler
     }
 
-    public func build(with input: ProfileInput) -> UIViewController {
+    public func build() -> UIViewController {
         let presenter = EditProfileDetailsPresenterImpl(
-            input: input,
             service: servicesAssembler.profileService
         )
 

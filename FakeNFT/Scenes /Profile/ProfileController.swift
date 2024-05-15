@@ -10,7 +10,6 @@ import UIKit
 final class ProfileViewController: UIViewController {
 
     let servicesAssembly: ServicesAssembly
-    private let profileInput = ProfileInput(id: TokenConstant.id)
 
     init(servicesAssembly: ServicesAssembly) {
         self.servicesAssembly = servicesAssembly
@@ -37,7 +36,7 @@ final class ProfileViewController: UIViewController {
         }
 
         let assembly = ProfileDetailAssembly(servicesAssembler: servicesAssembly)
-        let profileDetailViewController = assembly.build(with: profileInput)
+        let profileDetailViewController = assembly.build()
 
         addChild(profileDetailViewController)
         profileDetailViewController.didMove(toParent: self)
@@ -58,7 +57,7 @@ final class ProfileViewController: UIViewController {
     @objc func editProfileDetails() {
 
         let assembly = EditProfileDetailsAssembly(servicesAssembler: servicesAssembly)
-        let editProfileDetailsViewController = assembly.build(with: profileInput)
+        let editProfileDetailsViewController = assembly.build()
         present(editProfileDetailsViewController, animated: true)
     }
 }

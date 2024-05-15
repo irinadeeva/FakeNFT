@@ -9,7 +9,7 @@ import Foundation
 
 protocol ProfileStorage: AnyObject {
     func saveProfile(_ profile: Profile)
-    func getProfile(with id: String) -> Profile?
+    func getProfile() -> Profile?
 }
 
 final class ProfileStorageImpl: ProfileStorage {
@@ -19,7 +19,7 @@ final class ProfileStorageImpl: ProfileStorage {
         storage = profile
     }
 
-    func getProfile(with id: String) -> Profile? {
+    func getProfile() -> Profile? {
         storage
     }
 }
