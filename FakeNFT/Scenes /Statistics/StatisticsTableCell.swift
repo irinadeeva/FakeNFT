@@ -9,7 +9,7 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
     private lazy var ratingPositionLabel: UILabel = {
         let label = UILabel()
         label.font = .caption1
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .textColor
         return label
     }()
     
@@ -18,7 +18,6 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
         view.layer.cornerRadius = 12
         view.clipsToBounds = true
         view.backgroundColor = .segmentInactive
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -26,22 +25,21 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 14
         imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     private lazy var userNameLabel: UILabel = {
         let label = UILabel()
         label.font = .headline3
+        label.textColor = .textColor
         label.numberOfLines = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var countsNFTLabel: UILabel = {
         let label = UILabel()
         label.font = .headline3
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .textColor
         return label
     }()
     
@@ -51,10 +49,10 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         setupConstraints()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
-        
         assertionFailure("init(coder:) has not been implemented")
         return nil
     }
@@ -72,6 +70,12 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
     }
     
     private func setupConstraints() {
+        
+        [ratingPositionLabel, infoView, userAvatarImage, userNameLabel, countsNFTLabel].forEach {
+              contentView.addSubview($0)
+              $0.translatesAutoresizingMaskIntoConstraints = false
+          }
+        
         NSLayoutConstraint.activate([
             ratingPositionLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             ratingPositionLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -96,9 +100,9 @@ final class StatisticsTableCell: UITableViewCell, ReuseIdentifying {
     
     //MARK: - Functions
     
-    func configure(with cellModel: UserCellModel) {
+    func configure(with cellModel: UserCellModel, cellNumber: Int) {
         
-        ratingPositionLabel.text = String(cellModel.ratingPosition)
+        ratingPositionLabel.text = "\(cellNumber)"
         
         userAvatarImage.kf.setImage(with:  cellModel.avatar)
         

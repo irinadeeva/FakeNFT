@@ -1,6 +1,6 @@
 import UIKit
 
-public final class StatisticsAssembly {
+final class StatisticsAssembly {
 
     private let servicesAssembler: ServicesAssembly
 
@@ -8,7 +8,7 @@ public final class StatisticsAssembly {
         self.servicesAssembler = servicesAssembler
     }
 
-    public func build() -> UIViewController {
+    func build() -> UIViewController {
         let presenter = StatisticsPresenter(
             service: servicesAssembler.statisticsService
         )

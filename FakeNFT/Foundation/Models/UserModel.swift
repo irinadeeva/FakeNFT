@@ -15,5 +15,4 @@ struct UserCellModel {
     let avatar: URL
     let nfts: [String]
     var ratingValue: Float
-    var ratingPosition: Int
 }

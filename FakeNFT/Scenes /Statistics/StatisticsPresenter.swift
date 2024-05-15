@@ -113,8 +113,7 @@ final class StatisticsPresenter: StatisticsPresenterProtocol {
                 name: user.name,
                 avatar: user.avatar,
                 nfts: user.nfts,
-                ratingValue: user.ratingValue,
-                ratingPosition: index + 1)
+                ratingValue: user.ratingValue)
             return updateUser
         }
         
@@ -141,7 +140,7 @@ final class StatisticsPresenter: StatisticsPresenterProtocol {
     
     private func sortingByRating(_ users: [UserCellModel]) -> [UserCellModel] {
         let sortedUsers = users.sorted { (lhs: UserCellModel, rhs: UserCellModel) -> Bool in
-            return lhs.ratingPosition < rhs.ratingPosition
+            return lhs.nfts.count > rhs.nfts.count
         }
         return sortedUsers
     }
