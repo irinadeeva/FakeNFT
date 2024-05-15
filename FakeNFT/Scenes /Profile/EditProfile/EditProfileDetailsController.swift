@@ -210,25 +210,43 @@ extension EditProfileDetailsViewController {
         ])
     }
 
+    private func updateProfileImage() {
+        if profileImageUrl != nil {
+            let processor = RoundCornerImageProcessor(cornerRadius: 61)
+            let placeholder = UIImage(named: "ProfileStub")
+
+            profileImage.kf.indicatorType = .activity
+
+            profileImage.kf.setImage(
+                with: profileImageUrl,
+                placeholder: placeholder,
+                options: [.processor(processor),
+                          .cacheMemoryOnly
+                ]
+            )
+        } else {
+            profileImage.image = UIImage(named: "ProfileStub")
+        }
+    }
+
     @objc private func close() {
         guard let name = nameTextField.text,
               let description = descriptionTextView.text,
-              let websiteString = websiteTextField.text,
-              let avatar = profileImageUrl
+              let websiteString = websiteTextField.text
         else {
             return
         }
 
-        let website = URL(fileReferenceLiteralResourceName: websiteString)
+        let website = URL(fileURLWithPath: websiteString)
 
         let updatedProfile = UploadProfile(
             name: name,
             description: description,
             website: website,
-            avatar: avatar,
+            avatar: profileImageUrl,
             likes: []
         )
-        
+
         dismiss(animated: true)
     }
 
@@ -240,11 +258,10 @@ extension EditProfileDetailsViewController {
         }
 
         let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
-        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { [weak self] _ in
             if let link = alertController.textFields?.first?.text {
-                if !link.isEmpty {
-                    self.profileImageUrl = URL(fileReferenceLiteralResourceName: link)
-                }
+                self?.profileImageUrl = URL(fileURLWithPath: link)
+                self?.updateProfileImage()
             }
         }
 
@@ -263,24 +280,9 @@ extension EditProfileDetailsViewController: EditProfileDetailsView {
         nameTextField.text = profile.userName
         descriptionTextView.text = profile.description
         websiteTextField.text = profile.userWebsite.absoluteString
+        profileImageUrl =  profile.imageURL
 
-        if profile.imageURL != nil {
-            profileImageUrl = profile.imageURL
-            let processor = RoundCornerImageProcessor(cornerRadius: 61)
-            let placeholder = UIImage(named: "ProfileStub")
-
-            profileImage.kf.indicatorType = .activity
-
-            profileImage.kf.setImage(
-                with: profile.imageURL,
-                placeholder: placeholder,
-                options: [.processor(processor),
-                          .cacheMemoryOnly
-                ]
-            )
-        } else {
-            profileImage.image = UIImage(named: "ProfileStub")
-        }
+        updateProfileImage()
     }
 }
 
