@@ -15,7 +15,7 @@ public final class ProfileDetailAssembly {
         self.servicesAssembler = servicesAssembler
     }
 
-    public func build() -> UIViewController {
+    func build() -> UIViewController {
         let presenter = ProfileDetailsPresenterImpl(
             profileService: servicesAssembler.profileService,
             nftService: servicesAssembler.nftService

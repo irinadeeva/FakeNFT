@@ -85,7 +85,7 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
         service.loadProfile { [weak self] result in
             switch result {
             case .success(let profile):
-                self?.state = .update(profile)
+                self?.state = .data(profile)
             case .failure(let error):
                 self?.state = .failed(error)
             }

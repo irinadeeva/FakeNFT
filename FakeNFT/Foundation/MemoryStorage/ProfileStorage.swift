@@ -20,6 +20,6 @@ final class ProfileStorageImpl: ProfileStorage {
     }
 
     func getProfile() -> Profile? {
-        storage
+        return storage
     }
 }

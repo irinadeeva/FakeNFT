@@ -11,6 +11,8 @@ final class FavouriteNftViewController: UIViewController {
 
     internal lazy var activityIndicator = UIActivityIndicatorView()
 
+    private var nfts: [Nft] = []
+
     private var presenter: NftPresenter
 
     private let params: GeometricParams = GeometricParams(cellCount: 2,
@@ -50,8 +52,6 @@ final class FavouriteNftViewController: UIViewController {
         label.textColor = .text
         return label
     }()
-
-    private var nfts: [Nft] = []
 
     // MARK: - Init
 

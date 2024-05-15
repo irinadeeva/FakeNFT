@@ -4,6 +4,8 @@ final class UserNftViewController: UIViewController {
 
     internal lazy var activityIndicator = UIActivityIndicatorView()
 
+    private var nfts: [Nft] = []
+
     private var presenter: NftPresenter
 
     private lazy var chevronLeft: UIButton = {
@@ -39,8 +41,6 @@ final class UserNftViewController: UIViewController {
         label.textColor = .text
         return label
     }()
-
-    private var nfts: [Nft] = []
 
     // MARK: - Init
 

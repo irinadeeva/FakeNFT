@@ -95,16 +95,14 @@ extension UserNftCell {
 
         cardImageView.addSubview(likeView)
 
-        [
-        cardView,
+        [cardView,
          cardImageView,
          likeView,
          nftNameLabel,
          starImageView,
          authorNftNameLabel,
          priceLabel,
-         moneyLabel
-        ].forEach {
+         moneyLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
