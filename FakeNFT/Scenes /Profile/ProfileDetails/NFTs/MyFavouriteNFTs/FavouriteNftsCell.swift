@@ -92,8 +92,8 @@ extension FavouriteNftsCell {
         }
 
         NSLayoutConstraint.activate([
-            cardView.heightAnchor.constraint(equalToConstant: 108),
-            cardView.widthAnchor.constraint(equalToConstant: 168),
+//            cardView.heightAnchor.constraint(equalToConstant: 108),
+//            cardView.widthAnchor.constraint(equalToConstant: 168),
 
             cardImageView.heightAnchor.constraint(equalToConstant: 80),
             cardImageView.widthAnchor.constraint(equalToConstant: 80),

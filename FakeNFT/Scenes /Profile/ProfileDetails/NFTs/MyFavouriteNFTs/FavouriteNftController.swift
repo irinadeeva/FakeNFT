@@ -13,6 +13,11 @@ final class FavouriteNftViewController: UIViewController {
 
     private var presenter: NftPresenter
 
+    private let params: GeometricParams = GeometricParams(cellCount: 2,
+                                                          leftInset: 16,
+                                                          rightInset: 16,
+                                                          cellSpacing: 7)
+
     private lazy var chevronLeft: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "chevron.left")?
@@ -21,15 +26,20 @@ final class FavouriteNftViewController: UIViewController {
         return button
     }()
 
-    // TODO: rewrite
     private let nftsCollection: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 16
-        layout.minimumInteritemSpacing = 16
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(FavouriteNftsCell.self, forCellWithReuseIdentifier: FavouriteNftsCell.identifier)
-        collectionView.backgroundColor = .white
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: UICollectionViewFlowLayout()
+        )
+
+        collectionView.isScrollEnabled = false
+
+        collectionView.register(
+            FavouriteNftsCell.self,
+            forCellWithReuseIdentifier: FavouriteNftsCell.identifier)
+
+        collectionView.isScrollEnabled = true
+
         return collectionView
     }()
 
@@ -74,6 +84,7 @@ final class FavouriteNftViewController: UIViewController {
 extension FavouriteNftViewController {
 
     private func setupUI() {
+        view.backgroundColor = .background
         title = "Избранные NFT"
 
         let backButton = UIBarButtonItem(customView: chevronLeft)
@@ -92,8 +103,8 @@ extension FavouriteNftViewController {
             emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 
             nftsCollection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            nftsCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            nftsCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 16),
+            nftsCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            nftsCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             nftsCollection.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
@@ -137,7 +148,14 @@ extension FavouriteNftViewController: UICollectionViewDataSource {
 
 extension FavouriteNftViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (collectionView.bounds.width - 32) / 2
-        return CGSize(width: width, height: 108)
+        let availableWidth = collectionView.frame.width - params.paddingWidth
+        let cellWidth =  availableWidth / CGFloat(params.cellCount)
+
+        return CGSize(width: cellWidth,
+                      height: 108)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: params.leftInset, bottom: 0, right: params.rightInset)
     }
 }
