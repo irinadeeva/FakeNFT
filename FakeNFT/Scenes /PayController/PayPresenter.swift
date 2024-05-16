@@ -20,6 +20,8 @@ final class PayPresenter: PayPresenterProtocol {
     
     private weak var payController: PayViewControllerProtocol?
     private var currencies: [CurrencyDataModel] = []
+    private var payService: PayServiceProtocol?
+    private var orderService: OrderServiceProtocol?
     var selectedCurrency: CurrencyDataModel? {
         didSet {
             if selectedCurrency != nil {
@@ -28,13 +30,15 @@ final class PayPresenter: PayPresenterProtocol {
         }
     }
     
-    var mock1 = CurrencyDataModel(title: "Bitcoin", name: "BTC", image: "Bitcoin", id: "1")
-    var mock2 = CurrencyDataModel(title: "Tether", name: "USDT", image: "Tether", id: "2")
+    //    var mock1 = CurrencyDataModel(title: "Bitcoin", name: "BTC", image: "Bitcoin", id: "1")
+    //    var mock2 = CurrencyDataModel(title: "Tether", name: "USDT", image: "Tether", id: "2")
     
-    init(payController: PayViewControllerProtocol) {
+    init(payController: PayViewControllerProtocol, payService: PayServiceProtocol, orderService: OrderServiceProtocol) {
         self.payController = payController
-        self.currencies = [mock1, mock2]
+        self.payService = payService
+        self.orderService = orderService
     }
+    
     func count() -> Int {
         return currencies.count
     }
@@ -47,25 +51,34 @@ final class PayPresenter: PayPresenterProtocol {
     func payOrder() {
         payController?.startLoadIndicator()
         guard let selectedCurrency = selectedCurrency else { return }
-        
-        var result = Int.random(in: 0..<2)
-        
-        switch result {
-        case 1:
-            payController?.didPay(payResult: true)
-            payController?.stopLoadIndicator()
-        case 0:
-            payController?.didPay(payResult: false)
-            payController?.stopLoadIndicator()
-        default:
-            print("something werid")
+        payService?.payOrder(currencyId: selectedCurrency.id) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(data):
+                self.payController?.didPay(payResult: data.success)
+                self.payController?.stopLoadIndicator()
+            case .failure(_):
+                self.payController?.didPay(payResult: false)
+                self.payController?.stopLoadIndicator()
+            }
         }
-        
-        //TODO: реализовать c данными из сети
     }
     
     func getCurrencies() {
         payController?.startLoadIndicator()
+        payService?.getCurrencies { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(data):
+                self.currencies = data
+                self.payController?.updatePayCollection()
+                self.payController?.stopLoadIndicator()
+            case let .failure(error):
+                print(error)
+                self.payController?.stopLoadIndicator()
+            }
+        }
     }
+    
     
 }

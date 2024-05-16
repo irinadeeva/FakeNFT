@@ -67,7 +67,6 @@ final class MyOrderCell: UITableViewCell {
     
     private lazy var moneyLabel: UILabel = {
         let moneyLabel = UILabel()
- //       moneyLabel.text = "1,78 ETH"
         moneyLabel.font = .bodyBold
         moneyLabel.textColor = UIColor(named: "Black")
         moneyLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -150,15 +149,8 @@ final class MyOrderCell: UITableViewCell {
     }
     
     func updateCell(with model: NftDataModel) {
-        var imageData: UIImage
-        
-        if UIImage(named: model.images.first!) == nil {
-            imageData = UIImage(named: "NFTcard")!
-        } else {
-            imageData = UIImage(named:model.images.first!)!
-        }
-        cardImageView.image = imageData
-        
+      
+        cardImageView.kf.setImage(with: URL(string: model.images[0]))
         nameCardLabel.text = model.name
         starImageView.setStar(with: model.rating)
         moneyLabel.text = "\(model.price) ETH"

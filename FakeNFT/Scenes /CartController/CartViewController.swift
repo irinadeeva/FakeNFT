@@ -88,11 +88,19 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        presenter?.getOrder()
+        tableView.reloadData()
+        showEmptyCart()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "White")
         
-        presenter = CartPresenter(viewController: self)
+        presenter = CartPresenter(viewController: self, orderService: servicesAssembly.orderService, nftByIdService: servicesAssembly.nftByIdService)
         
         addSubviews()
         setupLayoutImagePay()
@@ -108,18 +116,31 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
         let alert = UIAlertController(title: "Сортировка", message: nil, preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: "По цене", style: .default, handler: { [weak self] (UIAlertAction) in
-            guard self != nil else { return }
-            //TODO: реализовать сортировку
+            guard let self = self else { return }
+            self.presenter?.sortCart(filter: .price)
+            self.tableView.reloadData()
+            
+            UserDefaults.standard.set("Цена", forKey: "Sort")
+            UserDefaults.standard.synchronize()
         } ))
         
         alert.addAction(UIAlertAction(title: "По рейтингу", style: .default, handler: { [weak self] (UIAlertAction) in
-            guard self != nil else { return }
-            //TODO: реализовать сортировку
+            guard let self = self else { return }
+            self.presenter?.sortCart(filter: .rating)
+            self.tableView.reloadData()
+            
+            UserDefaults.standard.set("Рейтинг", forKey: "Sort")
+            UserDefaults.standard.synchronize()
         } ))
         
         alert.addAction(UIAlertAction(title: "По названию", style: .default, handler: { [weak self] (UIAlertAction) in
             guard self != nil else { return }
-            //TODO: реализовать сортировку
+            guard let self = self else { return }
+            self.presenter?.sortCart(filter: .title)
+            self.tableView.reloadData()
+            
+            UserDefaults.standard.set("Название", forKey: "Sort")
+            UserDefaults.standard.synchronize()
         } ))
         
         alert.addAction(UIAlertAction(title: "Закрыть", style: .cancel, handler: { (UIAlertAction) in
@@ -129,7 +150,7 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
     }
     
     @objc private func didTapPayButton() {
-        let payController = PayViewController()
+        let payController = PayViewController(servicesAssembly: servicesAssembly, cartController: self)
         payController.hidesBottomBarWhenPushed = true
         navigationItem.backButtonTitle = ""
         navigationController?.pushViewController(payController, animated: true)

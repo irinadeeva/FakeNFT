@@ -20,7 +20,10 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
     
     private var presenter: PayPresenterProtocol?
     private let agreeUrl = URL(string: "https://yandex.ru/legal/practicum_termsofuse/")
-    private var cartPresenter: CartPresenter?
+//    private var cartPresenter: CartPresenter?
+    var cartController: CartViewController
+    
+    private let servicesAssembly: ServicesAssembly
     
     private lazy var payCollectionView : UICollectionView = {
         let collectionView = UICollectionView(
@@ -90,7 +93,9 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
     
     private let loaderView = LoaderView()
     
-    init() {
+    init(servicesAssembly: ServicesAssembly, cartController: CartViewController) {
+        self.servicesAssembly = servicesAssembly
+        self.cartController = cartController
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -102,7 +107,7 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "White")
         
-        presenter = PayPresenter(payController: self)
+        presenter = PayPresenter(payController: self, payService: servicesAssembly.payService, orderService: servicesAssembly.orderService)
         
         makeNavBar()
         addSubviews()

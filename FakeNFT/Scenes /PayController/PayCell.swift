@@ -112,15 +112,8 @@ final class PayCell: UICollectionViewCell {
     
     func updateCell(currency: CurrencyDataModel) {
         self.currency = currency
-        
-        var image: UIImage
-        if UIImage(named: currency.image) == nil {
-            image = UIImage(named: "NFTcard")!
-        } else {
-            image = UIImage(named: currency.image)!
-        }
-        moneyImageView.image = image
-        
+        let image = URL(string: currency.image)
+        moneyImageView.kf.setImage(with: image, placeholder: UIImage(named: "close"))
         moneyNameLabel.text = currency.title
         moneyShotLabel.text = currency.name
     }
