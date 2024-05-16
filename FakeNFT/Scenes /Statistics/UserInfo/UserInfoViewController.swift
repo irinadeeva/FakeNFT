@@ -81,6 +81,7 @@ final class UserInfoViewController: UIViewController {
         let tableView = UITableView()
         tableView.register(InfoNFTTableCell.self)
         tableView.separatorStyle = .none
+        tableView.isScrollEnabled = false
         tableView.backgroundColor = .background
         return tableView
     }()
