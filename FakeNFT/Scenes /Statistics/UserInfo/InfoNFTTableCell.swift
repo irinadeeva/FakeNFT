@@ -2,7 +2,6 @@ import UIKit
 
 final class InfoNFTTableCell: UITableViewCell, ReuseIdentifying {
     
-    //MARK: - Properties
     static let defaultReuseIdentifier = "infoNFTCell"
     
     //MARK: - UI elements
@@ -43,7 +42,7 @@ final class InfoNFTTableCell: UITableViewCell, ReuseIdentifying {
     //MARK: - Layout
     
     private func setupViews(){
-        backgroundColor = .systemBackground
+        backgroundColor = .background
         
         contentView.addSubview(infoLabel)
         contentView.addSubview(countsNFTLabel)
@@ -56,9 +55,6 @@ final class InfoNFTTableCell: UITableViewCell, ReuseIdentifying {
     }
     
     private func setupConstraints() {
-        
-
-        
         NSLayoutConstraint.activate([
             infoLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             infoLabel.centerYAnchor.constraint(equalTo: centerYAnchor),

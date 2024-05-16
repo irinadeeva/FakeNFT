@@ -116,7 +116,6 @@ final class StatisticsPresenter: StatisticsPresenterProtocol {
                 ratingValue: user.ratingValue)
             return updateUser
         }
-        
        return setRatingPositions
     }
     

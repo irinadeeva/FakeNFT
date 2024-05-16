@@ -5,6 +5,7 @@ import Foundation
 protocol UserInfoPresenterProtocol {
     var user: UserInfo? { get set }
     func viewDidLoad()
+    func getNftsStringArray() -> [String]
 }
 
 // MARK: - State
@@ -80,5 +81,12 @@ final class UserInfoPresenter: UserInfoPresenterProtocol {
         return ErrorModel(message: message, actionText: actionText) { [weak self] in
             self?.state = .loading
         }
+    }
+    
+    func getNftsStringArray() -> [String] {
+        guard let user = user else {
+            return []
+        }
+        return user.nfts
     }
 }
