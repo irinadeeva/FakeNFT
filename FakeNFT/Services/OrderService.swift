@@ -11,14 +11,13 @@ typealias OrderCompletion = (Result<OrderDataModel, Error>) -> Void
 
 
 protocol OrderServiceProtocol {
-    var cartPresenter: CartPresenterProtocol? { get set}
     var nftsStorage: [NftDataModel] { get }
     
     func loadOrder(completion: @escaping OrderCompletion)
 }
 
 final class OrderService: OrderServiceProtocol {
-
+    
     private let networkClient: NetworkClient
     private let orderStorage: OrderStorageProtocol
     private let nftByIdService: NftByIdServiceProtocol
@@ -26,11 +25,10 @@ final class OrderService: OrderServiceProtocol {
     private var idsStorage: [String] = []
     var nftsStorage: [NftDataModel] = []
 
-    var cartPresenter: CartPresenterProtocol?
     
     init(networkClient: NetworkClient, orderStorage: OrderStorageProtocol, nftByIdService: NftByIdServiceProtocol, nftStorage: NftByIdStorageProtocol) {
         self.networkClient = networkClient
-        self.orderStorage = orderStorage as! OrderStorage
+        self.orderStorage = orderStorage 
         self.nftByIdService = nftByIdService
         self.nftStorage = nftStorage
     }

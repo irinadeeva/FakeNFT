@@ -44,14 +44,11 @@ final class CartPresenter: CartPresenterProtocol {
     var order: OrderDataModel?
     var nftById: NftDataModel? 
     
-//    var mock1 = NftDataModel(createdAt: "13-04-2024", name: "mock1", images: ["mock1"], rating: 5, description: "", price: 1.78, author: "", id: "1")
-//    var mock2 = NftDataModel(createdAt: "13-04-2024", name: "mock2", images: ["mock1"], rating: 2, description: "", price: 1.5, author: "", id: "2")
     
     init(viewController: CartViewControllerProtocol, orderService: OrderServiceProtocol, nftByIdService: NftByIdServiceProtocol) {
         self.viewController = viewController
         self.orderService = orderService
         self.nftByIdService = nftByIdService
-        self.orderService?.cartPresenter = self        
     }
         
     func totalPrice() -> Float {

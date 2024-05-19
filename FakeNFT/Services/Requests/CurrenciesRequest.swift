@@ -13,6 +13,5 @@ struct CurrenciesRequest: NetworkRequest {
         URL(string: "\(RequestConstants.baseURL)/api/v1/currencies")
 
     }
-    
     var nfts: [String]?
 }

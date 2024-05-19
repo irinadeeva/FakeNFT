@@ -29,6 +29,7 @@ final class MyOrderCell: UITableViewCell {
     private lazy var cardImageView: UIImageView = {
         let  cardImageView = UIImageView()
         cardImageView.layer.cornerRadius = 12
+        cardImageView.layer.masksToBounds = true
         cardImageView.translatesAutoresizingMaskIntoConstraints = false
         return  cardImageView
     }()
