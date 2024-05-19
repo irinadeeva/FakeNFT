@@ -9,7 +9,7 @@ import UIKit
 
 final class FavouriteNftViewController: UIViewController {
 
-    private let loaderView = LoaderView()
+    internal lazy var activityIndicator = UIActivityIndicatorView()
 
     private var nfts: [Nft] = []
 
@@ -92,8 +92,8 @@ extension FavouriteNftViewController {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
-        view.addSubview(loaderView)
-        loaderView.constraintCenters(to: view)
+        nftsCollection.addSubview(activityIndicator)
+        activityIndicator.constraintCenters(to: nftsCollection)
 
         NSLayoutConstraint.activate([
             emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -114,13 +114,6 @@ extension FavouriteNftViewController {
 // MARK: - UserNFTsView
 
 extension FavouriteNftViewController: NftView {
-    func showLoading() {
-        loaderView.showLoading()
-    }
-
-    func hideLoading() {
-        loaderView.hideLoading()
-    }
 
     func fetchNfts(_ nft: [Nft]) {
         self.nfts = nft

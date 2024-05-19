@@ -7,8 +7,6 @@
 
 import Foundation
 
-protocol NftView: AnyObject, ErrorView {
+protocol NftView: AnyObject, ErrorView, LoadingView {
     func fetchNfts(_ nft: [Nft])
-    func showLoading()
-    func hideLoading()
 }
