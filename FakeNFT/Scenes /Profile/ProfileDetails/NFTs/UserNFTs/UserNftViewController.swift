@@ -39,6 +39,7 @@ final class UserNftViewController: UIViewController {
         label.text = "У Вас ещё нет NFT"
         label.font = .bodyBold
         label.textColor = .text
+        label.isHidden = true
         return label
     }()
 
@@ -60,13 +61,6 @@ final class UserNftViewController: UIViewController {
 
         presenter.viewDidLoad()
         setupUI()
-
-        if nfts.count == 0 {
-            emptyLabel.isHidden = false
-        } else {
-            emptyLabel.isHidden = true
-            nftsTable.reloadData()
-        }
     }
 }
 
@@ -81,7 +75,7 @@ extension UserNftViewController {
         let sortButton = UIBarButtonItem(customView: sortButton)
         navigationItem.rightBarButtonItem = sortButton
 
-        [emptyLabel, nftsTable].forEach {
+        [nftsTable, emptyLabel].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -134,7 +128,13 @@ extension UserNftViewController {
 extension UserNftViewController: NftView {
     func fetchNfts(_ nft: [Nft]) {
         self.nfts = nft
-        nftsTable.reloadData()
+
+        if self.nfts.count == 0 {
+            emptyLabel.isHidden = false
+        } else {
+            emptyLabel.isHidden = true
+            nftsTable.reloadData()
+        }
     }
 }
 

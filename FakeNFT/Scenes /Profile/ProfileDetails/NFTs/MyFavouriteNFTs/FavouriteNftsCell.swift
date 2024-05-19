@@ -4,6 +4,7 @@ import Kingfisher
 final class FavouriteNftsCell: UICollectionViewCell {
 
     static let identifier = "FavouriteNftCell"
+
     private var id: String?
 
     private lazy var cardView: UIView = {

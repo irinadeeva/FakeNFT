@@ -50,6 +50,7 @@ final class FavouriteNftViewController: UIViewController {
         label.text = "У Вас ещё нет избранных NFT"
         label.font = .bodyBold
         label.textColor = .text
+        label.isHidden = true
         return label
     }()
 
@@ -71,13 +72,6 @@ final class FavouriteNftViewController: UIViewController {
 
         presenter.viewDidLoad()
         setupUI()
-
-        if nfts.count == 0 {
-            emptyLabel.isHidden = false
-        } else {
-            emptyLabel.isHidden = true
-            nftsCollection.reloadData()
-        }
     }
 }
 
@@ -93,7 +87,7 @@ extension FavouriteNftViewController {
         nftsCollection.delegate = self
         nftsCollection.dataSource = self
 
-        [emptyLabel, nftsCollection].forEach {
+        [nftsCollection, emptyLabel].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -119,7 +113,13 @@ extension FavouriteNftViewController {
 extension FavouriteNftViewController: NftView {
     func fetchNfts(_ nft: [Nft]) {
         self.nfts = nft
-        nftsCollection.reloadData()
+
+        if self.nfts.count != 0 {
+            emptyLabel.isHidden = true
+            nftsCollection.reloadData()
+        } else {
+            emptyLabel.isHidden = false
+        }
     }
 }
 
