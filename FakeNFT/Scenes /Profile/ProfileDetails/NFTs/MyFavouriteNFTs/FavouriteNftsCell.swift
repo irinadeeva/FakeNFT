@@ -7,11 +7,6 @@ final class FavouriteNftsCell: UICollectionViewCell {
 
     private var id: String?
 
-    private lazy var cardView: UIView = {
-        let view = UIView()
-        return view
-    }()
-
     private lazy var cardImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 12
@@ -28,6 +23,8 @@ final class FavouriteNftsCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .bodyBold
         label.textColor = .text
+        label.numberOfLines = 1
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
@@ -74,29 +71,19 @@ final class FavouriteNftsCell: UICollectionViewCell {
 
 extension FavouriteNftsCell {
     private func setupUI() {
-        contentView.addSubview(cardView)
-
         cardImageView.addSubview(likeView)
-
-        [cardView,
-         cardImageView,
-         likeView,
-         nftNameLabel,
-         starImageView,
-         moneyLabel
-        ].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+        likeView.translatesAutoresizingMaskIntoConstraints = false
 
         [cardImageView, nftNameLabel, starImageView, moneyLabel].forEach {
-            cardView.addSubview($0)
+            contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
         }
 
         NSLayoutConstraint.activate([
             cardImageView.heightAnchor.constraint(equalToConstant: 80),
             cardImageView.widthAnchor.constraint(equalToConstant: 80),
-            cardImageView.topAnchor.constraint(equalTo: cardView.topAnchor),
-            cardImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
+            cardImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            cardImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 
             likeView.heightAnchor.constraint(equalToConstant: 30),
             likeView.widthAnchor.constraint(equalToConstant: 30),
@@ -104,7 +91,7 @@ extension FavouriteNftsCell {
             likeView.trailingAnchor.constraint(equalTo: cardImageView.trailingAnchor),
 
             nftNameLabel.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 12),
-            nftNameLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor),
+            nftNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             nftNameLabel.bottomAnchor.constraint(equalTo: starImageView.topAnchor, constant: -8),
 
             starImageView.leadingAnchor.constraint(equalTo: nftNameLabel.leadingAnchor),
