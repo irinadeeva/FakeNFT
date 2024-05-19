@@ -34,6 +34,7 @@ final class EditProfileDetailsViewController: UIViewController {
         imageView.layer.cornerRadius = 35
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
+        imageView.isHidden = true
         return imageView
     }()
 
@@ -45,6 +46,7 @@ final class EditProfileDetailsViewController: UIViewController {
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        label.isHidden = true
         return label
     }()
 
@@ -56,6 +58,7 @@ final class EditProfileDetailsViewController: UIViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped))
         uiView.addGestureRecognizer(tapGR)
         uiView.isUserInteractionEnabled = true
+        uiView.isHidden = true
         return uiView
     }()
 
@@ -64,6 +67,7 @@ final class EditProfileDetailsViewController: UIViewController {
         label.text = "Имя"
         label.textColor = .text
         label.font = .headline3
+        label.isHidden = true
         return label
     }()
 
@@ -72,6 +76,7 @@ final class EditProfileDetailsViewController: UIViewController {
         label.text = "Описание"
         label.textColor = .text
         label.font = .headline3
+        label.isHidden = true
         return label
     }()
 
@@ -80,6 +85,7 @@ final class EditProfileDetailsViewController: UIViewController {
         label.text = "Сайт"
         label.textColor = .text
         label.font = .headline3
+        label.isHidden = true
         return label
     }()
 
@@ -90,6 +96,7 @@ final class EditProfileDetailsViewController: UIViewController {
         textField.backgroundColor = .textField
         textField.layer.cornerRadius = 12
         textField.textAlignment = .left
+        textField.isHidden = true
         return textField
     }()
 
@@ -101,6 +108,7 @@ final class EditProfileDetailsViewController: UIViewController {
         textView.layer.cornerRadius = 12
         textView.textAlignment = .left
         textView.textContainerInset = UIEdgeInsets(top: 11, left: 16, bottom: 11, right: 16)
+        textView.isHidden = true
         return textView
     }()
 
@@ -111,6 +119,7 @@ final class EditProfileDetailsViewController: UIViewController {
         textField.backgroundColor = .textField
         textField.layer.cornerRadius = 12
         textField.textAlignment = .left
+        textField.isHidden = true
         return textField
     }()
 
@@ -162,6 +171,9 @@ extension EditProfileDetailsViewController {
                 view.addSubview($0)
                 $0.translatesAutoresizingMaskIntoConstraints = false
             }
+
+        view.addSubview(activityIndicator)
+        activityIndicator.constraintCenters(to: view)
 
         NSLayoutConstraint.activate([
             closeButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 24),
@@ -282,6 +294,17 @@ extension EditProfileDetailsViewController {
 extension EditProfileDetailsViewController: EditProfileDetailsView {
 
     func fetchProfileDetails(_ profile: Profile) {
+        [profileImage,
+         imageEditMode,
+         nameLabel,
+         descriptionLabel,
+         websiteLabel,
+         nameTextField,
+         descriptionTextView,
+         websiteTextField].forEach {
+            $0.isHidden = false
+        }
+
         nameTextField.text = profile.userName
         descriptionTextView.text = profile.description
         websiteTextField.text = profile.userWebsite.absoluteString

@@ -60,6 +60,7 @@ final class ProfileDetailsViewController: UIViewController {
         tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.isHidden = true
         return tableView
     }()
 
@@ -93,6 +94,9 @@ extension ProfileDetailsViewController {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+
+        view.addSubview(activityIndicator)
+        activityIndicator.constraintCenters(to: view)
 
         NSLayoutConstraint.activate([
             profileImage.heightAnchor.constraint(equalToConstant: 70),
@@ -151,6 +155,7 @@ extension ProfileDetailsViewController: ProfileDetailsView {
             profileImage.image = UIImage(named: "AvatarStub")
         }
 
+        tableView.isHidden = false
         tableView.reloadData()
     }
 }
