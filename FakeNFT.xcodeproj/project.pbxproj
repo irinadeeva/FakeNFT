@@ -47,6 +47,7 @@
 		BE2385112BF514AC00E31205 /* FavouriteNftsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2385102BF514AC00E31205 /* FavouriteNftsCell.swift */; };
 		BE2385152BF5426100E31205 /* NftsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2385142BF5426100E31205 /* NftsViewProtocol.swift */; };
 		BE2385172BF547AE00E31205 /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2385162BF547AE00E31205 /* GeometricParams.swift */; };
+		BE8376CD2BF9F90100AC5DA3 /* LoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8376CC2BF9F90100AC5DA3 /* LoaderView.swift */; };
 		BED4C7832BE0E9BF00213628 /* Decomposition Profile Deeva.md in Resources */ = {isa = PBXBuildFile; fileRef = BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */; };
 		BED4C78B2BE12C1E00213628 /* ProfileDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78A2BE12C1E00213628 /* ProfileDetailsController.swift */; };
 		BED4C78D2BE237A700213628 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78C2BE237A700213628 /* Profile.swift */; };
@@ -133,6 +134,7 @@
 		BE2385102BF514AC00E31205 /* FavouriteNftsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteNftsCell.swift; sourceTree = "<group>"; };
 		BE2385142BF5426100E31205 /* NftsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftsViewProtocol.swift; sourceTree = "<group>"; };
 		BE2385162BF547AE00E31205 /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
+		BE8376CC2BF9F90100AC5DA3 /* LoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoaderView.swift; sourceTree = "<group>"; };
 		BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "Decomposition Profile Deeva.md"; sourceTree = "<group>"; };
 		BED4C78A2BE12C1E00213628 /* ProfileDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsController.swift; sourceTree = "<group>"; };
 		BED4C78C2BE237A700213628 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				BED4C7A92BED4C3B00213628 /* EditProfile */,
 				BED4C7AF2BEEC04200213628 /* ProfileDetails */,
 				BED4C79C2BE4D38C00213628 /* ProfileController.swift */,
+				BE8376CC2BF9F90100AC5DA3 /* LoaderView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -717,6 +720,7 @@
 				E19CD5AB2A98B56600CA39A5 /* NftImageCollectionViewCell.swift in Sources */,
 				BED4C78D2BE237A700213628 /* Profile.swift in Sources */,
 				0CF2C2E12A784C7000FDC837 /* LinePageControl.swift in Sources */,
+				BE8376CD2BF9F90100AC5DA3 /* LoaderView.swift in Sources */,
 				BE1BF1852BF34D3B006CD495 /* NftsInput.swift in Sources */,
 				BED4C7942BE4BFFE00213628 /* ProfileRequest.swift in Sources */,
 				3F6806D329CBBE9600B4F915 /* NetworkRequest.swift in Sources */,
