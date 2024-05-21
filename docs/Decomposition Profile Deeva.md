@@ -23,24 +23,22 @@ Total: est: 330 min; fact: 290 min.
 ## Этап 2:
 
 #### Верстка
-- Экран редактирования профиля (est: 90 min; fact: x min).
-- Экран "Мои NFT" с UITableView (est: 90 min; fact: x min).
+- Экран редактирования профиля (est: 90 min; fact: 90 min).
+- Экран "Мои NFT" с UITableView (est: 90 min; fact: 90 min).
+- Экран "Избранные NFT" с UICollectionView (est: 90 min; fact: 90 min).
 
 #### Логика
-- Реализация загрузки данных о NFT пользователя и их отображение в таблице (est: 120 min; fact: x min).
-- Реализация функционала редактирования (est: 120 min; fact: x min).
+- Реализация загрузки данных о NFT пользователя и их отображение в таблице (est: 120 min; fact: 100 min).
+- Реализация загрузки данных о избранных NFT пользователя и их отображение в таблице (est: 120 min; fact: 20 min).
+- Реализация функционала сортировки (est: 80 min; fact: 20 min).
 
-Total: est: 420 min; fact: x min.
+Total: est: 590 min; fact: 410 min.
 
 ## Этап 3:
 
-#### Верстка
-- Экран "Избранные NFT" с UICollectionView (est: 90 min; fact: x min).
-
 #### Логика
-- Реализация функционала сортировки (est: 80 min; fact: x min).
-- Загрузка и отображение данных о NFT (est: 120 min; fact: x min).
+- Реализация функционала редактирования (put запрос)(est: 120 min; fact: x min).
 - Удаление NFT из избранного (est: 60 min; fact: x min).
 
-Total: est: 350 min; fact: x min.
+Total: est: 180 min; fact: x min.
 

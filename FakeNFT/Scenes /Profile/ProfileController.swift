@@ -8,21 +8,21 @@
 import UIKit
 
 final class ProfileViewController: UIViewController {
-    
+
     let servicesAssembly: ServicesAssembly
-    
+
     init(servicesAssembly: ServicesAssembly) {
         self.servicesAssembly = servicesAssembly
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if let navBar = navigationController?.navigationBar {
             let rightButton = UIBarButtonItem(
                 image: UIImage(named: "editNavBar"),
@@ -31,22 +31,21 @@ final class ProfileViewController: UIViewController {
                 action: #selector(editProfileDetails)
             )
             rightButton.tintColor = .editButton
-            
+
             navBar.topItem?.rightBarButtonItem = rightButton
         }
-        
+
         let assembly = ProfileDetailAssembly(servicesAssembler: servicesAssembly)
-        let profileInput = ProfileDetailInput(id: TokenConstant.id)
-        let profileDetailViewController = assembly.build(with: profileInput)
-        
+        let profileDetailViewController = assembly.build()
+
         addChild(profileDetailViewController)
         profileDetailViewController.didMove(toParent: self)
-        
+
         [profileDetailViewController.view].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
+
         NSLayoutConstraint.activate([
             profileDetailViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
             profileDetailViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -54,10 +53,11 @@ final class ProfileViewController: UIViewController {
             profileDetailViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
+
     @objc func editProfileDetails() {
-        let addTrackerViewController = EditProfileDetails()
-        addTrackerViewController.modalPresentationStyle = .automatic
-        present(addTrackerViewController, animated: true, completion: nil)
+
+        let assembly = EditProfileDetailsAssembly(servicesAssembler: servicesAssembly)
+        let editProfileDetailsViewController = assembly.build()
+        present(editProfileDetailsViewController, animated: true)
     }
 }
