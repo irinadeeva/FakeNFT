@@ -1,9 +1,15 @@
 import UIKit
 import Kingfisher
 
+protocol FavouriteNftsCellDelegate: AnyObject {
+    func didTapLike(_ cell: FavouriteNftsCell)
+}
+
 final class FavouriteNftsCell: UICollectionViewCell {
 
     static let identifier = "FavouriteNftCell"
+
+    weak var delegate: FavouriteNftsCellDelegate?
 
     private var id: String?
 
@@ -14,9 +20,11 @@ final class FavouriteNftsCell: UICollectionViewCell {
         return imageView
     }()
 
-    private lazy var likeView: UIImageView = {
-        let image = UIImageView()
-        return image
+    private lazy var likeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "Favourite"), for: .normal)
+        button.addTarget(self, action: #selector(didTapLike), for: .touchUpInside)
+        return button
     }()
 
     private lazy var nftNameLabel: UILabel = {
@@ -65,14 +73,13 @@ final class FavouriteNftsCell: UICollectionViewCell {
         nftNameLabel.text = nft.name
         starImageView.setStar(with: nft.rating)
         moneyLabel.text = "\(nft.price) ETH"
-        likeView.image = UIImage(named: "Favourite") ?? UIImage()
     }
 }
 
 extension FavouriteNftsCell {
     private func setupUI() {
-        cardImageView.addSubview(likeView)
-        likeView.translatesAutoresizingMaskIntoConstraints = false
+        cardImageView.addSubview(likeButton)
+        likeButton.translatesAutoresizingMaskIntoConstraints = false
 
         [cardImageView, nftNameLabel, starImageView, moneyLabel].forEach {
             contentView.addSubview($0)
@@ -85,10 +92,10 @@ extension FavouriteNftsCell {
             cardImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             cardImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
 
-            likeView.heightAnchor.constraint(equalToConstant: 30),
-            likeView.widthAnchor.constraint(equalToConstant: 30),
-            likeView.topAnchor.constraint(equalTo: cardImageView.topAnchor),
-            likeView.trailingAnchor.constraint(equalTo: cardImageView.trailingAnchor),
+            likeButton.heightAnchor.constraint(equalToConstant: 30),
+            likeButton.widthAnchor.constraint(equalToConstant: 30),
+            likeButton.topAnchor.constraint(equalTo: cardImageView.topAnchor),
+            likeButton.trailingAnchor.constraint(equalTo: cardImageView.trailingAnchor),
 
             nftNameLabel.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 12),
             nftNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
@@ -100,5 +107,9 @@ extension FavouriteNftsCell {
             moneyLabel.leadingAnchor.constraint(equalTo: nftNameLabel.leadingAnchor),
             moneyLabel.topAnchor.constraint(equalTo: starImageView.bottomAnchor, constant: 8)
         ])
+    }
+
+    @objc private func didTapLike() {
+        delegate?.didTapLike(self)
     }
 }

@@ -25,7 +25,7 @@ final class EditProfileDetailsViewController: UIViewController {
         let button = UIButton()
         button.tintColor = .closeButton
         button.setImage(UIImage(named: "close"), for: .normal)
-        button.addTarget(self, action: #selector(close), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
         return button
     }()
 
@@ -242,7 +242,7 @@ extension EditProfileDetailsViewController {
         }
     }
 
-    @objc private func close() {
+    @objc private func didTapClose() {
         guard let name = nameTextField.text,
               let description = descriptionTextView.text,
               let website = websiteTextField.text,

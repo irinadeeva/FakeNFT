@@ -55,7 +55,6 @@ final class ProfileViewController: UIViewController {
     }
 
     @objc func editProfileDetails() {
-
         let assembly = EditProfileDetailsAssembly(servicesAssembler: servicesAssembly)
         let editProfileDetailsViewController = assembly.build()
         present(editProfileDetailsViewController, animated: true)

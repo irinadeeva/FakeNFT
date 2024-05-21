@@ -126,11 +126,10 @@ struct DefaultNetworkClient: NetworkClient {
                 urlRequest.httpBody = dtoEncoded
             }
         case .put:
-            if let dto = request.dto,
-                let dtoEncoded = try? encoder.encode(dto) {
+            if let dto = request.dto {
                 urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
                 urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-                urlRequest.httpBody = dtoEncoded
+                urlRequest.httpBody = dto
             }
         }
 

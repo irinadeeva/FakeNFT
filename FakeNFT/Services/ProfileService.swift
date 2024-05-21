@@ -74,6 +74,9 @@ final class ProfileServiceImpl: ProfileService {
                     completion(.failure(error))
                 }
             }
+        } else {
+            completion(.success(profile))
+            return
         }
     }
 }
