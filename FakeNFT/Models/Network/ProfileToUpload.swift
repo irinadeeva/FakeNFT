@@ -11,6 +11,5 @@ struct ProfileToUpload: Encodable {
     let name: String
     let description: String
     let website: String
-    let avatar: String?
-    var likes: [String]
+    let avatar: String
 }

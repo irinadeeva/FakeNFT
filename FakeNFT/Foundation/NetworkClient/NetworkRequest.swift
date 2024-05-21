@@ -10,5 +10,5 @@ enum HttpMethod: String {
 protocol NetworkRequest {
     var endpoint: URL? { get }
     var httpMethod: HttpMethod { get set}
-    var dto: Encodable? { get }
+    var dto: Data? { get }
 }

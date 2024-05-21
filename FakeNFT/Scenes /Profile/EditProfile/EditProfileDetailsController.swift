@@ -245,7 +245,8 @@ extension EditProfileDetailsViewController {
     @objc private func close() {
         guard let name = nameTextField.text,
               let description = descriptionTextView.text,
-              let website = websiteTextField.text
+              let website = websiteTextField.text,
+              let avatar = profileAvatar
         else {
             return
         }
@@ -254,8 +255,7 @@ extension EditProfileDetailsViewController {
             name: name,
             description: description,
             website: website,
-            avatar: profileAvatar,
-            likes: []
+            avatar: avatar
         )
 
         presenter.updateProfile(with: updatedProfile)

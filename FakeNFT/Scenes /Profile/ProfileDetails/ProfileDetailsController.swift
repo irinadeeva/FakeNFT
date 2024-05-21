@@ -137,7 +137,7 @@ extension ProfileDetailsViewController: ProfileDetailsView {
         userDescription.text = profile.description
         userWebsite.setTitle(profile.website, for: .normal)
 
-        if let avatar = profile.avatar {
+        if !profile.avatar.isEmpty {
 
             let processor = RoundCornerImageProcessor(cornerRadius: 61)
             let placeholder = UIImage(named: "ProfileStub")
@@ -145,7 +145,7 @@ extension ProfileDetailsViewController: ProfileDetailsView {
             profileImage.kf.indicatorType = .activity
 
             profileImage.kf.setImage(
-                with: URL(string: avatar),
+                with: URL(string: profile.avatar),
                 placeholder: placeholder,
                 options: [.processor(processor),
                           .cacheMemoryOnly

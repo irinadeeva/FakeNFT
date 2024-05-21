@@ -43,15 +43,36 @@ final class ProfileServiceImpl: ProfileService {
     }
 
     func uploadProfile(with profileToUpload: ProfileToUpload, completion: @escaping ProfileCompletion) {
-        let request = ProfileRequest(httpMethod: .put, dto: profileToUpload)
+        guard let profile = storage.getProfile() else {
+            return
+        }
 
-        networkClient.send(request: request, type: Profile.self) { [weak storage] result in
-            switch result {
-            case .success(let profile):
-                storage?.saveProfile(profile)
-                completion(.success(profile))
-            case .failure(let error):
-                completion(.failure(error))
+        if profile.name != profileToUpload.name ||
+           profile.description != profileToUpload.description ||
+           profile.avatar != profileToUpload.avatar ||
+           profile.website != profileToUpload.website {
+
+            let updatedProfile = Profile(id: profile.id,
+                                         name: profileToUpload.name,
+                                         avatar: profileToUpload.avatar,
+                                         description: profileToUpload.description,
+                                         nfts: profile.nfts,
+                                         website: profileToUpload.website,
+                                         likes: profile.likes)
+
+            let bodyString = updatedProfile.toFormData()
+            guard let bodyData = bodyString.data(using: .utf8) else { return }
+
+            let request = ProfileRequest(httpMethod: .put, dto: bodyData)
+
+            networkClient.send(request: request, type: Profile.self) { [weak storage] result in
+                switch result {
+                case .success(let profile):
+                    storage?.saveProfile(profile)
+                    completion(.success(profile))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         }
     }
