@@ -8,21 +8,11 @@
 import Foundation
 
 struct Profile: Decodable {
-    let userId: UUID
-    let userName: String
-    let imageURL: URL?
+    let id: UUID
+    let name: String
+    let avatar: String?
     let description: String
-    let nftIds: [String]
-    let userWebsite: URL
+    let nfts: [String]
+    let website: String
     let likes: [String]
-
-    private enum CodingKeys: String, CodingKey {
-        case userId = "id"
-        case userName = "name"
-        case imageURL = "avatar"
-        case description = "description"
-        case userWebsite = "website"
-        case nftIds = "nfts"
-        case likes = "likes"
-    }
 }

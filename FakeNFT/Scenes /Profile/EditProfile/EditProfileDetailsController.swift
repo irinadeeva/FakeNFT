@@ -19,7 +19,7 @@ final class EditProfileDetailsViewController: UIViewController {
 
     private let presenter: EditProfileDetailsPresenter
 
-    private var profileImageUrl: URL?
+    private var profileAvatar: String?
 
     private lazy var closeButton: UIButton = {
         let button = UIButton()
@@ -224,14 +224,14 @@ extension EditProfileDetailsViewController {
     }
 
     private func updateProfileImage() {
-        if profileImageUrl != nil {
+        if let avatar = profileAvatar {
             let processor = RoundCornerImageProcessor(cornerRadius: 61)
             let placeholder = UIImage(named: "ProfileStub")
 
             profileImage.kf.indicatorType = .activity
 
             profileImage.kf.setImage(
-                with: profileImageUrl,
+                with: URL(string: avatar),
                 placeholder: placeholder,
                 options: [.processor(processor),
                           .cacheMemoryOnly
@@ -245,18 +245,16 @@ extension EditProfileDetailsViewController {
     @objc private func close() {
         guard let name = nameTextField.text,
               let description = descriptionTextView.text,
-              let websiteString = websiteTextField.text
+              let website = websiteTextField.text
         else {
             return
         }
 
-        let website = URL(fileURLWithPath: websiteString)
-
         let updatedProfile = ProfileToUpload(
-            userName: name,
+            name: name,
             description: description,
-            userWebsite: website,
-            imageURL: profileImageUrl,
+            website: website,
+            avatar: profileAvatar,
             likes: []
         )
 
@@ -277,7 +275,7 @@ extension EditProfileDetailsViewController {
         let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
         let saveAction = UIAlertAction(title: "Сохранить", style: .default) { [weak self] _ in
             if let link = alertController.textFields?.first?.text {
-                self?.profileImageUrl = URL(fileURLWithPath: link)
+                self?.profileAvatar = link
                 self?.updateProfileImage()
             }
         }
@@ -305,10 +303,10 @@ extension EditProfileDetailsViewController: EditProfileDetailsView {
             $0.isHidden = false
         }
 
-        nameTextField.text = profile.userName
+        nameTextField.text = profile.name
         descriptionTextView.text = profile.description
-        websiteTextField.text = profile.userWebsite.absoluteString
-        profileImageUrl =  profile.imageURL
+        websiteTextField.text = profile.website
+        profileAvatar =  profile.avatar
 
         updateProfileImage()
     }

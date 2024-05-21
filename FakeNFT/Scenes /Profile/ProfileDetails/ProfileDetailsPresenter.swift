@@ -89,7 +89,7 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
             view?.showLoading()
             loadProfile()
         case .data(let profile):
-            userNFTsIds = profile.nftIds
+            userNFTsIds = profile.nfts
             favouriteNFTsIds = profile.likes
             view?.fetchProfileDetails(profile)
             view?.hideLoading()

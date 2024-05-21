@@ -133,11 +133,11 @@ extension ProfileDetailsViewController {
 extension ProfileDetailsViewController: ProfileDetailsView {
 
     func fetchProfileDetails(_ profile: Profile) {
-        userName.text = profile.userName
+        userName.text = profile.name
         userDescription.text = profile.description
-        userWebsite.setTitle(profile.userWebsite.absoluteString, for: .normal)
+        userWebsite.setTitle(profile.website, for: .normal)
 
-        if profile.imageURL != nil {
+        if let avatar = profile.avatar {
 
             let processor = RoundCornerImageProcessor(cornerRadius: 61)
             let placeholder = UIImage(named: "ProfileStub")
@@ -145,7 +145,7 @@ extension ProfileDetailsViewController: ProfileDetailsView {
             profileImage.kf.indicatorType = .activity
 
             profileImage.kf.setImage(
-                with: profile.imageURL,
+                with: URL(string: avatar),
                 placeholder: placeholder,
                 options: [.processor(processor),
                           .cacheMemoryOnly
