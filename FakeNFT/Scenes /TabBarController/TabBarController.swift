@@ -28,7 +28,7 @@ final class TabBarController: UITabBarController {
             nftService: servicesAssembly.nftService
         )
 
-        let viewController = ProfileDetailsViewController(presenter: presenter)
+        let viewController = ProfileViewController(presenter: presenter)
         presenter.view = viewController
 
         let profileController = UINavigationController(rootViewController: viewController)

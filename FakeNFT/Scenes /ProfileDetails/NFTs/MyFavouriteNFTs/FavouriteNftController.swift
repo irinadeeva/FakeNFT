@@ -171,5 +171,6 @@ extension FavouriteNftViewController: FavouriteNftsCellDelegate {
         nfts.remove(at: indexPath.row)
 
         nftsCollection.reloadData()
+//        presenter.
     }
 }

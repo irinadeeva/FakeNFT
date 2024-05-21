@@ -78,10 +78,7 @@ final class FavouriteNftsCell: UICollectionViewCell {
 
 extension FavouriteNftsCell {
     private func setupUI() {
-        cardImageView.addSubview(likeButton)
-        likeButton.translatesAutoresizingMaskIntoConstraints = false
-
-        [cardImageView, nftNameLabel, starImageView, moneyLabel].forEach {
+        [cardImageView, likeButton, nftNameLabel, starImageView, moneyLabel].forEach {
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }

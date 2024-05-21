@@ -12,7 +12,7 @@ protocol ProfileDetailsView: AnyObject, ErrorView, LoadingView {
     func fetchProfileDetails(_ profile: Profile)
 }
 
-final class ProfileDetailsViewController: UIViewController {
+final class ProfileViewController: UIViewController {
 
     internal lazy var activityIndicator = UIActivityIndicatorView()
 
@@ -85,7 +85,7 @@ final class ProfileDetailsViewController: UIViewController {
     }
 }
 
-extension ProfileDetailsViewController {
+extension ProfileViewController {
 
     // MARK: - Private
 
@@ -150,7 +150,7 @@ extension ProfileDetailsViewController {
 
 // MARK: - ProfileDetailsView
 
-extension ProfileDetailsViewController: ProfileDetailsView {
+extension ProfileViewController: ProfileDetailsView {
 
     func fetchProfileDetails(_ profile: Profile) {
         userName.text = profile.name
@@ -182,7 +182,7 @@ extension ProfileDetailsViewController: ProfileDetailsView {
 
 // MARK: - EditProfileDetailsViewDelegate
 
-extension ProfileDetailsViewController: EditProfileDetailsViewDelegate {
+extension ProfileViewController: EditProfileDetailsViewDelegate {
     func didTapClose() {
         presenter.viewDidUpdate()
     }
@@ -190,7 +190,7 @@ extension ProfileDetailsViewController: EditProfileDetailsViewDelegate {
 
 // MARK: - UITableViewDataSource
 
-extension ProfileDetailsViewController: UITableViewDataSource {
+extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
@@ -211,7 +211,7 @@ extension ProfileDetailsViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
-extension ProfileDetailsViewController: UITableViewDelegate {
+extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 54
     }

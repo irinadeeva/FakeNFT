@@ -85,7 +85,6 @@ final class ProfileServiceImpl: ProfileService {
         if let profile = storage.getProfile() {
             completion(.success(profile))
         }
-
         return
     }
 }
