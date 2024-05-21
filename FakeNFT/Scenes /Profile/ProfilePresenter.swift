@@ -12,6 +12,7 @@ import Foundation
 protocol ProfilePresenter {
     func viewDidLoad()
     func viewDidUpdate()
+    func removeFromFavourite(for nftIds: [String])
     func fetchTitleForCell(with indexPath: IndexPath) -> String
     func fetchUserNFTsPresenter() -> NftPresenterImpl
     func fetchFavouriteNFTsPresenter() -> NftPresenterImpl
@@ -21,10 +22,17 @@ protocol ProfilePresenter {
 // MARK: - State
 
 enum ProfileDetailState {
-    case initial, loading, failed(Error), data(Profile), updating, update(Profile)
+    case initial,
+         loading,
+         failed(Error),
+         data(Profile),
+         updating,
+         update(Profile),
+         removeNfts([String]),
+         updateTable
 }
 
-final class ProfileDetailsPresenterImpl: ProfilePresenter {
+final class ProfilePresenterImpl: ProfilePresenter {
 
     // MARK: - Properties
 
@@ -54,6 +62,10 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
 
     func viewDidUpdate() {
         state = .updating
+    }
+
+    func removeFromFavourite(for nftIds: [String]) {
+        state = .removeNfts(nftIds)
     }
 
     func fetchTitleForCell(with indexPath: IndexPath) -> String {
@@ -107,10 +119,26 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
             updateProfile()
         case .update(let profile):
             view?.fetchProfileDetails(profile)
+        case .removeNfts(let nfts):
+            updateFavourites(with: nfts)
+        case .updateTable:
+            view?.updateTable()
         case .failed(let error):
             let errorModel = makeErrorModel(error)
             view?.hideLoading()
             view?.showError(errorModel)
+        }
+    }
+
+    private func updateFavourites(with nftIds: [String]) {
+        profileService.updateFavourites(with: nftIds) { [weak self] result in
+            switch result {
+            case .success(let profile):
+                self?.favouriteNFTsIds = profile.likes
+                self?.state = .updateTable
+            case .failure(let error):
+                self?.state = .failed(error)
+            }
         }
     }
 

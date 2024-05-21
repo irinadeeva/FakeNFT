@@ -47,16 +47,19 @@
 		BE2385112BF514AC00E31205 /* FavouriteNftsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2385102BF514AC00E31205 /* FavouriteNftsCell.swift */; };
 		BE2385152BF5426100E31205 /* NftsViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2385142BF5426100E31205 /* NftsViewProtocol.swift */; };
 		BE2385172BF547AE00E31205 /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2385162BF547AE00E31205 /* GeometricParams.swift */; };
-		BE8376E02BFCECF200AC5DA3 /* EditProfileDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8376DD2BFCECF200AC5DA3 /* EditProfileDetailsPresenter.swift */; };
 		BE8376E12BFCECF200AC5DA3 /* EditProfileDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8376DE2BFCECF200AC5DA3 /* EditProfileDetailsController.swift */; };
 		BE8376E22BFCECF200AC5DA3 /* EditProfileDetailsAssemply.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8376DF2BFCECF200AC5DA3 /* EditProfileDetailsAssemply.swift */; };
+		BE8376E62BFCEE9900AC5DA3 /* EditProfileDetailsAssemply.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8376E32BFCEE9900AC5DA3 /* EditProfileDetailsAssemply.swift */; };
+		BE8376E72BFCEE9900AC5DA3 /* EditProfileDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8376E42BFCEE9900AC5DA3 /* EditProfileDetailsController.swift */; };
+		BE8376E82BFCEE9900AC5DA3 /* EditProfileDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8376E52BFCEE9900AC5DA3 /* EditProfileDetailsPresenter.swift */; };
+		BE8376EA2BFCEF1B00AC5DA3 /* EditProfileDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8376E92BFCEF1B00AC5DA3 /* EditProfileDetailsPresenter.swift */; };
 		BED4C7832BE0E9BF00213628 /* Decomposition Profile Deeva.md in Resources */ = {isa = PBXBuildFile; fileRef = BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */; };
 		BED4C78B2BE12C1E00213628 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78A2BE12C1E00213628 /* ProfileController.swift */; };
 		BED4C78D2BE237A700213628 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78C2BE237A700213628 /* Profile.swift */; };
 		BED4C78F2BE4BCB500213628 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78E2BE4BCB500213628 /* ProfileService.swift */; };
 		BED4C7922BE4BDB600213628 /* ProfileStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C7912BE4BDB600213628 /* ProfileStorage.swift */; };
 		BED4C7942BE4BFFE00213628 /* ProfileRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C7932BE4BFFE00213628 /* ProfileRequest.swift */; };
-		BED4C7972BE4C59500213628 /* ProfileDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C7962BE4C59500213628 /* ProfileDetailsPresenter.swift */; };
+		BED4C7972BE4C59500213628 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C7962BE4C59500213628 /* ProfilePresenter.swift */; };
 		BED4C79F2BE7720A00213628 /* TokenConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C79E2BE7720A00213628 /* TokenConstants.swift */; };
 		BED4C7A42BEC6E0A00213628 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C7A32BEC6E0A00213628 /* WebViewController.swift */; };
 		BED4C7AE2BEE789F00213628 /* TextFieldWithPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C7AD2BEE789F00213628 /* TextFieldWithPadding.swift */; };
@@ -131,16 +134,19 @@
 		BE2385102BF514AC00E31205 /* FavouriteNftsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteNftsCell.swift; sourceTree = "<group>"; };
 		BE2385142BF5426100E31205 /* NftsViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NftsViewProtocol.swift; sourceTree = "<group>"; };
 		BE2385162BF547AE00E31205 /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
-		BE8376DD2BFCECF200AC5DA3 /* EditProfileDetailsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileDetailsPresenter.swift; path = "FakeNFT/Scenes /Profile/EditProfile/EditProfileDetailsPresenter.swift"; sourceTree = SOURCE_ROOT; };
 		BE8376DE2BFCECF200AC5DA3 /* EditProfileDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileDetailsController.swift; path = "FakeNFT/Scenes /Profile/EditProfile/EditProfileDetailsController.swift"; sourceTree = SOURCE_ROOT; };
 		BE8376DF2BFCECF200AC5DA3 /* EditProfileDetailsAssemply.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileDetailsAssemply.swift; path = "FakeNFT/Scenes /Profile/EditProfile/EditProfileDetailsAssemply.swift"; sourceTree = SOURCE_ROOT; };
+		BE8376E32BFCEE9900AC5DA3 /* EditProfileDetailsAssemply.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsAssemply.swift; sourceTree = "<group>"; };
+		BE8376E42BFCEE9900AC5DA3 /* EditProfileDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsController.swift; sourceTree = "<group>"; };
+		BE8376E52BFCEE9900AC5DA3 /* EditProfileDetailsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsPresenter.swift; sourceTree = "<group>"; };
+		BE8376E92BFCEF1B00AC5DA3 /* EditProfileDetailsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsPresenter.swift; sourceTree = "<group>"; };
 		BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "Decomposition Profile Deeva.md"; sourceTree = "<group>"; };
 		BED4C78A2BE12C1E00213628 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		BED4C78C2BE237A700213628 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		BED4C78E2BE4BCB500213628 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		BED4C7912BE4BDB600213628 /* ProfileStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStorage.swift; sourceTree = "<group>"; };
 		BED4C7932BE4BFFE00213628 /* ProfileRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRequest.swift; sourceTree = "<group>"; };
-		BED4C7962BE4C59500213628 /* ProfileDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsPresenter.swift; sourceTree = "<group>"; };
+		BED4C7962BE4C59500213628 /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
 		BED4C79E2BE7720A00213628 /* TokenConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenConstants.swift; sourceTree = "<group>"; };
 		BED4C7A32BEC6E0A00213628 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		BED4C7AD2BEE789F00213628 /* TextFieldWithPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithPadding.swift; sourceTree = "<group>"; };
@@ -390,9 +396,12 @@
 		BE8376D92BFCECCB00AC5DA3 /* EditProfile */ = {
 			isa = PBXGroup;
 			children = (
+				BE8376E92BFCEF1B00AC5DA3 /* EditProfileDetailsPresenter.swift */,
+				BE8376E32BFCEE9900AC5DA3 /* EditProfileDetailsAssemply.swift */,
+				BE8376E42BFCEE9900AC5DA3 /* EditProfileDetailsController.swift */,
+				BE8376E52BFCEE9900AC5DA3 /* EditProfileDetailsPresenter.swift */,
 				BE8376DF2BFCECF200AC5DA3 /* EditProfileDetailsAssemply.swift */,
 				BE8376DE2BFCECF200AC5DA3 /* EditProfileDetailsController.swift */,
-				BE8376DD2BFCECF200AC5DA3 /* EditProfileDetailsPresenter.swift */,
 			);
 			path = EditProfile;
 			sourceTree = "<group>";
@@ -430,7 +439,7 @@
 				BED4C7B02BF1486900213628 /* NFTs */,
 				BED4C78A2BE12C1E00213628 /* ProfileController.swift */,
 				BED4C7B12BF148CC00213628 /* ProfileTableCell.swift */,
-				BED4C7962BE4C59500213628 /* ProfileDetailsPresenter.swift */,
+				BED4C7962BE4C59500213628 /* ProfilePresenter.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -659,7 +668,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FC8C38B29D242E90081F015 /* ProductDetailsTableViewCell.swift in Sources */,
-				BED4C7972BE4C59500213628 /* ProfileDetailsPresenter.swift in Sources */,
+				BED4C7972BE4C59500213628 /* ProfilePresenter.swift in Sources */,
 				BED4C7E72BF171DF00213628 /* UserNftViewController.swift in Sources */,
 				3F478ECF29DB474E00F6D39E /* Colors.swift in Sources */,
 				BE1BF1892BF4AFE7006CD495 /* ProfileToUpload.swift in Sources */,
@@ -672,10 +681,10 @@
 				0C79EE6A2A76DE1000EE90EA /* NftDetailAssembly.swift in Sources */,
 				3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */,
 				0CFCB7422A78013E0009A829 /* Nft.swift in Sources */,
+				BE8376E62BFCEE9900AC5DA3 /* EditProfileDetailsAssemply.swift in Sources */,
 				0CF2C2DD2A783CE600FDC837 /* ErrorView.swift in Sources */,
 				0C79EE682A76DE0900EE90EA /* NftDetailPresenter.swift in Sources */,
 				3F68069B29CBBAF100B4F915 /* ProductDetailsTableViewController.swift in Sources */,
-				BE8376E02BFCECF200AC5DA3 /* EditProfileDetailsPresenter.swift in Sources */,
 				0CFCB7402A78002A0009A829 /* NftService.swift in Sources */,
 				3F6806D529CBBEC700B4F915 /* NetworkTask.swift in Sources */,
 				0CF2C2DB2A783C1B00FDC837 /* LoadingView.swift in Sources */,
@@ -684,6 +693,8 @@
 				0C79EE6C2A76DE2E00EE90EA /* ServicesAssemly.swift in Sources */,
 				BE2385112BF514AC00E31205 /* FavouriteNftsCell.swift in Sources */,
 				0CFCB74E2A7817DC0009A829 /* NftStorage.swift in Sources */,
+				BE8376E82BFCEE9900AC5DA3 /* EditProfileDetailsPresenter.swift in Sources */,
+				BE8376EA2BFCEF1B00AC5DA3 /* EditProfileDetailsPresenter.swift in Sources */,
 				3FC8C39129D2453B0081F015 /* ExampleRequest.swift in Sources */,
 				BED4C7EB2BF171DF00213628 /* RatingView.swift in Sources */,
 				BED4C7922BE4BDB600213628 /* ProfileStorage.swift in Sources */,
@@ -707,6 +718,7 @@
 				3F6806D129CBBE6B00B4F915 /* NetworkClient.swift in Sources */,
 				BED4C7B22BF148CC00213628 /* ProfileTableCell.swift in Sources */,
 				BE8376E12BFCECF200AC5DA3 /* EditProfileDetailsController.swift in Sources */,
+				BE8376E72BFCEE9900AC5DA3 /* EditProfileDetailsController.swift in Sources */,
 				0CFCB7442A7802440009A829 /* NftDetailInput.swift in Sources */,
 				0C79EE632A76DD1900EE90EA /* RequestConstants.swift in Sources */,
 				BED4C7EA2BF171DF00213628 /* UserNftCell.swift in Sources */,

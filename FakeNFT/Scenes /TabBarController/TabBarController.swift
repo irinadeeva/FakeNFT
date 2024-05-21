@@ -23,7 +23,7 @@ final class TabBarController: UITabBarController {
             return
         }
 
-        let presenter = ProfileDetailsPresenterImpl(
+        let presenter = ProfilePresenterImpl(
             profileService: servicesAssembly.profileService,
             nftService: servicesAssembly.nftService
         )

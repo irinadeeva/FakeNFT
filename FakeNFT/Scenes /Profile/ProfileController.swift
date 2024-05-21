@@ -10,6 +10,7 @@ import Kingfisher
 
 protocol ProfileDetailsView: AnyObject, ErrorView, LoadingView {
     func fetchProfileDetails(_ profile: Profile)
+    func updateTable()
 }
 
 final class ProfileViewController: UIViewController {
@@ -66,7 +67,7 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Init
 
-    init(presenter: ProfileDetailsPresenterImpl) {
+    init(presenter: ProfilePresenterImpl) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -151,6 +152,9 @@ extension ProfileViewController {
 // MARK: - ProfileDetailsView
 
 extension ProfileViewController: ProfileDetailsView {
+    func updateTable() {
+        tableView.reloadData()
+    }
 
     func fetchProfileDetails(_ profile: Profile) {
         userName.text = profile.name
@@ -185,6 +189,14 @@ extension ProfileViewController: ProfileDetailsView {
 extension ProfileViewController: EditProfileDetailsViewDelegate {
     func didTapClose() {
         presenter.viewDidUpdate()
+    }
+}
+
+extension ProfileViewController: BackButtonDelegate {
+    func didTapBackButton(for nftIds: [String]) {
+        if !nftIds.isEmpty {
+            presenter.removeFromFavourite(for: nftIds)
+        }
     }
 }
 
@@ -224,17 +236,20 @@ extension ProfileViewController: UITableViewDelegate {
             nftPresenter.view = view
             view.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(view, animated: true)
-        case 1:
 
+        case 1:
             let nftPresenter = presenter.fetchFavouriteNFTsPresenter()
             let favouriteNftView = FavouriteNftViewController(presenter: nftPresenter)
+            favouriteNftView.delegate = self
             nftPresenter.view = favouriteNftView
             favouriteNftView.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(favouriteNftView, animated: true)
+
         case 2:
             let webView = WebViewViewController(userWebsiteAbsoluteString: userWebsite.currentTitle)
             webView.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(webView, animated: true)
+
         default:
             return
         }

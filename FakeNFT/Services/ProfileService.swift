@@ -13,6 +13,7 @@ protocol ProfileService {
     func loadProfile(completion: @escaping ProfileCompletion)
     func uploadProfile(with profileToUpload: ProfileToUpload, completion: @escaping ProfileCompletion)
     func updateProfile(completion: @escaping ProfileCompletion)
+    func updateFavourites(with nfts: [String], completion: @escaping ProfileCompletion)
 }
 
 final class ProfileServiceImpl: ProfileService {
@@ -59,7 +60,9 @@ final class ProfileServiceImpl: ProfileService {
                                          description: profileToUpload.description,
                                          nfts: profile.nfts,
                                          website: profileToUpload.website,
-                                         likes: profile.likes)
+                                         likes:
+                                            profile.likes
+            )
 
             let bodyString = updatedProfile.toFormData()
             guard let bodyData = bodyString.data(using: .utf8) else { return }
@@ -87,4 +90,37 @@ final class ProfileServiceImpl: ProfileService {
         }
         return
     }
+
+    func updateFavourites(with nfts: [String], completion: @escaping ProfileCompletion) {
+        guard let profile = storage.getProfile() else {
+            return
+        }
+        let leftNfts = profile.likes.filter {
+            !nfts.contains($0)
+        }
+
+        let updatedProfile = Profile(id: profile.id,
+                                     name: profile.name,
+                                     avatar: profile.avatar,
+                                     description: profile.description,
+                                     nfts: profile.nfts,
+                                     website: profile.website,
+                                     likes: leftNfts)
+
+        let bodyString = updatedProfile.toFormData()
+        guard let bodyData = bodyString.data(using: .utf8) else { return }
+
+        let request = ProfileRequest(httpMethod: .put, dto: bodyData)
+
+        networkClient.send(request: request, type: Profile.self) { [weak storage] result in
+            switch result {
+            case .success(let profile):
+                storage?.saveProfile(profile)
+                completion(.success(profile))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
 }
