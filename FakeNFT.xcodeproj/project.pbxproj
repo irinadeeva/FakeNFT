@@ -316,7 +316,7 @@
 		3F6806C729CBBC5B00B4F915 /* Scenes  */ = {
 			isa = PBXGroup;
 			children = (
-				BED4C7AF2BEEC04200213628 /* ProfileDetails */,
+				BED4C7AF2BEEC04200213628 /* Profile */,
 				E1A1B9D82AA01C9700C3AFBC /* TabBarController */,
 				0CF2C2D92A783C1600FDC837 /* Common */,
 				0CFCB7472A7808870009A829 /* Catalog */,
@@ -422,7 +422,7 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
-		BED4C7AF2BEEC04200213628 /* ProfileDetails */ = {
+		BED4C7AF2BEEC04200213628 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
 				BE8376D92BFCECCB00AC5DA3 /* EditProfile */,
@@ -432,7 +432,7 @@
 				BED4C7B12BF148CC00213628 /* ProfileTableCell.swift */,
 				BED4C7962BE4C59500213628 /* ProfileDetailsPresenter.swift */,
 			);
-			path = ProfileDetails;
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		BED4C7B02BF1486900213628 /* NFTs */ = {
