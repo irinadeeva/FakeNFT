@@ -23,9 +23,15 @@ final class TabBarController: UITabBarController {
             return
         }
 
-        let profileController = UINavigationController(rootViewController: ProfileViewController(
-            servicesAssembly: servicesAssembly
-        ))
+        let presenter = ProfileDetailsPresenterImpl(
+            profileService: servicesAssembly.profileService,
+            nftService: servicesAssembly.nftService
+        )
+
+        let viewController = ProfileDetailsViewController(presenter: presenter)
+        presenter.view = viewController
+
+        let profileController = UINavigationController(rootViewController: viewController)
 
         profileController.tabBarItem = profileTabBarItem
 

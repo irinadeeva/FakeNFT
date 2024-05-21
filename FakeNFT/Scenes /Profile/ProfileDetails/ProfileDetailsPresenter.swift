@@ -11,15 +11,17 @@ import Foundation
 
 protocol ProfilePresenter {
     func viewDidLoad()
+    func viewDidUpdate()
     func fetchTitleForCell(with indexPath: IndexPath) -> String
     func fetchUserNFTsPresenter() -> NftPresenterImpl
     func fetchFavouriteNFTsPresenter() -> NftPresenterImpl
+    func fetchProfileService() -> ProfileService
 }
 
 // MARK: - State
 
 enum ProfileDetailState {
-    case initial, loading, failed(Error), data(Profile)
+    case initial, loading, failed(Error), data(Profile), updating, update(Profile)
 }
 
 final class ProfileDetailsPresenterImpl: ProfilePresenter {
@@ -48,6 +50,10 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
 
     func viewDidLoad() {
         state = .loading
+    }
+
+    func viewDidUpdate() {
+        state = .updating
     }
 
     func fetchTitleForCell(with indexPath: IndexPath) -> String {
@@ -81,6 +87,10 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
         return presenter
     }
 
+    func fetchProfileService() -> ProfileService {
+        profileService
+    }
+
     private func stateDidChanged() {
         switch state {
         case .initial:
@@ -93,10 +103,25 @@ final class ProfileDetailsPresenterImpl: ProfilePresenter {
             favouriteNFTsIds = profile.likes
             view?.fetchProfileDetails(profile)
             view?.hideLoading()
+        case .updating:
+            updateProfile()
+        case .update(let profile):
+            view?.fetchProfileDetails(profile)
         case .failed(let error):
             let errorModel = makeErrorModel(error)
             view?.hideLoading()
             view?.showError(errorModel)
+        }
+    }
+
+    private func updateProfile() {
+        profileService.updateProfile { [weak self] result in
+            switch result {
+            case .success(let profile):
+                self?.state = .update(profile)
+            case .failure(let error):
+                self?.state = .failed(error)
+            }
         }
     }
 

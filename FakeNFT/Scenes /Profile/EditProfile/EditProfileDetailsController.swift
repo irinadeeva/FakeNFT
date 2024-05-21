@@ -13,7 +13,13 @@ protocol EditProfileDetailsView: AnyObject, ErrorView, LoadingView {
     func dismissView()
 }
 
+protocol EditProfileDetailsViewDelegate: AnyObject {
+    func didTapClose()
+}
+
 final class EditProfileDetailsViewController: UIViewController {
+
+    weak var delegate: EditProfileDetailsViewDelegate?
 
     internal lazy var activityIndicator = UIActivityIndicatorView()
 
@@ -312,6 +318,7 @@ extension EditProfileDetailsViewController: EditProfileDetailsView {
     }
 
     func dismissView() {
+        delegate?.didTapClose()
         dismiss(animated: true)
     }
 }

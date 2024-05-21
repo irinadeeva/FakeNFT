@@ -12,6 +12,7 @@ typealias ProfileCompletion = (Result<Profile, Error>) -> Void
 protocol ProfileService {
     func loadProfile(completion: @escaping ProfileCompletion)
     func uploadProfile(with profileToUpload: ProfileToUpload, completion: @escaping ProfileCompletion)
+    func updateProfile(completion: @escaping ProfileCompletion)
 }
 
 final class ProfileServiceImpl: ProfileService {
@@ -78,5 +79,13 @@ final class ProfileServiceImpl: ProfileService {
             completion(.success(profile))
             return
         }
+    }
+
+    func updateProfile(completion: @escaping ProfileCompletion) {
+        if let profile = storage.getProfile() {
+            completion(.success(profile))
+        }
+
+        return
     }
 }

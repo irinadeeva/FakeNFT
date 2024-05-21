@@ -90,6 +90,18 @@ extension ProfileDetailsViewController {
     // MARK: - Private
 
     private func setupUI() {
+        if let navBar = navigationController?.navigationBar {
+            let rightButton = UIBarButtonItem(
+                image: UIImage(named: "editNavBar"),
+                style: .plain,
+                target: self,
+                action: #selector(editProfileDetails)
+            )
+            rightButton.tintColor = .editButton
+
+            navBar.topItem?.rightBarButtonItem = rightButton
+        }
+
         [profileImage, userName, userDescription, userWebsite, tableView].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -126,6 +138,14 @@ extension ProfileDetailsViewController {
         let webView = WebViewViewController(userWebsiteAbsoluteString: userWebsite.currentTitle)
         present(webView, animated: true)
     }
+
+    @objc private func editProfileDetails() {
+        let profileService = presenter.fetchProfileService()
+        let assembly = EditProfileDetailsAssembly(profileService: profileService)
+        let editProfileDetailsViewController = assembly.build()
+        editProfileDetailsViewController.delegate = self
+        present(editProfileDetailsViewController, animated: true)
+    }
 }
 
 // MARK: - ProfileDetailsView
@@ -160,6 +180,14 @@ extension ProfileDetailsViewController: ProfileDetailsView {
     }
 }
 
+// MARK: - EditProfileDetailsViewDelegate
+
+extension ProfileDetailsViewController: EditProfileDetailsViewDelegate {
+    func didTapClose() {
+        presenter.viewDidUpdate()
+    }
+}
+
 // MARK: - UITableViewDataSource
 
 extension ProfileDetailsViewController: UITableViewDataSource {
@@ -179,7 +207,6 @@ extension ProfileDetailsViewController: UITableViewDataSource {
 
         return cell
     }
-
 }
 
 // MARK: - UITableViewDelegate
