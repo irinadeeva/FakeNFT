@@ -52,6 +52,7 @@ final class PayPresenter: PayPresenterProtocol {
             guard let self = self else { return }
             switch result {
             case let .success(data):
+                self.emptyCart()
                 self.payController?.didPay(payResult: data.success)
                 self.payController?.stopLoadIndicator()
             case .failure(_):
@@ -76,6 +77,18 @@ final class PayPresenter: PayPresenterProtocol {
             }
         }
     }
+    
+    func emptyCart() {
+        orderService?.removeAllNftFromStorage() { result in
+            switch result {
+            case let .success(data):
+                break
+            case .failure(_):
+                break
+            }
+        }
+    }
+
     
     
 }

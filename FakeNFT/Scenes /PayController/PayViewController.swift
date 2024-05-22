@@ -20,7 +20,7 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
     
     private var presenter: PayPresenterProtocol?
     private let agreeUrl = URL(string: "https://yandex.ru/legal/practicum_termsofuse/")
-    private var cartPresenter: CartPresenter?
+//    private var cartPresenter: CartPresenter?
     var cartController: CartViewController
     
     private let servicesAssembly: ServicesAssembly
@@ -201,6 +201,9 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         if payResult {
             let successPayController = SuccessPayController()
             successPayController.modalPresentationStyle = .fullScreen
+            self.cartController.presenter?.cartContent = []
+            self.cartController.updateCartTable()
+            self.cartController.showEmptyCart()
             present(successPayController, animated: true) {
                 self.navigationController?.popViewController(animated: true)
                 self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?[0]
