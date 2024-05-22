@@ -12,6 +12,8 @@ protocol NftByIdStorageProtocol: AnyObject {
     
     func saveNftById(_ nftById: NftDataModel)
     func getNftById(with id: String) -> NftDataModel?
+    func removeNftById(with id: String)
+    func removeAllNft()
 }
 
 final class NftByIdStorage: NftByIdStorageProtocol{
@@ -24,5 +26,13 @@ final class NftByIdStorage: NftByIdStorageProtocol{
 
     func getNftById(with id: String) -> NftDataModel? {
         storage[id]
+    }
+    
+    func removeNftById(with id: String) {
+        storage[id] = nil
+    }
+    
+    func removeAllNft() {
+        storage = [:]
     }
 }

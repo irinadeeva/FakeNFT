@@ -99,11 +99,12 @@ final class MyOrderCell: UITableViewCell {
         
         cardView.addSubview(cardImageView)
         cardView.addSubview(nameCardLabel)
-        cardView.addSubview(starImageView)
+       
         cardView.addSubview(priceLabel)
         cardView.addSubview(moneyLabel)
         
         cardImageView.addSubview(likeImageView)
+        cardView.addSubview(starImageView)
     }
     
     private func setupLayoutCardView() {

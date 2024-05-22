@@ -30,9 +30,6 @@ final class PayPresenter: PayPresenterProtocol {
         }
     }
     
-    //    var mock1 = CurrencyDataModel(title: "Bitcoin", name: "BTC", image: "Bitcoin", id: "1")
-    //    var mock2 = CurrencyDataModel(title: "Tether", name: "USDT", image: "Tether", id: "2")
-    
     init(payController: PayViewControllerProtocol, payService: PayServiceProtocol, orderService: OrderServiceProtocol) {
         self.payController = payController
         self.payService = payService

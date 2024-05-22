@@ -81,7 +81,7 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
     
     init(servicesAssembly: ServicesAssembly) {
         self.servicesAssembly = servicesAssembly
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil, bundle: nil) 
     }
     
     required init?(coder: NSCoder) {
@@ -94,6 +94,7 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
         presenter?.getOrder()
         tableView.reloadData()
         showEmptyCart()
+        presenter?.setOrder()
     }
     
     override func viewDidLoad() {
@@ -214,8 +215,9 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
             setupNavigationBar()
             guard let count = presenter?.count() else { return }
             guard let totalPrice = presenter?.totalPrice() else { return }
+            let moneyText = String(NSString(format: "%.2f",totalPrice))
+            moneyLabel.text = "\(moneyText) ETH"
             amountLabel.text = "\(count) NFT"
-            moneyLabel.text = "\(totalPrice) ETH"
             emptyCartLabel.isHidden = true
             imagePay.isHidden = false
             tableView.reloadData()
@@ -256,7 +258,7 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension CartViewController: CartTableViewCellDelegate {
     func didTapDeleteButton(id: String, image: UIImage) {
-        let deleteViewController = DeleteCardViewController(nftImage: image, idForDelete: id)
+        let deleteViewController = DeleteCardViewController(servicesAssembly: servicesAssembly, nftImage: image, idForDelete: id, cartContrroller: self)
         deleteViewController.modalPresentationStyle = .overCurrentContext
         self.tabBarController?.present(deleteViewController, animated: true)
     }
