@@ -7,11 +7,18 @@
 
 import UIKit
 
+protocol BackButtonDelegate: AnyObject {
+    func didTapBackButton(for nftIds: [String])
+}
+
 final class FavouriteNftViewController: UIViewController {
+    weak var delegate: BackButtonDelegate?
 
     internal lazy var activityIndicator = UIActivityIndicatorView()
 
     private var nfts: [Nft] = []
+
+    private var unlikeNftIds: [String] = []
 
     private var presenter: NftPresenter
 
@@ -107,6 +114,7 @@ extension FavouriteNftViewController {
     }
 
     @objc private func backButtonTapped() {
+        delegate?.didTapBackButton(for: unlikeNftIds)
         navigationController?.popViewController(animated: true)
     }
 }
@@ -143,7 +151,7 @@ extension FavouriteNftViewController: UICollectionViewDataSource {
 
         let nft = nfts[indexPath.item]
         cell.updateCell(with: nft)
-
+        cell.delegate = self
         return cell
     }
 }
@@ -161,5 +169,16 @@ extension FavouriteNftViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: params.leftInset, bottom: 0, right: params.rightInset)
+    }
+}
+
+extension FavouriteNftViewController: FavouriteNftsCellDelegate {
+    func didTapLike(_ cell: FavouriteNftsCell) {
+        guard let indexPath = nftsCollection.indexPath(for: cell) else { return }
+
+        let nft = nfts.remove(at: indexPath.row)
+        unlikeNftIds.append(nft.id)
+
+        nftsCollection.reloadData()
     }
 }

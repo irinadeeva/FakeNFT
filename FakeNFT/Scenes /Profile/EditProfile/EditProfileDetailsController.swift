@@ -13,19 +13,25 @@ protocol EditProfileDetailsView: AnyObject, ErrorView, LoadingView {
     func dismissView()
 }
 
+protocol EditProfileDetailsViewDelegate: AnyObject {
+    func didTapClose()
+}
+
 final class EditProfileDetailsViewController: UIViewController {
+
+    weak var delegate: EditProfileDetailsViewDelegate?
 
     internal lazy var activityIndicator = UIActivityIndicatorView()
 
     private let presenter: EditProfileDetailsPresenter
 
-    private var profileImageUrl: URL?
+    private var profileAvatar: String?
 
     private lazy var closeButton: UIButton = {
         let button = UIButton()
         button.tintColor = .closeButton
         button.setImage(UIImage(named: "close"), for: .normal)
-        button.addTarget(self, action: #selector(close), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
         return button
     }()
 
@@ -224,14 +230,14 @@ extension EditProfileDetailsViewController {
     }
 
     private func updateProfileImage() {
-        if profileImageUrl != nil {
+        if let avatar = profileAvatar {
             let processor = RoundCornerImageProcessor(cornerRadius: 61)
             let placeholder = UIImage(named: "ProfileStub")
 
             profileImage.kf.indicatorType = .activity
 
             profileImage.kf.setImage(
-                with: profileImageUrl,
+                with: URL(string: avatar),
                 placeholder: placeholder,
                 options: [.processor(processor),
                           .cacheMemoryOnly
@@ -242,22 +248,20 @@ extension EditProfileDetailsViewController {
         }
     }
 
-    @objc private func close() {
+    @objc private func didTapClose() {
         guard let name = nameTextField.text,
               let description = descriptionTextView.text,
-              let websiteString = websiteTextField.text
+              let website = websiteTextField.text,
+              let avatar = profileAvatar
         else {
             return
         }
 
-        let website = URL(fileURLWithPath: websiteString)
-
         let updatedProfile = ProfileToUpload(
-            userName: name,
+            name: name,
             description: description,
-            userWebsite: website,
-            imageURL: profileImageUrl,
-            likes: []
+            website: website,
+            avatar: avatar
         )
 
         presenter.updateProfile(with: updatedProfile)
@@ -277,7 +281,7 @@ extension EditProfileDetailsViewController {
         let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
         let saveAction = UIAlertAction(title: "Сохранить", style: .default) { [weak self] _ in
             if let link = alertController.textFields?.first?.text {
-                self?.profileImageUrl = URL(fileURLWithPath: link)
+                self?.profileAvatar = link
                 self?.updateProfileImage()
             }
         }
@@ -305,15 +309,16 @@ extension EditProfileDetailsViewController: EditProfileDetailsView {
             $0.isHidden = false
         }
 
-        nameTextField.text = profile.userName
+        nameTextField.text = profile.name
         descriptionTextView.text = profile.description
-        websiteTextField.text = profile.userWebsite.absoluteString
-        profileImageUrl =  profile.imageURL
+        websiteTextField.text = profile.website
+        profileAvatar =  profile.avatar
 
         updateProfileImage()
     }
 
     func dismissView() {
+        delegate?.didTapClose()
         dismiss(animated: true)
     }
 }

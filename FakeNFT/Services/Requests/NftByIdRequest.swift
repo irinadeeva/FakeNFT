@@ -3,7 +3,7 @@ import Foundation
 struct NFTRequest: NetworkRequest {
     var httpMethod: HttpMethod
 
-    var dto: (any Encodable)?
+    var dto: Data?
 
     let id: String
 

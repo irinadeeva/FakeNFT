@@ -8,21 +8,26 @@
 import Foundation
 
 struct Profile: Decodable {
-    let userId: UUID
-    let userName: String
-    let imageURL: URL?
+    let id: UUID
+    let name: String
+    let avatar: String
     let description: String
-    let nftIds: [String]
-    let userWebsite: URL
+    let nfts: [String]
+    let website: String
     let likes: [String]
 
-    private enum CodingKeys: String, CodingKey {
-        case userId = "id"
-        case userName = "name"
-        case imageURL = "avatar"
-        case description = "description"
-        case userWebsite = "website"
-        case nftIds = "nfts"
-        case likes = "likes"
-    }
+    func toFormData() -> String {
+            let encodedName = name
+            let encodedAvatar = avatar.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
+            let encodedDescription = description
+            let encodedWebsite = website.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
+            let encodedNfts = nfts.map { String($0) }.joined(separator: ",")
+            var encodedLikes = likes.map { String($0) }.joined(separator: ",")
+            if encodedLikes.isEmpty {
+                encodedLikes = "null"
+            }
+            let encodedId = id
+
+            return "&name=\(encodedName)&avatar=\(encodedAvatar)&description=\(encodedDescription)&website=\(encodedWebsite)&nfts=\(encodedNfts)&likes=\(encodedLikes)&id=\(encodedId)"
+        }
 }

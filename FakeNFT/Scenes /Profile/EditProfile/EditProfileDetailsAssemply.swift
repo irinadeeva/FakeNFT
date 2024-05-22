@@ -9,15 +9,15 @@ import UIKit
 
 public final class EditProfileDetailsAssembly {
 
-    private let servicesAssembler: ServicesAssembly
+    private let profileService: ProfileService
 
-    init(servicesAssembler: ServicesAssembly) {
-        self.servicesAssembler = servicesAssembler
+    init(profileService: ProfileService) {
+        self.profileService = profileService
     }
 
-    func build() -> UIViewController {
+    func build() -> EditProfileDetailsViewController {
         let presenter = EditProfileDetailsPresenterImpl(
-            service: servicesAssembler.profileService
+            service: profileService
         )
 
         let viewController = EditProfileDetailsViewController(presenter: presenter)

@@ -8,17 +8,8 @@
 import Foundation
 
 struct ProfileToUpload: Encodable {
-    let userName: String
+    let name: String
     let description: String
-    let userWebsite: URL
-    let imageURL: URL?
-    var likes: [String]
-
-    private enum CodingKeys: String, CodingKey {
-        case userName = "name"
-        case imageURL = "avatar"
-        case description = "description"
-        case userWebsite = "website"
-        case likes = "likes"
-    }
+    let website: String
+    let avatar: String
 }

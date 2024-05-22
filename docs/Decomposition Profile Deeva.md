@@ -37,8 +37,7 @@ Total: est: 590 min; fact: 410 min.
 ## Этап 3:
 
 #### Логика
-- Реализация функционала редактирования (put запрос)(est: 120 min; fact: x min).
-- Удаление NFT из избранного (est: 60 min; fact: x min).
+- Реализация функционала редактирования (put запрос)(est: 120 min; fact: 600 min).
+- Удаление NFT из избранного (est: 60 min; fact: 40 min).
 
-Total: est: 180 min; fact: x min.
-
+Total: est: 180 min; fact: 640 min.
