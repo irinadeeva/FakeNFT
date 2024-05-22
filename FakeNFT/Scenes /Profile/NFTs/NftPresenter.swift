@@ -4,7 +4,6 @@ import Foundation
 
 protocol NftPresenter {
     func viewDidLoad()
-    func removeFromLikes()
     func sortByPrice(nfts: [Nft])
     func sortByRating(nfts: [Nft])
     func sortByName(nfts: [Nft])
@@ -38,10 +37,6 @@ final class NftPresenterImpl: NftPresenter {
 
     func viewDidLoad() {
         state = .loading
-    }
-
-    func removeFromLikes() {
-
     }
 
     func sortByPrice(nfts: [Nft]) {
