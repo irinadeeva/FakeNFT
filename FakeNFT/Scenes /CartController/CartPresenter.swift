@@ -119,10 +119,6 @@ final class CartPresenter: CartPresenterProtocol {
                     self.viewController?.showEmptyCart()
                     self.viewController?.stopLoadIndicator()
                     self.sortCart(filter: self.currentFilter)
-                    
-                    guard let order = self.orderService?.nftsStorage else { return }
-                    self.cartContent = order
-                    
                     self.viewController?.updateCartTable()
                 case .failure(let error):
                     print(error)

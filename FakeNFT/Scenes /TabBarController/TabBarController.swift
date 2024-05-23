@@ -4,7 +4,6 @@ final class TabBarController: UITabBarController {
     
   
     var servicesAssembly: ServicesAssembly!
-//    var presenter: CartPresenterProtocol
 
     private let catalogTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.catalog", comment: ""),

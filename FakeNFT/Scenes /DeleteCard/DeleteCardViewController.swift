@@ -15,9 +15,7 @@ protocol CartDeleteControllerProtocol: AnyObject {
 }
 
 final class DeleteCardViewController: UIViewController, CartDeleteControllerProtocol {
-
-    
-    
+   
     private var presenter: DeleteCardPresenterProtocol?
     private let servicesAssembly: ServicesAssembly
     private (set) var nftImage: UIImage

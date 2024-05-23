@@ -20,7 +20,6 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
     
     private var presenter: PayPresenterProtocol?
     private let agreeUrl = URL(string: "https://yandex.ru/legal/practicum_termsofuse/")
-//    private var cartPresenter: CartPresenter?
     var cartController: CartViewController
     
     private let servicesAssembly: ServicesAssembly

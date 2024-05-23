@@ -30,7 +30,8 @@ final class DeleteCardPresenter: DeleteCardPresenterProtocol {
     
     func deleteNFTfromCart(completion: @escaping (Result<[String], Error>) -> Void) {
         viewController?.startLoadIndicator()
-        orderService?.removeNftFromStorage(id: nftIdForDelete, completion: { result in
+        orderService?.removeNftFromStorage(id: nftIdForDelete, completion: { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case let .success(data):
                 self.viewController?.stopLoadIndicator()

@@ -22,7 +22,6 @@ protocol OrderServiceProtocol {
 }
 
 final class OrderService: OrderServiceProtocol {
-//    var cartPresenter: (any CartPresenterProtocol)?
     
     private let networkClient: NetworkClient
     private let orderStorage: OrderStorageProtocol
