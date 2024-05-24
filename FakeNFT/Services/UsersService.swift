@@ -8,19 +8,18 @@ protocol UsersServiceProtocol {
 }
 
 final class UsersService: UsersServiceProtocol {
-    
+
     private let storage: UsersStorage
     private let networkClient: NetworkClient
-    
+
     init(networkClient: NetworkClient, storage: UsersStorage) {
         self.storage = storage
         self.networkClient = networkClient
     }
-    
+
     func loadUsers(completion: @escaping UsersCompletion) {
-        
         let request = UsersRequest()
-        
+
         networkClient.send(request: request, type: [User].self) { [weak storage] result in
             switch result {
             case .success(let users):

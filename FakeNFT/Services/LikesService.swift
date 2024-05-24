@@ -9,17 +9,17 @@ protocol LikesServiceProtocol {
 }
 
 final class LikesService: LikesServiceProtocol {
-    
+
     private let networkClient: NetworkClient
-    
+
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
-    
+
     func getLikes(completion: @escaping LikesCompletion) {
-        
+
         let request = GetLikesRequest()
-        
+
         networkClient.send(request: request, type: Likes.self) { result in
             switch result {
             case .success(let likes):
@@ -29,9 +29,8 @@ final class LikesService: LikesServiceProtocol {
             }
         }
     }
-    
+
     func putLikes(likes: [String], completion: @escaping LikesCompletion) {
-        
         let request = PutLikesRequest(likes: likes)
 
         networkClient.send(request: request, type: Likes.self) { result in

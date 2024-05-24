@@ -10,25 +10,52 @@ final class TabBarController: UITabBarController {
         tag: 3
     )
 
+    private let profileTabBarItem = UITabBarItem(
+        title: NSLocalizedString("Tab.profile", comment: ""),
+        image: UIImage(systemName: "person.crop.circle.fill"),
+        tag: 0
+    )
+
+    private let catalogTabBarItem = UITabBarItem(
+        title: NSLocalizedString("Tab.catalog", comment: ""),
+        image: UIImage(systemName: "square.stack.3d.up.fill"),
+        tag: 1
+    )
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let statisticsAsssembly = StatisticsAssembly(servicesAssembler: servicesAssembly ?? ServicesAssembly(
-            networkClient: DefaultNetworkClient(),
-            nftStorage: NftStorageImpl(),
-            usersStorage: UsersStorage()
-        ))
+        guard let servicesAssembly else {
+            return
+        }
+
+        let statisticsAsssembly = StatisticsAssembly(servicesAssembler: servicesAssembly)
         let statisticsController = UINavigationController(rootViewController: statisticsAsssembly.build())
         statisticsController.tabBarItem = statisticsTabBarItem
-        
 
-        viewControllers = [statisticsController]
-        selectedIndex = 0
+        let presenter = ProfilePresenterImpl(
+            profileService: servicesAssembly.profileService,
+            nftService: servicesAssembly.nftService
+        )
+
+        let viewController = ProfileViewController(presenter: presenter)
+        presenter.view = viewController
+        let profileController = UINavigationController(rootViewController: viewController)
+        profileController.tabBarItem = profileTabBarItem
+
+        let catalogController = TestCatalogViewController(
+            servicesAssembly: servicesAssembly
+        )
+        catalogController.tabBarItem = catalogTabBarItem
+
+        viewControllers = [profileController, catalogController, statisticsController]
+
         view.backgroundColor = .background
+        selectedIndex = 0
         view.tintColor = UIColor.segmentActive
+
     }
-    
+
     func hideTabBar() {
         view.removeFromSuperview()
     }

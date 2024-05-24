@@ -6,14 +6,14 @@ protocol StatisticsViewProtocol: AnyObject, ErrorView, LoadingView, SortingView 
 }
 
 final class StatisticsViewController: UIViewController {
-    
+
     // MARK: - Properties
-    
+
     private let presenter: StatisticsPresenterProtocol
     private var cellModels = [UserCellModel]()
-    
+
     internal lazy var activityIndicator = UIActivityIndicatorView()
-    
+
     private lazy var sortingButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "sort") ?? UIImage(), for: .normal)
@@ -21,7 +21,7 @@ final class StatisticsViewController: UIViewController {
         button.addTarget(self, action: #selector(didTapSortingButton), for: .touchUpInside)
         return button
     }()
-    
+
     private var statisticsTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(StatisticsTableCell.self)
@@ -29,7 +29,7 @@ final class StatisticsViewController: UIViewController {
         tableView.backgroundColor = .background
         return tableView
     }()
-    
+
     // MARK: - Init
 
     init(presenter: StatisticsPresenterProtocol) {
@@ -40,29 +40,29 @@ final class StatisticsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Functions
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
         presenter.viewDidLoad()
     }
-    
+
     @IBAction private func didTapSortingButton() {
         presenter.showSortingMenu()
     }
-    
+
     private func setupViews() {
-        
+
         view.backgroundColor = .background
-        
+
         [sortingButton, statisticsTableView].forEach {
              view.addSubview($0)
              $0.translatesAutoresizingMaskIntoConstraints = false
            }
-        
+
         view.addSubview(statisticsTableView)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sortingButton)
 
@@ -70,7 +70,7 @@ final class StatisticsViewController: UIViewController {
         statisticsTableView.dataSource = self
         statisticsTableView.delegate = self
     }
-    
+
     private func setupConstraints() {
         activityIndicator.constraintCenters(to: statisticsTableView)
         NSLayoutConstraint.activate([
@@ -97,7 +97,7 @@ extension StatisticsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cellModels.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: StatisticsTableCell = statisticsTableView.dequeueReusableCell()
         let cellModel = cellModels[indexPath.row]
@@ -111,13 +111,13 @@ extension StatisticsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 88
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let userCellModel = cellModels[indexPath.row]
         showUserInfoVC(with: userCellModel.id)
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
+
     private func showUserInfoVC(with userID: String) {
         let assembly = UserInfoAssembly()
         let userInfoVC = assembly.build(with: userID)

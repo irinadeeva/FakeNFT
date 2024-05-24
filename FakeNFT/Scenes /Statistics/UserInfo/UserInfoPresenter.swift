@@ -15,11 +15,11 @@ enum UserInfoState {
 }
 
 final class UserInfoPresenter: UserInfoPresenterProtocol {
-    
+
     // MARK: - Properties
     weak var view: UserInfoViewProtocol?
     internal var user: UserInfo?
-    
+
     private let userID: String
     private let service: UserInfoServiceProtocol
     private var state = UserInfoState.initial {
@@ -27,18 +27,18 @@ final class UserInfoPresenter: UserInfoPresenterProtocol {
             stateDidChanged()
         }
     }
-    
+
     // MARK: - Init
     init(userID: String, service: UserInfoServiceProtocol) {
         self.userID = userID
         self.service = service
     }
-    
+
     // MARK: - Functions
     func viewDidLoad() {
         state = .loading
     }
-    
+
     private func stateDidChanged() {
         switch state {
         case .initial:
@@ -56,7 +56,7 @@ final class UserInfoPresenter: UserInfoPresenterProtocol {
             view?.showError(errorModel)
         }
     }
-    
+
     private func loadUserInfo() {
         service.loadUserInfo(with: userID) { [weak self] result in
             switch result {
@@ -67,7 +67,7 @@ final class UserInfoPresenter: UserInfoPresenterProtocol {
             }
         }
     }
-    
+
     private func makeErrorModel(_ error: Error) -> ErrorModel {
         let message: String
         switch error {
@@ -82,7 +82,7 @@ final class UserInfoPresenter: UserInfoPresenterProtocol {
             self?.state = .loading
         }
     }
-    
+
     func getNftsStringArray() -> [String] {
         guard let user = user else {
             return []

@@ -9,17 +9,17 @@ protocol OrdersServiceProtocol {
 }
 
 final class OrdersService: OrdersServiceProtocol {
-    
+
     private let networkClient: NetworkClient
-    
+
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
-    
+
     func getOrders(completion: @escaping OrdersCompletion) {
-        
+
         let request = GetOrdersRequest()
-        
+
         networkClient.send(request: request, type: Orders.self) { result in
             switch result {
             case .success(let orders):
@@ -29,11 +29,11 @@ final class OrdersService: OrdersServiceProtocol {
             }
         }
     }
-    
+
     func putOrders(orders: [String], completion: @escaping OrdersCompletion) {
-        
+
         let request = PutOrdersRequest(orders: orders)
-        
+
         networkClient.send(request: request, type: Orders.self) { result in
             switch result {
             case .success(let orders):
@@ -44,4 +44,3 @@ final class OrdersService: OrdersServiceProtocol {
         }
     }
 }
-

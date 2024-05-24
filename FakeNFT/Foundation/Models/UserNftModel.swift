@@ -23,11 +23,11 @@ struct UserNftCellModel {
     let rating: Int
     var like: Bool
     var order: Bool
-    
+
     mutating func changeLike() {
         like.toggle()
     }
-    
+
     mutating func changeOrder() {
         order.toggle()
     }

@@ -10,17 +10,17 @@ protocol UserNftsServiceProtocol {
 }
 
 final class UserNftsService: UserNftsServiceProtocol {
-    
+
     private let networkClient: NetworkClient
-    
+
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
-    
+
     func loadUserNft(with id: String, completion: @escaping UserNftCompletion) {
-        
+
         let request = UserNftRequest(id: id)
-        
+
         networkClient.send(request: request, type: UserNft.self) { result in
             switch result {
             case .success(let nft):
@@ -30,12 +30,12 @@ final class UserNftsService: UserNftsServiceProtocol {
             }
         }
     }
-    
+
     func loadNfts(with nftsID: [String], completion: @escaping UserNftsCompletion) {
         var nfts = [UserNft]()
         nftsID.forEach {
-            self.loadUserNft(with: $0){ result in
-                switch result{
+            self.loadUserNft(with: $0) { result in
+                switch result {
                 case .success(let nft):
                     nfts.append(nft)
                     if nfts.count == nftsID.count {
@@ -48,4 +48,3 @@ final class UserNftsService: UserNftsServiceProtocol {
         }
     }
 }
-

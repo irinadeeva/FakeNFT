@@ -7,40 +7,40 @@ protocol UserInfoViewProtocol: AnyObject, ErrorView, LoadingView {
 }
 
 final class UserInfoViewController: UIViewController {
-   
+
     // MARK: - Properties
     private let presenter: UserInfoPresenterProtocol
     internal var activityIndicator = UIActivityIndicatorView()
-    
-    //MARK: - UI elements
+
+    // MARK: - UI elements
     private lazy var navigationBar: UINavigationBar = {
         let navBar = UINavigationBar()
         navBar.barTintColor = .systemBackground
-        
+
         let navItem = UINavigationItem(title: "")
         navItem.leftBarButtonItem =  UIBarButtonItem(customView: backButton)
         navBar.setItems([navItem], animated: false)
-        
+
         navBar.shadowImage = UIImage()
         navBar.setBackgroundImage(UIImage(), for: .default)
-        
+
         return navBar
     }()
-    
+
     private lazy var backButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "back") ?? UIImage(), for: .normal)
         button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         return button
     }()
-    
+
     private let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.distribution = .equalSpacing
         return stack
     }()
-    
+
     private lazy var avatarImage: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 35
@@ -48,7 +48,7 @@ final class UserInfoViewController: UIViewController {
         imageView.backgroundColor = .textColor
         return imageView
     }()
-    
+
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .headline3
@@ -56,7 +56,7 @@ final class UserInfoViewController: UIViewController {
         label.numberOfLines = 2
         return label
     }()
-    
+
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = .caption2
@@ -64,7 +64,7 @@ final class UserInfoViewController: UIViewController {
         label.numberOfLines = 6
         return label
     }()
-    
+
     private lazy var openSiteButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle(NSLocalizedString("UserInfo.openSite", comment: ""), for: .normal)
@@ -76,7 +76,7 @@ final class UserInfoViewController: UIViewController {
         button.addTarget(self, action: #selector(didTapOpenSiteButton), for: .touchUpInside)
         return button
     }()
-    
+
     private var infoNFTTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(InfoNFTTableCell.self)
@@ -85,7 +85,7 @@ final class UserInfoViewController: UIViewController {
         tableView.backgroundColor = .background
         return tableView
     }()
-    
+
     // MARK: - Init
     init(presenter: UserInfoPresenterProtocol) {
         self.presenter = presenter
@@ -95,7 +95,7 @@ final class UserInfoViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,12 +103,12 @@ final class UserInfoViewController: UIViewController {
         setupConstraints()
         presenter.viewDidLoad()
     }
-    
+
     @objc
     private func didTapBackButton() {
         dismiss(animated: true)
     }
-    
+
     @objc
     private func didTapOpenSiteButton() {
         if let url = presenter.user?.website {
@@ -118,15 +118,15 @@ final class UserInfoViewController: UIViewController {
             present(webViewVC, animated: true)
         }
     }
-    
-    //MARK: - Layout
+
+    // MARK: - Layout
     private func setupViews() {
-        
+
         [navigationBar, backButton, stackView, avatarImage, nameLabel, descriptionLabel, openSiteButton, infoNFTTableView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
           }
-        
+
         view.backgroundColor = .background
         view.addSubview(activityIndicator)
         view.addSubview(navigationBar)
@@ -140,7 +140,7 @@ final class UserInfoViewController: UIViewController {
         infoNFTTableView.delegate = self
         infoNFTTableView.reloadData()
     }
-    
+
     private func setupConstraints() {
         activityIndicator.constraintCenters(to: view)
         NSLayoutConstraint.activate([
@@ -186,7 +186,7 @@ extension UserInfoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: InfoNFTTableCell = infoNFTTableView.dequeueReusableCell()
         if let user = presenter.user {
@@ -198,14 +198,14 @@ extension UserInfoViewController: UITableViewDataSource {
 }
 
 extension UserInfoViewController: UITableViewDelegate {
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             showUserNftsVC()
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
-    
+
     private func showUserNftsVC() {
         let assembly = UserNftsAssembly()
         let userNftsVC = assembly.build(with: presenter.getNftsStringArray())
