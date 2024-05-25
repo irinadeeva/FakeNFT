@@ -124,6 +124,14 @@ struct DefaultNetworkClient: NetworkClient {
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
             urlRequest.httpBody = dtoEncoded
         }
+        
+        if (request.isUrlEncoded) {
+          urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        }
+        
+        if let token = request.token {
+          urlRequest.setValue(token, forHTTPHeaderField: "X-Practicum-Mobile-Token")
+        }
 
         return urlRequest
     }
@@ -137,3 +145,4 @@ struct DefaultNetworkClient: NetworkClient {
         }
     }
 }
+

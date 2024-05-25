@@ -30,9 +30,6 @@ final class PayPresenter: PayPresenterProtocol {
         }
     }
     
-    //    var mock1 = CurrencyDataModel(title: "Bitcoin", name: "BTC", image: "Bitcoin", id: "1")
-    //    var mock2 = CurrencyDataModel(title: "Tether", name: "USDT", image: "Tether", id: "2")
-    
     init(payController: PayViewControllerProtocol, payService: PayServiceProtocol, orderService: OrderServiceProtocol) {
         self.payController = payController
         self.payService = payService
@@ -55,6 +52,7 @@ final class PayPresenter: PayPresenterProtocol {
             guard let self = self else { return }
             switch result {
             case let .success(data):
+                self.emptyCart()
                 self.payController?.didPay(payResult: data.success)
                 self.payController?.stopLoadIndicator()
             case .failure(_):
@@ -79,6 +77,18 @@ final class PayPresenter: PayPresenterProtocol {
             }
         }
     }
+    
+    func emptyCart() {
+        orderService?.removeAllNftFromStorage() { result in
+            switch result {
+            case let .success(data):
+                break
+            case .failure(_):
+                break
+            }
+        }
+    }
+
     
     
 }

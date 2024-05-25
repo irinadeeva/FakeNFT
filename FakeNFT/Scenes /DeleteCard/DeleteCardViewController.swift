@@ -15,14 +15,19 @@ protocol CartDeleteControllerProtocol: AnyObject {
 }
 
 final class DeleteCardViewController: UIViewController, CartDeleteControllerProtocol {
-    
+   
     private var presenter: DeleteCardPresenterProtocol?
+    private let servicesAssembly: ServicesAssembly
     private (set) var nftImage: UIImage
     private var idForDelete: String
+    var cartController: CartViewController
     
-    init(nftImage: UIImage, idForDelete: String) {
+    init(servicesAssembly: ServicesAssembly, nftImage: UIImage, idForDelete: String, cartContrroller: CartViewController) {
+        self.servicesAssembly = servicesAssembly
         self.nftImage = nftImage
         self.idForDelete = idForDelete
+        self.cartController = cartContrroller
+    
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -98,7 +103,7 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
         setupLayoutDeleteCardView()
         setupLayout()
         
-        presenter = DeleteCardPresenter(viewController: self, nftIdForDelete: idForDelete, nftImage: nftImage)
+        presenter = DeleteCardPresenter(viewController: self, orderService: servicesAssembly.orderService, nftIdForDelete: idForDelete, nftImage: nftImage)
     }
     
     private func addSubviews() {
@@ -163,6 +168,8 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
             guard let self = self else { return }
             switch result {
             case .success(_):
+                self.cartController.presenter?.getOrder()
+                self.cartController.updateCartTable()
                 self.dismiss(animated: true)
             case let .failure(error):
                 print(error)

@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-//import Kingfisher
 
 final class PayCell: UICollectionViewCell {
     
@@ -34,14 +33,12 @@ final class PayCell: UICollectionViewCell {
  
      lazy var moneyImageView: UIImageView = {
         let  moneyImageView = UIImageView()
-    //    moneyImageView.image = UIImage(named: "Bitcoin (BTC)")
          moneyImageView.translatesAutoresizingMaskIntoConstraints = false
         return  moneyImageView
     }()
     
      lazy var moneyNameLabel: UILabel = {
         let moneyNameLabel = UILabel()
-   //     moneyNameLabel.text = "Bitcoin"
         moneyNameLabel.font = .caption2
         moneyNameLabel.textColor = UIColor(named: "Black")
         moneyNameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -51,7 +48,6 @@ final class PayCell: UICollectionViewCell {
      lazy var moneyShotLabel: UILabel = {
         let moneyShotLabel = UILabel()
         moneyShotLabel.font = .caption2
-    //    moneyShotLabel.text = "ВТС"
         moneyShotLabel.textColor = UIColor(named: "Green")
         moneyShotLabel.translatesAutoresizingMaskIntoConstraints = false
         return moneyShotLabel

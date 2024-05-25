@@ -16,6 +16,7 @@ protocol CartPresenterProtocol {
     func count() -> Int
     func getOrder()
     func getNftById(id: String)
+    func setOrder()
     func getModel(indexPath: IndexPath) -> NftDataModel
     func sortCart(filter: CartFilter.FilterBy)
 }
@@ -49,6 +50,7 @@ final class CartPresenter: CartPresenterProtocol {
         self.viewController = viewController
         self.orderService = orderService
         self.nftByIdService = nftByIdService
+        self.orderService?.cartPresenter = self
     }
         
     func totalPrice() -> Float {
@@ -61,6 +63,7 @@ final class CartPresenter: CartPresenterProtocol {
     
     func count() -> Int {
         let count: Int = cartContent.count
+        print(count)
         return count
     }
     
@@ -116,11 +119,6 @@ final class CartPresenter: CartPresenterProtocol {
                     self.viewController?.showEmptyCart()
                     self.viewController?.stopLoadIndicator()
                     self.sortCart(filter: self.currentFilter)
-                    
-                    /*guard let order = self.orderService?.nftsStorage else { return }
-                    self.cartContent = order
-                    
-                    self.viewController?.updateCartTable()*/
                     self.viewController?.updateCartTable()
                 case .failure(let error):
                     print(error)
@@ -148,5 +146,13 @@ final class CartPresenter: CartPresenterProtocol {
         viewController?.updateCartTable()
         
     }
+    
+    @objc private func didCartSorted(_ notification: Notification) {
+        guard let orderService = orderService  else { return }
+        
+        let orderUnsorted = orderService.nftsStorage.compactMap { NftDataModel(nft: $0) }
+        cartContent = orderUnsorted.sorted(by: CartFilter.filter[currentFilter] ?? CartFilter.filterById )
+    }
+    
 }
 
