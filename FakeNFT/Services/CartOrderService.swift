@@ -21,7 +21,7 @@ protocol OrderServiceProtocol {
     func removeAllNftFromStorage(completion: @escaping RemoveAllNftCompletion)
 }
 
-final class OrderService: OrderServiceProtocol {
+final class CartOrderService: OrderServiceProtocol {
     
     private let networkClient: NetworkClient
     private let orderStorage: OrderStorageProtocol
