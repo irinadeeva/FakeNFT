@@ -201,5 +201,3 @@
 - экран «Корзина» — по названию;
 - экран «Мои NFT» — по рейтингу;
 - экран «Статистика» — по рейтингу.
-
-https://github.com/irinadeeva/FakeNFT/blob/develop/video/Simulator%20Screen%20Recording%20-%20iPhone%2015%20Pro%20-%202024-05-27%20at%2015.54.08.mp4
