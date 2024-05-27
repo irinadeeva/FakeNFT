@@ -45,7 +45,6 @@
 		1FA3B3342BFBEFF2001DB0AA /* EmptyOrderRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA3B3332BFBEFF2001DB0AA /* EmptyOrderRequest.swift */; };
 		1FEA64462BEA8FC400BE271F /* PayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA64452BEA8FC400BE271F /* PayViewController.swift */; };
 		1FEA64482BEA901B00BE271F /* PayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA64472BEA901B00BE271F /* PayCell.swift */; };
-		1FEA644A2BEAC95600BE271F /* WebViewСontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA64492BEAC95600BE271F /* WebViewСontroller.swift */; };
 		1FEA644C2BEB6BFB00BE271F /* CurrencyDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA644B2BEB6BFB00BE271F /* CurrencyDataModel.swift */; };
 		1FEA644E2BEB818E00BE271F /* PayPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA644D2BEB818E00BE271F /* PayPresenter.swift */; };
 		1FEA64502BEBD27700BE271F /* SuccessPayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA644F2BEBD27700BE271F /* SuccessPayController.swift */; };
@@ -186,7 +185,6 @@
 		1FA3B3332BFBEFF2001DB0AA /* EmptyOrderRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyOrderRequest.swift; sourceTree = "<group>"; };
 		1FEA64452BEA8FC400BE271F /* PayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayViewController.swift; sourceTree = "<group>"; };
 		1FEA64472BEA901B00BE271F /* PayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayCell.swift; sourceTree = "<group>"; };
-		1FEA64492BEAC95600BE271F /* WebViewСontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebViewСontroller.swift"; sourceTree = "<group>"; };
 		1FEA644B2BEB6BFB00BE271F /* CurrencyDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyDataModel.swift; sourceTree = "<group>"; };
 		1FEA644D2BEB818E00BE271F /* PayPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPresenter.swift; sourceTree = "<group>"; };
 		1FEA644F2BEBD27700BE271F /* SuccessPayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessPayController.swift; sourceTree = "<group>"; };
@@ -382,7 +380,6 @@
 				1FEA644D2BEB818E00BE271F /* PayPresenter.swift */,
 				1FEA64472BEA901B00BE271F /* PayCell.swift */,
 				1FEA644F2BEBD27700BE271F /* SuccessPayController.swift */,
-				1FEA64492BEAC95600BE271F /* WebViewСontroller.swift */,
 			);
 			path = PayController;
 			sourceTree = "<group>";
@@ -924,7 +921,6 @@
 				30010FAE2BEBF07D00C1F223 /* UserStorage.swift in Sources */,
 				BE2385172BF547AE00E31205 /* GeometricParams.swift in Sources */,
 				0C79EE6A2A76DE1000EE90EA /* NftDetailAssembly.swift in Sources */,
-				1FEA644A2BEAC95600BE271F /* WebViewСontroller.swift in Sources */,
 				3FC8C39329D246BA0081F015 /* DateFormatters+Presets.swift in Sources */,
 				BE95A2772C04A7B600F87FE3 /* CartOrderService.swift in Sources */,
 				1F853CF72BE8F7D600A1ECA2 /* CartPresenter.swift in Sources */,
