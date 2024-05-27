@@ -41,5 +41,3 @@ final class NftByIdService: NftByIdServiceProtocol {
         }
     }
 }
-
-

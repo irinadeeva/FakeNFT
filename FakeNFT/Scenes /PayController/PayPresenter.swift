@@ -17,7 +17,7 @@ protocol PayPresenterProtocol {
 }
 
 final class PayPresenter: PayPresenterProtocol {
-    
+
     private weak var payController: PayViewControllerProtocol?
     private var currencies: [CurrencyDataModel] = []
     private var payService: PayServiceProtocol?
@@ -29,22 +29,22 @@ final class PayPresenter: PayPresenterProtocol {
             }
         }
     }
-    
+
     init(payController: PayViewControllerProtocol, payService: PayServiceProtocol, orderService: OrderServiceProtocol) {
         self.payController = payController
         self.payService = payService
         self.orderService = orderService
     }
-    
+
     func count() -> Int {
         return currencies.count
     }
-    
+
     func getModel(indexPath: IndexPath) -> CurrencyDataModel {
         let model = currencies[indexPath.row]
         return model
     }
-    
+
     func payOrder() {
         payController?.startLoadIndicator()
         guard let selectedCurrency = selectedCurrency else { return }
@@ -55,13 +55,13 @@ final class PayPresenter: PayPresenterProtocol {
                 self.emptyCart()
                 self.payController?.didPay(payResult: data.success)
                 self.payController?.stopLoadIndicator()
-            case .failure(_):
+            case .failure:
                 self.payController?.didPay(payResult: false)
                 self.payController?.stopLoadIndicator()
             }
         }
     }
-    
+
     func getCurrencies() {
         payController?.startLoadIndicator()
         payService?.getCurrencies { [weak self] result in
@@ -77,18 +77,16 @@ final class PayPresenter: PayPresenterProtocol {
             }
         }
     }
-    
+
     func emptyCart() {
-        orderService?.removeAllNftFromStorage() { result in
+        orderService?.removeAllNftFromStorage { result in
             switch result {
             case let .success(data):
                 break
-            case .failure(_):
+            case .failure:
                 break
             }
         }
     }
 
-    
-    
 }

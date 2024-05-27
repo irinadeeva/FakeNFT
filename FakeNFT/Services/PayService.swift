@@ -16,16 +16,16 @@ protocol PayServiceProtocol {
 }
 
 final class PayService: PayServiceProtocol {
-    
+
     let networkClient: NetworkClient
-    
+
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
-    
+
     func getCurrencies(completion: @escaping CurrenciesCompletion) {
         let request = CurrenciesRequest()
-        
+
         networkClient.send(request: request, type: [CurrencyDataModel].self) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -37,10 +37,10 @@ final class PayService: PayServiceProtocol {
             }
         }
     }
-    
+
     func payOrder(currencyId: String, completion: @escaping PayCompletion) {
         let request = PayRequest(currencyId: currencyId)
-        
+
         networkClient.send(request: request, type: PayDataModel.self) { result in
             DispatchQueue.main.async {
                 switch result {

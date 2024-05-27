@@ -1,8 +1,7 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
-    
-  
+
     var servicesAssembly: ServicesAssembly!
 
     private let catalogTabBarItem = UITabBarItem(
@@ -10,7 +9,7 @@ final class TabBarController: UITabBarController {
         image: UIImage(systemName: "square.stack.3d.up.fill"),
         tag: 0
     )
-    
+
     private let cartTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.cart", comment: ""),
         image: UIImage(named: "cart"),
@@ -23,11 +22,11 @@ final class TabBarController: UITabBarController {
         let catalogController = TestCatalogViewController(
             servicesAssembly: servicesAssembly
         )
-        
+
         let cartController = CartViewController(servicesAssembly: servicesAssembly)
         catalogController.tabBarItem = catalogTabBarItem
         cartController.tabBarItem = cartTabBarItem
-        
+
         let cartNavigationController = UINavigationController(rootViewController: cartController)
 
         viewControllers = [catalogController, cartNavigationController]

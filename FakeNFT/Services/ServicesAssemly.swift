@@ -23,21 +23,21 @@ final class ServicesAssembly {
             storage: nftStorage
         )
     }
-    
+
     var orderService: OrderServiceProtocol {
-        OrderService(
+        CartOrderService(
             networkClient: networkClient,
             orderStorage: orderStorage,
             nftByIdService: nftByIdService,
             nftStorage: nftByIdStorage)
     }
-    
+
     var nftByIdService: NftByIdServiceProtocol {
         NftByIdService(
             networkClient: networkClient,
             storage: nftByIdStorage)
     }
-    
+
     var payService: PayServiceProtocol {
         PayService(
             networkClient: networkClient)

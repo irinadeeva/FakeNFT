@@ -9,14 +9,14 @@ import Foundation
 import UIKit
 
 final class SuccessPayController: UIViewController {
-    
+
     private lazy var successImage: UIImageView = {
         let  successImage = UIImageView()
         successImage.image = UIImage(named: "Success")
         successImage.translatesAutoresizingMaskIntoConstraints = false
-        return successImage   
+        return successImage
     }()
-    
+
     private lazy var successLabel: UILabel = {
         let successLabel = UILabel()
         successLabel.text = "Успех! Оплата прошла, поздравляем с покупкой!"
@@ -27,7 +27,7 @@ final class SuccessPayController: UIViewController {
         successLabel.translatesAutoresizingMaskIntoConstraints = false
         return successLabel
     }()
-    
+
     private lazy var returnButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .black
@@ -39,7 +39,7 @@ final class SuccessPayController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "White")
@@ -53,29 +53,28 @@ final class SuccessPayController: UIViewController {
         view.addSubview(successLabel)
         view.addSubview(returnButton)
     }
-        
+
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            
+
             successImage.heightAnchor.constraint(equalToConstant: 278),
             successImage.widthAnchor.constraint(equalToConstant: 278),
-            successImage.centerXAnchor.constraint(equalTo:view.centerXAnchor),
+            successImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             successImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            
+
             successLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             successLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 36),
             successLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -36),
             successLabel.topAnchor.constraint(equalTo: successImage.bottomAnchor, constant: 25),
-            
+
             returnButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             returnButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             returnButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             returnButton.heightAnchor.constraint(equalToConstant: 60)
-            
+
         ])
     }
-    
+
     @objc func didTapCatalogButton() {
         self.dismiss(animated: true)
     }

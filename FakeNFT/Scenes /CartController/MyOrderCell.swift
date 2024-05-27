@@ -14,18 +14,18 @@ protocol CartTableViewCellDelegate: AnyObject {
 }
 
 final class MyOrderCell: UITableViewCell {
-    
+
     static let identifier = "MyOrderCell"
     weak var delegate: CartTableViewCellDelegate?
     private var id: String?
-    
+
     private lazy var cardView: UIView = {
         let cardView = UIView()
         cardView.translatesAutoresizingMaskIntoConstraints = false
         cardView.backgroundColor = .white
         return cardView
     }()
-    
+
     private lazy var cardImageView: UIImageView = {
         let  cardImageView = UIImageView()
         cardImageView.layer.cornerRadius = 12
@@ -33,7 +33,7 @@ final class MyOrderCell: UITableViewCell {
         cardImageView.translatesAutoresizingMaskIntoConstraints = false
         return  cardImageView
     }()
-    
+
     private lazy var likeImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "")
@@ -41,7 +41,7 @@ final class MyOrderCell: UITableViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
-    
+
     private lazy var nameCardLabel: UILabel = {
         let nameCardLabel = UILabel()
         nameCardLabel.text = "April"
@@ -50,13 +50,13 @@ final class MyOrderCell: UITableViewCell {
         nameCardLabel.translatesAutoresizingMaskIntoConstraints = false
         return nameCardLabel
     }()
-    
+
     private lazy var starImageView: RatingView = {
         let starImageView = RatingView()
         starImageView.translatesAutoresizingMaskIntoConstraints = false
         return starImageView
     }()
-    
+
     private lazy var priceLabel: UILabel = {
         let trackerNameLabel = UILabel()
         trackerNameLabel.font = .caption2
@@ -65,7 +65,7 @@ final class MyOrderCell: UITableViewCell {
         trackerNameLabel.translatesAutoresizingMaskIntoConstraints = false
         return trackerNameLabel
     }()
-    
+
     private lazy var moneyLabel: UILabel = {
         let moneyLabel = UILabel()
         moneyLabel.font = .bodyBold
@@ -73,7 +73,7 @@ final class MyOrderCell: UITableViewCell {
         moneyLabel.translatesAutoresizingMaskIntoConstraints = false
         return moneyLabel
     }()
-    
+
     private lazy var cartButton: UIButton = {
         let cartButton = UIButton()
         cartButton.setImage(UIImage(named: "cartDelete"), for: .normal)
@@ -81,89 +81,87 @@ final class MyOrderCell: UITableViewCell {
         cartButton.translatesAutoresizingMaskIntoConstraints = false
         return cartButton
     }()
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubviews()
         setupLayout()
         setupLayoutCardView()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-        
+
     private  func addSubviews() {
         contentView.addSubview(cardView)
         contentView.addSubview(cartButton)
-        
+
         cardView.addSubview(cardImageView)
         cardView.addSubview(nameCardLabel)
-       
+
         cardView.addSubview(priceLabel)
         cardView.addSubview(moneyLabel)
-        
+
         cardImageView.addSubview(likeImageView)
         cardView.addSubview(starImageView)
     }
-    
+
     private func setupLayoutCardView() {
         NSLayoutConstraint.activate([
-            
+
             cardImageView.heightAnchor.constraint(equalToConstant: 108),
             cardImageView.widthAnchor.constraint(equalToConstant: 108),
             cardImageView.topAnchor.constraint(equalTo: cardView.topAnchor),
             cardImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
-            
+
             likeImageView.heightAnchor.constraint(equalToConstant: 40),
             likeImageView.widthAnchor.constraint(equalToConstant: 40),
             likeImageView.topAnchor.constraint(equalTo: cardImageView.topAnchor),
             likeImageView.trailingAnchor.constraint(equalTo: cardImageView.trailingAnchor),
-            
-            
+
             nameCardLabel.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 20),
             nameCardLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 8),
-            
+
             starImageView.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 20),
             starImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 34),
-            
+
             priceLabel.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 20),
             priceLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 58),
-            
+
             moneyLabel.leadingAnchor.constraint(equalTo: cardImageView.trailingAnchor, constant: 20),
-            moneyLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 78),
+            moneyLabel.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 78)
         ])
     }
-    
+
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            
+
             cardView.heightAnchor.constraint(equalToConstant: 108),
             cardView.widthAnchor.constraint(equalToConstant: 203),
             cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            
+
             cartButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             cartButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             cartButton.heightAnchor.constraint(equalToConstant: 40),
             cartButton.widthAnchor.constraint(equalToConstant: 40)
         ])
     }
-    
+
     func updateCell(with model: NftDataModel) {
-      
+
         cardImageView.kf.setImage(with: URL(string: model.images[0]))
         nameCardLabel.text = model.name
         starImageView.setStar(with: model.rating)
         moneyLabel.text = "\(model.price) ETH"
         self.id = model.id
     }
-    
+
     @objc private func didTapDeleteButton() {
-        
+
         guard let id = self.id else { return }
         guard let image = cardImageView.image else { return }
         delegate?.didTapDeleteButton(id: id, image: image)
     }
 }
-

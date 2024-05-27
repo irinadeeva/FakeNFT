@@ -13,4 +13,3 @@ struct CurrencyDataModel: Decodable {
     var image: String
     var id: String
 }
-

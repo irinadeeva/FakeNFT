@@ -8,7 +8,7 @@
 import UIKit
 
 final class RatingView: UIView {
-    
+
     private var starStackView: UIStackView = {
         var starView = UIStackView()
         starView.axis = .horizontal
@@ -17,19 +17,19 @@ final class RatingView: UIView {
         starView.spacing = 2
         return starView
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupStack()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func setupStack() {
         addSubview(starStackView)
-        
+
         NSLayoutConstraint.activate([
             starStackView.topAnchor.constraint(equalTo: topAnchor),
             starStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
@@ -38,7 +38,7 @@ final class RatingView: UIView {
             ])
         starStackView.translatesAutoresizingMaskIntoConstraints = false
     }
-    
+
     func setStar(with rating: Int) {
         removeAllArrangedSubviews()
         var index = 0
@@ -50,7 +50,7 @@ final class RatingView: UIView {
         }
          while index < 5
     }
-    
+
     func removeAllArrangedSubviews() {
         starStackView.arrangedSubviews.forEach {
             starStackView.removeArrangedSubview($0)
