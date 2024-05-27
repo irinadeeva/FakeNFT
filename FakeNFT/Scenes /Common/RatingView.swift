@@ -1,3 +1,10 @@
+//
+//  RatingView.swift
+//  FakeNFT
+//
+//  Created by Ольга Чушева on 06.05.2024.
+//
+
 import UIKit
 
 final class RatingView: UIView {
@@ -13,15 +20,14 @@ final class RatingView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        setupStack()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupUI() {
-        starStackView.translatesAutoresizingMaskIntoConstraints = false
+    func setupStack() {
         addSubview(starStackView)
 
         NSLayoutConstraint.activate([
@@ -29,7 +35,8 @@ final class RatingView: UIView {
             starStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             starStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             starStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
+            ])
+        starStackView.translatesAutoresizingMaskIntoConstraints = false
     }
 
     func setStar(with rating: Int) {
