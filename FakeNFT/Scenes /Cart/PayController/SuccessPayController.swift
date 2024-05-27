@@ -76,6 +76,6 @@ final class SuccessPayController: UIViewController {
     }
 
     @objc func didTapCatalogButton() {
-        self.dismiss(animated: true)
+        dismiss(animated: true)
     }
 }

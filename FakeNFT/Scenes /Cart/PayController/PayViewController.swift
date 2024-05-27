@@ -204,7 +204,7 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
             self.cartController.showEmptyCart()
             present(successPayController, animated: true) {
                 self.navigationController?.popViewController(animated: true)
-                self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?[0]
+                self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?[1]
             }
         } else {
             showPayError()
