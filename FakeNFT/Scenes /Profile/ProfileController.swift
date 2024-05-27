@@ -79,11 +79,16 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Lifecycle
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        presenter.viewDidLoad()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
-        presenter.viewDidLoad()
     }
 }
 
