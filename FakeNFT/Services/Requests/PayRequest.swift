@@ -8,7 +8,7 @@
 import Foundation
 
 struct PayRequest: NetworkRequest {
-    var httpMethod: HttpMethod { .put }
+    var httpMethod: HttpMethod { .get }
 
     var dto: Data?
 

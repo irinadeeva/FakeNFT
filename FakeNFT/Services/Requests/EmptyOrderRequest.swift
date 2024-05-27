@@ -8,23 +8,29 @@
 import Foundation
 
 struct EmptyOrderRequest: NetworkRequest {
-    var dto: Data?
+    var dto: Data? {
+        return params.data(using: .utf8)
+    }
 
     var httpMethod: HttpMethod { .put }
 
     var nfts: [String]?
 
-    var endpoint: URL? {
-        var urlComponents = URLComponents(string: "\(RequestConstants.baseURL)/api/v1/orders/1")
+    var params: String {
+        var params = ""
+        guard let nfts else {
+            return params
+        }
 
-        var components: [URLQueryItem] = []
+        nfts.forEach {
+            params += "nfts=" + $0 + "&"
+        }
 
-        urlComponents?.queryItems = components
-        return urlComponents?.url
+        return params
     }
 
-    var isUrlEncoded: Bool {
-      return true
+    var endpoint: URL? {
+        URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1")
     }
 
     init(nfts: [String]) {
