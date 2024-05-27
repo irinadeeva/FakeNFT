@@ -254,7 +254,6 @@
 		BE8376E52BFCEE9900AC5DA3 /* EditProfileDetailsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsPresenter.swift; sourceTree = "<group>"; };
 		BE8376E92BFCEF1B00AC5DA3 /* EditProfileDetailsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsPresenter.swift; sourceTree = "<group>"; };
 		BE95A2762C04A7B600F87FE3 /* CartOrderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartOrderService.swift; sourceTree = "<group>"; };
-		BE95A27A2C05046F00F87FE3 /* Simulator Screen Recording - iPhone 15 Pro - 2024-05-27 at 15.54.08.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Simulator Screen Recording - iPhone 15 Pro - 2024-05-27 at 15.54.08.mp4"; sourceTree = "<group>"; };
 		BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "Decomposition Profile Deeva.md"; sourceTree = "<group>"; };
 		BED4C78A2BE12C1E00213628 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		BED4C78C2BE237A700213628 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -457,7 +456,6 @@
 		3F68068A29CBBAF100B4F915 = {
 			isa = PBXGroup;
 			children = (
-				BE95A2792C05044700F87FE3 /* video */,
 				BED4C7812BE0E9A600213628 /* docs */,
 				3F68069529CBBAF100B4F915 /* FakeNFT */,
 				3F6806AC29CBBAF200B4F915 /* FakeNFTTests */,
@@ -639,14 +637,6 @@
 				1FEA64512BECF9DA00BE271F /* DeleteCard */,
 			);
 			path = Cart;
-			sourceTree = "<group>";
-		};
-		BE95A2792C05044700F87FE3 /* video */ = {
-			isa = PBXGroup;
-			children = (
-				BE95A27A2C05046F00F87FE3 /* Simulator Screen Recording - iPhone 15 Pro - 2024-05-27 at 15.54.08.mp4 */,
-			);
-			path = video;
 			sourceTree = "<group>";
 		};
 		BED4C7812BE0E9A600213628 /* docs */ = {
