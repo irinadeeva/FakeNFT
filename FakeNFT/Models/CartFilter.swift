@@ -34,5 +34,10 @@ struct CartFilter {
         return first.name < second.name
     }
 
-    static let filter: [FilterBy: FilterSorting] = [.id: filterById, .price: filterByPrice, .rating: filterByRating, .title: filterByTitle]
+    static let filter: [FilterBy: FilterSorting] = [
+        .id: filterById,
+        .price: filterByPrice,
+        .rating: filterByRating,
+        .title: filterByTitle
+    ]
 }

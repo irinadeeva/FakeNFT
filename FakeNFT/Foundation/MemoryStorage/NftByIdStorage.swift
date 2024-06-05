@@ -18,7 +18,7 @@ protocol NftByIdStorageProtocol: AnyObject {
 
 final class NftByIdStorage: NftByIdStorageProtocol {
 
-    internal var storage: [String: NftDataModel] = [:]
+    var storage: [String: NftDataModel] = [:]
 
     func saveNftById(_ nftById: NftDataModel) {
         storage[nftById.id] = nftById

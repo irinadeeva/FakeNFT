@@ -62,7 +62,6 @@
 		30010FB02BEBF08F00C1F223 /* UserInfoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30010FAF2BEBF08F00C1F223 /* UserInfoStorage.swift */; };
 		30010FB42BEBF1BA00C1F223 /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30010FB32BEBF1BA00C1F223 /* UserInfoViewController.swift */; };
 		30010FB62BEBF1CF00C1F223 /* UserInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30010FB52BEBF1CF00C1F223 /* UserInfoPresenter.swift */; };
-		30010FB82BEBF1E500C1F223 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30010FB72BEBF1E500C1F223 /* WebViewController.swift */; };
 		30010FBA2BEBF1FB00C1F223 /* InfoNFTTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30010FB92BEBF1FB00C1F223 /* InfoNFTTableCell.swift */; };
 		30010FBC2BEBF20D00C1F223 /* UserInfoAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30010FBB2BEBF20D00C1F223 /* UserInfoAssembly.swift */; };
 		30010FBE2BEBF33C00C1F223 /* UsersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30010FBD2BEBF33C00C1F223 /* UsersService.swift */; };
@@ -110,6 +109,8 @@
 		BE8376E82BFCEE9900AC5DA3 /* EditProfileDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8376E52BFCEE9900AC5DA3 /* EditProfileDetailsPresenter.swift */; };
 		BE8376EA2BFCEF1B00AC5DA3 /* EditProfileDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8376E92BFCEF1B00AC5DA3 /* EditProfileDetailsPresenter.swift */; };
 		BE95A2772C04A7B600F87FE3 /* CartOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE95A2762C04A7B600F87FE3 /* CartOrderService.swift */; };
+		BEA5F3472C10B11300CEF183 /* ProfileAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA5F3462C10B11300CEF183 /* ProfileAssembly.swift */; };
+		BEA5F34A2C10BB3D00CEF183 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA5F3492C10BB3D00CEF183 /* WebViewController.swift */; };
 		BED4C7832BE0E9BF00213628 /* Decomposition Profile Deeva.md in Resources */ = {isa = PBXBuildFile; fileRef = BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */; };
 		BED4C78B2BE12C1E00213628 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78A2BE12C1E00213628 /* ProfileController.swift */; };
 		BED4C78D2BE237A700213628 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78C2BE237A700213628 /* Profile.swift */; };
@@ -202,7 +203,6 @@
 		30010FAF2BEBF08F00C1F223 /* UserInfoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoStorage.swift; sourceTree = "<group>"; };
 		30010FB32BEBF1BA00C1F223 /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
 		30010FB52BEBF1CF00C1F223 /* UserInfoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoPresenter.swift; sourceTree = "<group>"; };
-		30010FB72BEBF1E500C1F223 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		30010FB92BEBF1FB00C1F223 /* InfoNFTTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoNFTTableCell.swift; sourceTree = "<group>"; };
 		30010FBB2BEBF20D00C1F223 /* UserInfoAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoAssembly.swift; sourceTree = "<group>"; };
 		30010FBD2BEBF33C00C1F223 /* UsersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersService.swift; sourceTree = "<group>"; };
@@ -252,6 +252,8 @@
 		BE8376E52BFCEE9900AC5DA3 /* EditProfileDetailsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsPresenter.swift; sourceTree = "<group>"; };
 		BE8376E92BFCEF1B00AC5DA3 /* EditProfileDetailsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsPresenter.swift; sourceTree = "<group>"; };
 		BE95A2762C04A7B600F87FE3 /* CartOrderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartOrderService.swift; sourceTree = "<group>"; };
+		BEA5F3462C10B11300CEF183 /* ProfileAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAssembly.swift; sourceTree = "<group>"; };
+		BEA5F3492C10BB3D00CEF183 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "Decomposition Profile Deeva.md"; sourceTree = "<group>"; };
 		BED4C78A2BE12C1E00213628 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		BED4C78C2BE237A700213628 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -315,7 +317,6 @@
 		0CF2C2D92A783C1600FDC837 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				1F853CF02BE8C90C00A1ECA2 /* RatingView.swift */,
 				0CF2C2DF2A784C5600FDC837 /* Views */,
 				0CF2C2DE2A784C4C00FDC837 /* Protocols */,
 			);
@@ -335,6 +336,7 @@
 		0CF2C2DF2A784C5600FDC837 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1F853CF02BE8C90C00A1ECA2 /* RatingView.swift */,
 				0CF2C2E02A784C7000FDC837 /* LinePageControl.swift */,
 			);
 			path = Views;
@@ -423,9 +425,9 @@
 			children = (
 				30010FB32BEBF1BA00C1F223 /* UserInfoViewController.swift */,
 				30010FB52BEBF1CF00C1F223 /* UserInfoPresenter.swift */,
-				30010FB72BEBF1E500C1F223 /* WebViewController.swift */,
 				30010FB92BEBF1FB00C1F223 /* InfoNFTTableCell.swift */,
 				30010FBB2BEBF20D00C1F223 /* UserInfoAssembly.swift */,
+				BEA5F3492C10BB3D00CEF183 /* WebViewController.swift */,
 			);
 			path = UserInfo;
 			sourceTree = "<group>";
@@ -636,6 +638,17 @@
 			path = Cart;
 			sourceTree = "<group>";
 		};
+		BEA5F3482C10B7A600CEF183 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				BED4C78A2BE12C1E00213628 /* ProfileController.swift */,
+				BED4C7B12BF148CC00213628 /* ProfileTableCell.swift */,
+				BEA5F3462C10B11300CEF183 /* ProfileAssembly.swift */,
+				BED4C7962BE4C59500213628 /* ProfilePresenter.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
 		BED4C7812BE0E9A600213628 /* docs */ = {
 			isa = PBXGroup;
 			children = (
@@ -664,12 +677,10 @@
 		BED4C7AF2BEEC04200213628 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				BEA5F3482C10B7A600CEF183 /* MainView */,
 				BE8376D92BFCECCB00AC5DA3 /* EditProfile */,
 				BED4C7A22BEC6DDA00213628 /* WebView */,
 				BED4C7B02BF1486900213628 /* NFTs */,
-				BED4C78A2BE12C1E00213628 /* ProfileController.swift */,
-				BED4C7B12BF148CC00213628 /* ProfileTableCell.swift */,
-				BED4C7962BE4C59500213628 /* ProfilePresenter.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -942,13 +953,13 @@
 				3F6806D529CBBEC700B4F915 /* NetworkTask.swift in Sources */,
 				308CB2302BF4B8CE00DAD6C0 /* UserNftsAssembly.swift in Sources */,
 				30010FA82BEBF00800C1F223 /* UserModel.swift in Sources */,
+				BEA5F34A2C10BB3D00CEF183 /* WebViewController.swift in Sources */,
 				30010FAA2BEBF02000C1F223 /* UserInfoModel.swift in Sources */,
 				1F853CEB2BE7FC4A00A1ECA2 /* MyOrderCell.swift in Sources */,
 				1F853CF32BE8F2FF00A1ECA2 /* LoaderView.swift in Sources */,
 				1F2410542BEF97C100B0DCF3 /* OrderDataModel.swift in Sources */,
 				0CF2C2DB2A783C1B00FDC837 /* LoadingView.swift in Sources */,
 				3F68069729CBBAF100B4F915 /* AppDelegate.swift in Sources */,
-				30010FB82BEBF1E500C1F223 /* WebViewController.swift in Sources */,
 				30010FAC2BEBF02E00C1F223 /* SortingsModel.swift in Sources */,
 				30010FB02BEBF08F00C1F223 /* UserInfoStorage.swift in Sources */,
 				30010FB62BEBF1CF00C1F223 /* UserInfoPresenter.swift in Sources */,
@@ -1005,6 +1016,7 @@
 				308CB2342BF4B92800DAD6C0 /* OrdersRequest.swift in Sources */,
 				308CB23C2BF4B9A700DAD6C0 /* OrdersService.swift in Sources */,
 				30010F972BE422E200C1F223 /* StatisticsAssembly.swift in Sources */,
+				BEA5F3472C10B11300CEF183 /* ProfileAssembly.swift in Sources */,
 				30010FBE2BEBF33C00C1F223 /* UsersService.swift in Sources */,
 				1FEA644C2BEB6BFB00BE271F /* CurrencyDataModel.swift in Sources */,
 				0CFCB7442A7802440009A829 /* NftDetailInput.swift in Sources */,

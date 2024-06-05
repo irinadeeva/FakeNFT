@@ -23,7 +23,7 @@ protocol CartPresenterProtocol {
 
 final class CartPresenter: CartPresenterProtocol {
 
-    internal weak var viewController: CartViewControllerProtocol?
+    weak var viewController: CartViewControllerProtocol?
     private var orderService: OrderServiceProtocol?
     private var nftByIdService: NftByIdServiceProtocol?
     private var userDefaults = UserDefaults.standard

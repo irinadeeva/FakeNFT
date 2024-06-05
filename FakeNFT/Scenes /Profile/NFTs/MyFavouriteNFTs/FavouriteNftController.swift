@@ -14,7 +14,7 @@ protocol BackButtonDelegate: AnyObject {
 final class FavouriteNftViewController: UIViewController {
     weak var delegate: BackButtonDelegate?
 
-    internal lazy var activityIndicator = UIActivityIndicatorView()
+    lazy var activityIndicator = UIActivityIndicatorView()
 
     private var nfts: [Nft] = []
 

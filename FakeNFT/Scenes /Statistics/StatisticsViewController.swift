@@ -12,7 +12,7 @@ final class StatisticsViewController: UIViewController {
     private let presenter: StatisticsPresenterProtocol
     private var cellModels = [UserCellModel]()
 
-    internal lazy var activityIndicator = UIActivityIndicatorView()
+    lazy var activityIndicator = UIActivityIndicatorView()
 
     private lazy var sortingButton: UIButton = {
         let button = UIButton(type: .custom)

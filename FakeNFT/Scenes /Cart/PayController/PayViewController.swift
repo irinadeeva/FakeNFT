@@ -105,7 +105,11 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "White")
 
-        presenter = PayPresenter(payController: self, payService: servicesAssembly.payService, orderService: servicesAssembly.orderService)
+        presenter = PayPresenter(
+            payController: self,
+            payService: servicesAssembly.payService,
+            orderService: servicesAssembly.orderService
+        )
 
         makeNavBar()
         addSubviews()

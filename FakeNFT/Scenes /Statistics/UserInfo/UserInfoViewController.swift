@@ -10,7 +10,7 @@ final class UserInfoViewController: UIViewController {
 
     // MARK: - Properties
     private let presenter: UserInfoPresenterProtocol
-    internal var activityIndicator = UIActivityIndicatorView()
+    var activityIndicator = UIActivityIndicatorView()
 
     // MARK: - UI elements
     private lazy var navigationBar: UINavigationBar = {

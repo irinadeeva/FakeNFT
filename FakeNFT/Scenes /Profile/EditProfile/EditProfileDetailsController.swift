@@ -21,7 +21,7 @@ final class EditProfileDetailsViewController: UIViewController {
 
     weak var delegate: EditProfileDetailsViewDelegate?
 
-    internal lazy var activityIndicator = UIActivityIndicatorView()
+    lazy var activityIndicator = UIActivityIndicatorView()
 
     private let presenter: EditProfileDetailsPresenter
 

@@ -2,7 +2,7 @@ import UIKit
 
 final class UserNftViewController: UIViewController {
 
-    internal lazy var activityIndicator = UIActivityIndicatorView()
+    lazy var activityIndicator = UIActivityIndicatorView()
 
     private var nfts: [Nft] = []
 

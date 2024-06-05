@@ -4,12 +4,6 @@ final class TabBarController: UITabBarController {
 
     var servicesAssembly: ServicesAssembly?
 
-    private let statisticsTabBarItem = UITabBarItem(
-        title: NSLocalizedString("Tab.statistics", comment: ""),
-        image: UIImage(systemName: "flag.2.crossed.fill"),
-        tag: 3
-    )
-
     private let profileTabBarItem = UITabBarItem(
         title: NSLocalizedString("Tab.profile", comment: ""),
         image: UIImage(systemName: "person.crop.circle.fill"),
@@ -28,6 +22,12 @@ final class TabBarController: UITabBarController {
         tag: 2
     )
 
+    private let statisticsTabBarItem = UITabBarItem(
+        title: NSLocalizedString("Tab.statistics", comment: ""),
+        image: UIImage(systemName: "flag.2.crossed.fill"),
+        tag: 3
+    )
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -39,34 +39,17 @@ final class TabBarController: UITabBarController {
         let statisticsController = UINavigationController(rootViewController: statisticsAsssembly.build())
         statisticsController.tabBarItem = statisticsTabBarItem
 
-        let presenter = ProfilePresenterImpl(
-            profileService: servicesAssembly.profileService,
-            nftService: servicesAssembly.nftService
-        )
-
-        let viewController = ProfileViewController(presenter: presenter)
-        presenter.view = viewController
-        let profileController = UINavigationController(rootViewController: viewController)
+        let profileAssembly = ProfileAssembly(servicesAssembler: servicesAssembly)
+        let profileController = UINavigationController(rootViewController: profileAssembly.build())
         profileController.tabBarItem = profileTabBarItem
 
-        let catalogController = TestCatalogViewController(
-            servicesAssembly: servicesAssembly
-        )
+        let catalogController = TestCatalogViewController(servicesAssembly: servicesAssembly)
+        catalogController.tabBarItem = catalogTabBarItem
 
         let cartController = CartViewController(servicesAssembly: servicesAssembly)
-        catalogController.tabBarItem = catalogTabBarItem
+        let cartNavigationController = UINavigationController(rootViewController: cartController)
         cartController.tabBarItem = cartTabBarItem
 
-        let cartNavigationController = UINavigationController(rootViewController: cartController)
-
         viewControllers = [profileController, catalogController, cartNavigationController, statisticsController]
-        view.backgroundColor = .background
-        selectedIndex = 0
-        view.tintColor = UIColor.segmentActive
-
-    }
-
-    func hideTabBar() {
-        view.removeFromSuperview()
     }
 }

@@ -15,7 +15,7 @@ protocol ProfileDetailsView: AnyObject, ErrorView, LoadingView {
 
 final class ProfileViewController: UIViewController {
 
-    internal lazy var activityIndicator = UIActivityIndicatorView()
+    lazy var activityIndicator = UIActivityIndicatorView()
 
     private let presenter: ProfilePresenter
 
@@ -68,7 +68,7 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Init
 
-    init(presenter: ProfilePresenterImpl) {
+    init(presenter: ProfilePresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
