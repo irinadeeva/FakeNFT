@@ -18,11 +18,9 @@ protocol PayViewControllerProtocol: AnyObject {
 
 final class PayViewController: UIViewController, PayViewControllerProtocol, UITextViewDelegate {
 
-    private var presenter: PayPresenterProtocol?
+    private var presenter: PayPresenterProtocol
     private let agreeUrl = URL(string: "https://yandex.ru/legal/practicum_termsofuse/")
     var cartController: CartViewController
-
-    private let servicesAssembly: ServicesAssembly
 
     private lazy var payCollectionView: UICollectionView = {
         let collectionView = UICollectionView(
@@ -91,8 +89,8 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
 
     private let loaderView = LoaderView()
 
-    init(servicesAssembly: ServicesAssembly, cartController: CartViewController) {
-        self.servicesAssembly = servicesAssembly
+    init(presenter: PayPresenterProtocol, cartController: CartViewController) {
+        self.presenter = presenter
         self.cartController = cartController
         super.init(nibName: nil, bundle: nil)
     }
@@ -105,12 +103,6 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "White")
 
-        presenter = PayPresenter(
-            payController: self,
-            payService: servicesAssembly.payService,
-            orderService: servicesAssembly.orderService
-        )
-
         makeNavBar()
         addSubviews()
         setupLayoutImagePay()
@@ -118,7 +110,7 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         payCollectionView.dataSource = self
         payCollectionView.delegate = self
 
-        presenter?.getCurrencies()
+        presenter.getCurrencies()
     }
 
     private func makeNavBar() {
@@ -186,7 +178,7 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
     }
 
     @objc private func didTapPayButton() {
-        presenter?.payOrder()
+        presenter.payOrder()
     }
 
     func didSelectCurrency(isEnable: Bool) {
@@ -203,9 +195,9 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         if payResult {
             let successPayController = SuccessPayController()
             successPayController.modalPresentationStyle = .fullScreen
-            self.cartController.presenter?.cartContent = []
+            self.cartController.presenter.cartContent = []
             self.cartController.updateCartTable()
-            self.cartController.showEmptyCart()
+            self.cartController.updateCart()
             present(successPayController, animated: true) {
                 self.navigationController?.popViewController(animated: true)
                 self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?[1]
@@ -229,7 +221,7 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
             self.dismiss(animated: true)
         }
         let repeatAction = UIAlertAction(title: "Повторить", style: .default) { _ in
-            self.presenter?.payOrder()
+            self.presenter.payOrder()
         }
         alert.addAction(cancelAction)
         alert.addAction(repeatAction)
@@ -240,7 +232,7 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
 
 extension  PayViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let count = presenter?.count() else { return 0 }
+       let count = presenter.count()
         return count
     }
 
@@ -248,7 +240,7 @@ extension  PayViewController: UICollectionViewDelegate, UICollectionViewDataSour
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PayCell.identifier, for: indexPath) as? PayCell else {
             return UICollectionViewCell()
         }
-        guard let model = presenter?.getModel(indexPath: indexPath) else { return cell }
+        let model = presenter.getModel(indexPath: indexPath)
         cell.updateCell(currency: model)
         return cell
     }
@@ -257,7 +249,7 @@ extension  PayViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let cell = collectionView.cellForItem(at: indexPath) as? PayCell
         cell?.selectCell(wasSelected: true)
         didSelectCurrency(isEnable: true)
-        presenter?.selectedCurrency = cell?.currency
+        presenter.selectedCurrency = cell?.currency
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

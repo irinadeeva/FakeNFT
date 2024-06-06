@@ -59,7 +59,6 @@ final class CartOrderService: OrderServiceProtocol {
                                 self.nftsStorage.append(nft)
                             }
                         case let .failure(error):
-                            print(error)
                             completion(.failure(error))
                         }
                     }
@@ -108,7 +107,7 @@ final class CartOrderService: OrderServiceProtocol {
                     self.nftsStorage.removeAll()
                     self.cartPresenter?.cartContent = []
                     self.cartPresenter?.viewController?.updateCartTable()
-                    self.cartPresenter?.viewController?.showEmptyCart()
+                    self.cartPresenter?.viewController?.updateCart()
                     self.nftStorage.removeAllNft()
                     self.orderStorage.removeOrder()
                     completion(.success(data.nfts.count))

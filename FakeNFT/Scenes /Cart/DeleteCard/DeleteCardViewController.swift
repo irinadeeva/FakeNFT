@@ -16,18 +16,14 @@ protocol CartDeleteControllerProtocol: AnyObject {
 
 final class DeleteCardViewController: UIViewController, CartDeleteControllerProtocol {
 
-    private var presenter: DeleteCardPresenterProtocol?
-    private let servicesAssembly: ServicesAssembly
+    private var presenter: DeleteCardPresenterProtocol
     private (set) var nftImage: UIImage
-    private var idForDelete: String
     var cartController: CartViewController
 
-    init(servicesAssembly: ServicesAssembly, nftImage: UIImage, idForDelete: String, cartContrroller: CartViewController) {
-        self.servicesAssembly = servicesAssembly
-        self.nftImage = nftImage
-        self.idForDelete = idForDelete
+    init(presenter: DeleteCardPresenterProtocol, cartContrroller: CartViewController, nftImage: UIImage) {
+        self.presenter = presenter
         self.cartController = cartContrroller
-
+        self.nftImage = nftImage
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -101,8 +97,6 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
         addSubviews()
         setupLayoutDeleteCardView()
         setupLayout()
-
-        presenter = DeleteCardPresenter(viewController: self, orderService: servicesAssembly.orderService, nftIdForDelete: idForDelete, nftImage: nftImage)
     }
 
     private func addSubviews() {
@@ -162,11 +156,11 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
     }
 
     @objc func didTapDeleteButton() {
-        presenter?.deleteNFTfromCart { [weak self] result in
+        presenter.deleteNFTfromCart { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success:
-                self.cartController.presenter?.getOrder()
+                self.cartController.presenter.getOrder()
                 self.cartController.updateCartTable()
                 self.dismiss(animated: true)
             case let .failure(error):
@@ -190,7 +184,7 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
     func showNetworkError(message: String) {
         let alert = UIAlertController(title: "Что-то пошло не так", message: message, preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: "Еще раз", style: .default) { _ in
-            self.presenter?.deleteNFTfromCart { [weak self] result in
+            self.presenter.deleteNFTfromCart { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success:

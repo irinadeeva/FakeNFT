@@ -59,9 +59,9 @@ final class StatisticsViewController: UIViewController {
         view.backgroundColor = .background
 
         [sortingButton, statisticsTableView].forEach {
-             view.addSubview($0)
-             $0.translatesAutoresizingMaskIntoConstraints = false
-           }
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         view.addSubview(statisticsTableView)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: sortingButton)

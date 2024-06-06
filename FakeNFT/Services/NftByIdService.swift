@@ -35,7 +35,6 @@ final class NftByIdService: NftByIdServiceProtocol {
                 storage?.saveNftById(nft)
                 completion(.success(nft))
             case .failure(let error):
-                print(error)
                 completion(.failure(error))
             }
         }

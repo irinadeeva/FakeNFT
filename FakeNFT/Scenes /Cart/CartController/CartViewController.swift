@@ -8,10 +8,9 @@
 import Foundation
 import UIKit
 
-final class CartViewController: UIViewController, CartViewControllerProtocol {
+final class CartViewController: UIViewController {
 
-    var presenter: CartPresenterProtocol?
-    var servicesAssembly: ServicesAssembly
+    var presenter: CartPresenterProtocol
 
     private lazy var sortButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
@@ -24,6 +23,8 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
         tableView.register(MyOrderCell.self, forCellReuseIdentifier: MyOrderCell.identifier)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -31,16 +32,15 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
     private lazy var imagePay: UIView = {
         let imagePay = UIView()
         imagePay.backgroundColor = UIColor(named: "LightGray")
-        imagePay.translatesAutoresizingMaskIntoConstraints = false
         imagePay.layer.masksToBounds = true
         imagePay.layer.cornerRadius = 12
         imagePay.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner ]
+        imagePay.translatesAutoresizingMaskIntoConstraints = false
         return imagePay
     }()
 
     private lazy var amountLabel: UILabel = {
         let amountLabel = UILabel()
-        amountLabel.text = "3 NFT"
         amountLabel.font = .caption1
         amountLabel.textColor = UIColor(named: "Black")
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +49,6 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
 
     private lazy var moneyLabel: UILabel = {
         let moneyLabel = UILabel()
-        moneyLabel.text = "5,34 ETH"
         moneyLabel.font = .bodyBold
         moneyLabel.textColor = UIColor(named: "Green")
         moneyLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -73,14 +72,15 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
         label.text = "Корзина пуста"
         label.font = .bodyBold
         label.textColor = UIColor(named: "Black")
+        label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let loaderView = LoaderView()
 
-    init(servicesAssembly: ServicesAssembly) {
-        self.servicesAssembly = servicesAssembly
+    init(presenter: CartPresenterProtocol) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -91,26 +91,17 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        presenter?.getOrder()
-        tableView.reloadData()
-        showEmptyCart()
-        presenter?.setOrder()
+        presenter.getOrder()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "White")
-
-        presenter = CartPresenter(viewController: self, orderService: servicesAssembly.orderService, nftByIdService: servicesAssembly.nftByIdService)
+        view.backgroundColor = .background
 
         addSubviews()
         setupLayoutImagePay()
         setupLayout()
-        tableView.dataSource = self
-        tableView.delegate = self
         setupNavigationBar()
-
-        showEmptyCart()
     }
 
     @objc private func didTapSortButton() {
@@ -118,7 +109,7 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
 
         alert.addAction(UIAlertAction(title: "По цене", style: .default, handler: { [weak self] (_) in
             guard let self = self else { return }
-            self.presenter?.sortCart(filter: .price)
+            self.presenter.sortCart(filter: .price)
             self.tableView.reloadData()
 
             UserDefaults.standard.set("Цена", forKey: "Sort")
@@ -127,7 +118,7 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
 
         alert.addAction(UIAlertAction(title: "По рейтингу", style: .default, handler: { [weak self] (_) in
             guard let self = self else { return }
-            self.presenter?.sortCart(filter: .rating)
+            self.presenter.sortCart(filter: .rating)
             self.tableView.reloadData()
 
             UserDefaults.standard.set("Рейтинг", forKey: "Sort")
@@ -137,7 +128,7 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
         alert.addAction(UIAlertAction(title: "По названию", style: .default, handler: { [weak self] (_) in
             guard self != nil else { return }
             guard let self = self else { return }
-            self.presenter?.sortCart(filter: .title)
+            self.presenter.sortCart(filter: .title)
             self.tableView.reloadData()
 
             UserDefaults.standard.set("Название", forKey: "Sort")
@@ -151,7 +142,14 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
     }
 
     @objc private func didTapPayButton() {
-        let payController = PayViewController(servicesAssembly: servicesAssembly, cartController: self)
+        let presenter = PayPresenter(
+            payService: presenter.getPayService(),
+            orderService: presenter.getOrderService()
+        )
+
+        let payController = PayViewController(presenter: presenter, cartController: self)
+        presenter.payController = payController
+
         payController.hidesBottomBarWhenPushed = true
         navigationItem.backButtonTitle = ""
         navigationController?.pushViewController(payController, animated: true)
@@ -170,7 +168,12 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
         guard let navigationBar = navigationController?.navigationBar else {
             return
         }
-        let rightButton = UIBarButtonItem(image: UIImage(named: "sort"), style: .plain, target: self, action: #selector(didTapSortButton))
+        let rightButton = UIBarButtonItem(
+            image: UIImage(named: "sort"),
+            style: .plain,
+            target: self,
+            action: #selector(didTapSortButton)
+        )
         rightButton.tintColor = UIColor(named: "Black")
         navigationBar.topItem?.setRightBarButton(rightButton, animated: false)
     }
@@ -206,21 +209,22 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
             imagePay.heightAnchor.constraint(equalToConstant: 76)
         ])
     }
+}
 
-    func showEmptyCart() {
-        if presenter?.count() == 0 {
+extension CartViewController: CartViewControllerProtocol {
+    func updateCart() {
+        if presenter.count() == 0 {
             emptyCartLabel.isHidden = false
             imagePay.isHidden = true
         } else {
-            setupNavigationBar()
-            guard let count = presenter?.count() else { return }
-            guard let totalPrice = presenter?.totalPrice() else { return }
+            emptyCartLabel.isHidden = true
+            let count = presenter.count()
+            let totalPrice = presenter.totalPrice()
             let moneyText = String(NSString(format: "%.2f", totalPrice))
             moneyLabel.text = "\(moneyText) ETH"
             amountLabel.text = "\(count) NFT"
-            emptyCartLabel.isHidden = true
-            imagePay.isHidden = false
             tableView.reloadData()
+            imagePay.isHidden = false
         }
     }
 
@@ -239,13 +243,16 @@ final class CartViewController: UIViewController, CartViewControllerProtocol {
 
 extension CartViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let number = presenter?.count() else { return 0 }
-        return number
+        return presenter.count()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MyOrderCell.identifier, for: indexPath) as? MyOrderCell else { return UITableViewCell() }
-        guard let model = presenter?.getModel(indexPath: indexPath) else { return cell}
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: MyOrderCell.identifier,
+            for: indexPath) as? MyOrderCell else {
+            return UITableViewCell()
+        }
+        let model = presenter.getModel(indexPath: indexPath)
         cell.delegate = self
         cell.updateCell(with: model)
         return cell
@@ -258,7 +265,15 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension CartViewController: CartTableViewCellDelegate {
     func didTapDeleteButton(id: String, image: UIImage) {
-        let deleteViewController = DeleteCardViewController(servicesAssembly: servicesAssembly, nftImage: image, idForDelete: id, cartContrroller: self)
+
+        let deletePresenter = DeleteCardPresenter(orderService: presenter.getOrderService(),
+                                                  nftIdForDelete: id)
+
+        let deleteViewController = DeleteCardViewController(presenter: deletePresenter,
+                                                            cartContrroller: self,
+                                                            nftImage: image)
+        deletePresenter.viewController = deleteViewController
+
         deleteViewController.modalPresentationStyle = .overCurrentContext
         self.tabBarController?.present(deleteViewController, animated: true)
     }

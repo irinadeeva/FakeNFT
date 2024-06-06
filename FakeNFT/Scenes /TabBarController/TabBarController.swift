@@ -35,10 +35,6 @@ final class TabBarController: UITabBarController {
             return
         }
 
-        let statisticsAsssembly = StatisticsAssembly(servicesAssembler: servicesAssembly)
-        let statisticsController = UINavigationController(rootViewController: statisticsAsssembly.build())
-        statisticsController.tabBarItem = statisticsTabBarItem
-
         let profileAssembly = ProfileAssembly(servicesAssembler: servicesAssembly)
         let profileController = UINavigationController(rootViewController: profileAssembly.build())
         profileController.tabBarItem = profileTabBarItem
@@ -46,10 +42,14 @@ final class TabBarController: UITabBarController {
         let catalogController = TestCatalogViewController(servicesAssembly: servicesAssembly)
         catalogController.tabBarItem = catalogTabBarItem
 
-        let cartController = CartViewController(servicesAssembly: servicesAssembly)
-        let cartNavigationController = UINavigationController(rootViewController: cartController)
+        let cartAssembly = CartAssembly(servicesAssembler: servicesAssembly)
+        let cartController = UINavigationController(rootViewController: cartAssembly.build())
         cartController.tabBarItem = cartTabBarItem
 
-        viewControllers = [profileController, catalogController, cartNavigationController, statisticsController]
+        let statisticsAsssembly = StatisticsAssembly(servicesAssembler: servicesAssembly)
+        let statisticsController = UINavigationController(rootViewController: statisticsAsssembly.build())
+        statisticsController.tabBarItem = statisticsTabBarItem
+
+        viewControllers = [profileController, catalogController, cartController, statisticsController]
     }
 }

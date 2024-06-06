@@ -111,7 +111,7 @@
 		BE95A2772C04A7B600F87FE3 /* CartOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE95A2762C04A7B600F87FE3 /* CartOrderService.swift */; };
 		BEA5F3472C10B11300CEF183 /* ProfileAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA5F3462C10B11300CEF183 /* ProfileAssembly.swift */; };
 		BEA5F34A2C10BB3D00CEF183 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA5F3492C10BB3D00CEF183 /* WebViewController.swift */; };
-		BED4C7832BE0E9BF00213628 /* Decomposition Profile Deeva.md in Resources */ = {isa = PBXBuildFile; fileRef = BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */; };
+		BEA5F34C2C10FFAA00CEF183 /* CartAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA5F34B2C10FFAA00CEF183 /* CartAssembly.swift */; };
 		BED4C78B2BE12C1E00213628 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78A2BE12C1E00213628 /* ProfileController.swift */; };
 		BED4C78D2BE237A700213628 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78C2BE237A700213628 /* Profile.swift */; };
 		BED4C78F2BE4BCB500213628 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED4C78E2BE4BCB500213628 /* ProfileService.swift */; };
@@ -254,7 +254,7 @@
 		BE95A2762C04A7B600F87FE3 /* CartOrderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartOrderService.swift; sourceTree = "<group>"; };
 		BEA5F3462C10B11300CEF183 /* ProfileAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAssembly.swift; sourceTree = "<group>"; };
 		BEA5F3492C10BB3D00CEF183 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
-		BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "Decomposition Profile Deeva.md"; sourceTree = "<group>"; };
+		BEA5F34B2C10FFAA00CEF183 /* CartAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartAssembly.swift; sourceTree = "<group>"; };
 		BED4C78A2BE12C1E00213628 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		BED4C78C2BE237A700213628 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		BED4C78E2BE4BCB500213628 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
@@ -371,6 +371,7 @@
 				1F853CE82BE7FC1C00A1ECA2 /* CartViewController.swift */,
 				1F853CEA2BE7FC4A00A1ECA2 /* MyOrderCell.swift */,
 				1F853CF22BE8F2FF00A1ECA2 /* LoaderView.swift */,
+				BEA5F34B2C10FFAA00CEF183 /* CartAssembly.swift */,
 			);
 			path = CartController;
 			sourceTree = "<group>";
@@ -455,7 +456,6 @@
 		3F68068A29CBBAF100B4F915 = {
 			isa = PBXGroup;
 			children = (
-				BED4C7812BE0E9A600213628 /* docs */,
 				3F68069529CBBAF100B4F915 /* FakeNFT */,
 				3F6806AC29CBBAF200B4F915 /* FakeNFTTests */,
 				3F6806B629CBBAF200B4F915 /* FakeNFTUITests */,
@@ -476,9 +476,9 @@
 		3F68069529CBBAF100B4F915 /* FakeNFT */ = {
 			isa = PBXGroup;
 			children = (
-				BED4C7AC2BEE787F00213628 /* Helper */,
 				3F68069629CBBAF100B4F915 /* AppDelegate.swift */,
 				3F68069829CBBAF100B4F915 /* SceneDelegate.swift */,
+				BED4C7AC2BEE787F00213628 /* Helper */,
 				E1CD40DA2A96BE9B00BE7FE8 /* Resources */,
 				3F478ECD29DB473000F6D39E /* DesignSystem */,
 				3F6806CE29CBBD1B00B4F915 /* Foundation */,
@@ -647,14 +647,6 @@
 				BED4C7962BE4C59500213628 /* ProfilePresenter.swift */,
 			);
 			path = MainView;
-			sourceTree = "<group>";
-		};
-		BED4C7812BE0E9A600213628 /* docs */ = {
-			isa = PBXGroup;
-			children = (
-				BED4C7822BE0E9BF00213628 /* Decomposition Profile Deeva.md */,
-			);
-			path = docs;
 			sourceTree = "<group>";
 		};
 		BED4C7A22BEC6DDA00213628 /* WebView */ = {
@@ -859,7 +851,6 @@
 			files = (
 				3F6806A329CBBAF200B4F915 /* LaunchScreen.storyboard in Resources */,
 				E1CD40DC2A96BECC00BE7FE8 /* Localizable.strings in Resources */,
-				BED4C7832BE0E9BF00213628 /* Decomposition Profile Deeva.md in Resources */,
 				3F6806A029CBBAF200B4F915 /* Assets.xcassets in Resources */,
 				3F68069E29CBBAF100B4F915 /* Main.storyboard in Resources */,
 			);
@@ -955,6 +946,7 @@
 				30010FA82BEBF00800C1F223 /* UserModel.swift in Sources */,
 				BEA5F34A2C10BB3D00CEF183 /* WebViewController.swift in Sources */,
 				30010FAA2BEBF02000C1F223 /* UserInfoModel.swift in Sources */,
+				BEA5F34C2C10FFAA00CEF183 /* CartAssembly.swift in Sources */,
 				1F853CEB2BE7FC4A00A1ECA2 /* MyOrderCell.swift in Sources */,
 				1F853CF32BE8F2FF00A1ECA2 /* LoaderView.swift in Sources */,
 				1F2410542BEF97C100B0DCF3 /* OrderDataModel.swift in Sources */,

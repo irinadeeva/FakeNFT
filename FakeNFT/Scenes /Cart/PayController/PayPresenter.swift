@@ -18,7 +18,7 @@ protocol PayPresenterProtocol {
 
 final class PayPresenter: PayPresenterProtocol {
 
-    private weak var payController: PayViewControllerProtocol?
+    weak var payController: PayViewControllerProtocol?
     private var currencies: [CurrencyDataModel] = []
     private var payService: PayServiceProtocol?
     private var orderService: OrderServiceProtocol?
@@ -30,8 +30,7 @@ final class PayPresenter: PayPresenterProtocol {
         }
     }
 
-    init(payController: PayViewControllerProtocol, payService: PayServiceProtocol, orderService: OrderServiceProtocol) {
-        self.payController = payController
+    init(payService: PayServiceProtocol, orderService: OrderServiceProtocol) {
         self.payService = payService
         self.orderService = orderService
     }
@@ -72,7 +71,6 @@ final class PayPresenter: PayPresenterProtocol {
                 self.payController?.updatePayCollection()
                 self.payController?.stopLoadIndicator()
             case let .failure(error):
-                print(error)
                 self.payController?.stopLoadIndicator()
             }
         }

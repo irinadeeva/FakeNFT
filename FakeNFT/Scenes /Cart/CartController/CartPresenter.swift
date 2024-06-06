@@ -19,13 +19,17 @@ protocol CartPresenterProtocol {
     func setOrder()
     func getModel(indexPath: IndexPath) -> NftDataModel
     func sortCart(filter: CartFilter.FilterBy)
+    func getOrderService() -> OrderServiceProtocol
+    func getNftByIdService() -> NftByIdServiceProtocol
+    func getPayService() -> PayServiceProtocol
 }
 
 final class CartPresenter: CartPresenterProtocol {
 
     weak var viewController: CartViewControllerProtocol?
-    private var orderService: OrderServiceProtocol?
-    private var nftByIdService: NftByIdServiceProtocol?
+    private var orderService: OrderServiceProtocol
+    private var nftByIdService: NftByIdServiceProtocol
+    private var payService: PayServiceProtocol
     private var userDefaults = UserDefaults.standard
     private let filterKey = "filter"
 
@@ -45,11 +49,11 @@ final class CartPresenter: CartPresenterProtocol {
     var order: OrderDataModel?
     var nftById: NftDataModel?
 
-    init(viewController: CartViewControllerProtocol, orderService: OrderServiceProtocol, nftByIdService: NftByIdServiceProtocol) {
-        self.viewController = viewController
+    init(orderService: OrderServiceProtocol, nftByIdService: NftByIdServiceProtocol, payService: PayServiceProtocol) {
         self.orderService = orderService
         self.nftByIdService = nftByIdService
-        self.orderService?.cartPresenter = self
+        self.payService = payService
+        self.orderService.cartPresenter = self
     }
 
     func totalPrice() -> Float {
@@ -62,34 +66,27 @@ final class CartPresenter: CartPresenterProtocol {
 
     func count() -> Int {
         let count: Int = cartContent.count
-        print(count)
         return count
     }
 
     func getOrder() {
         viewController?.startLoadIndicator()
-        orderService?.loadOrder { [weak self] result in
+        orderService.loadOrder { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 switch result {
                 case .success(let order):
                     self.order = order
-                    self.cartContent = []
                     if !order.nfts.isEmpty {
                         order.nfts.forEach {
                             self.getNftById(id: $0)
                         }
-
-                        self.viewController?.updateCartTable()
                     }
 
-                    self.sortCart(filter: self.currentFilter)
                     self.viewController?.stopLoadIndicator()
-                    self.viewController?.updateCartTable()
-                    self.viewController?.showEmptyCart()
+                    self.viewController?.updateCart()
                 case .failure(let error):
-                    print(error)
                     self.viewController?.stopLoadIndicator()
                 }
             }
@@ -98,7 +95,7 @@ final class CartPresenter: CartPresenterProtocol {
 
     func getNftById(id: String) {
         viewController?.startLoadIndicator()
-        nftByIdService?.loadNft(id: id) { [weak self] result in
+        nftByIdService.loadNft(id: id) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
@@ -115,12 +112,11 @@ final class CartPresenter: CartPresenterProtocol {
                         self.cartContent.append(self.nftById!)
                     }
 
-                    self.viewController?.showEmptyCart()
+                    self.viewController?.updateCart()
                     self.viewController?.stopLoadIndicator()
                     self.sortCart(filter: self.currentFilter)
                     self.viewController?.updateCartTable()
                 case .failure(let error):
-                    print(error)
                     self.viewController?.stopLoadIndicator()
                 }
             }
@@ -128,7 +124,7 @@ final class CartPresenter: CartPresenterProtocol {
     }
 
     func setOrder() {
-        guard let order = self.orderService?.nftsStorage else { return }
+        let order = self.orderService.nftsStorage
         self.cartContent = order
 
         viewController?.updateCartTable()
@@ -142,13 +138,21 @@ final class CartPresenter: CartPresenterProtocol {
     func sortCart(filter: CartFilter.FilterBy) {
         currentFilter = filter
         cartContent = cartContent.sorted(by: CartFilter.filter[currentFilter] ?? CartFilter.filterById)
-        viewController?.updateCartTable()
+    }
 
+    func getOrderService() -> any OrderServiceProtocol {
+        orderService
+    }
+
+    func getNftByIdService() -> any NftByIdServiceProtocol {
+        nftByIdService
+    }
+
+    func getPayService() -> any PayServiceProtocol {
+        payService
     }
 
     @objc private func didCartSorted(_ notification: Notification) {
-        guard let orderService = orderService  else { return }
-
         let orderUnsorted = orderService.nftsStorage.compactMap { NftDataModel(nft: $0) }
         cartContent = orderUnsorted.sorted(by: CartFilter.filter[currentFilter] ?? CartFilter.filterById )
     }

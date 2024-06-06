@@ -68,6 +68,7 @@ final class UserNftViewController: UIViewController {
 extension UserNftViewController {
 
     private func setupUI() {
+        view.backgroundColor = .background
         title = "Мои NFT"
 
         let backButton = UIBarButtonItem(customView: chevronLeft)
