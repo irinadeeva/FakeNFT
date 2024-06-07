@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OrderDataModel: Decodable {
+struct Order: Decodable {
   var nfts: [String]
   var id: String
 }

@@ -8,46 +8,41 @@
 import Foundation
 
 protocol OrderStorageProtocol: AnyObject {
-    func saveOrder(_ order: OrderDataModel)
-    func getOrder(with id: String) -> OrderDataModel?
+    func saveOrder(_ order: Order)
+    func getOrder() -> Order?
     func removeOrder()
-    func removeOrderById(with id: String)
+    func removeNftFromOrder(with id: String)
 }
 
 final class OrderStorage: OrderStorageProtocol {
 
-    private var storage: [String: OrderDataModel] = [:]
+    private var storage: Order?
 
     private let syncQueue = DispatchQueue(label: "sync-order-queue")
 
-    func saveOrder(_ order: OrderDataModel) {
-        syncQueue.async { [weak self] in
-            self?.storage[order.id] = order
-        }
+    func saveOrder(_ order: Order) {
+        storage = order
     }
 
-    func getOrder(with id: String) -> OrderDataModel? {
-        syncQueue.sync {
-            storage[id]
-        }
+    func getOrder() -> Order? {
+        storage
     }
 
     func removeOrder() {
-        storage = [:]
+        storage = nil
     }
 
-    func removeOrderById(with id: String) {
-        for (key, var value) in storage {
+    func removeNftFromOrder(with id: String) {
+        var newNfts: [String] = []
 
-            var newNfts: [String] = []
-            value.nfts.forEach { string in
+        if let leftNfts = storage?.nfts {
+            leftNfts.forEach { string in
                 if string != id {
                     newNfts.append(string)
                 }
             }
-            value.nfts = newNfts
-            storage[key] = value
         }
 
+        storage?.nfts = newNfts
     }
 }

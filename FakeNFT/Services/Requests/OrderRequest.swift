@@ -12,11 +12,7 @@ struct OrderRequest: NetworkRequest {
 
     var dto: Data?
 
-//    let id: String
-
     var endpoint: URL? {
         URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1")
     }
-
-    var nfts: [String]?
 }

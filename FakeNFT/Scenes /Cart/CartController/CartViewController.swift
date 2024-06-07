@@ -10,7 +10,7 @@ import UIKit
 
 final class CartViewController: UIViewController {
 
-    var presenter: CartPresenterProtocol
+    var presenter: CartPresenter
 
     private lazy var sortButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
@@ -31,9 +31,11 @@ final class CartViewController: UIViewController {
 
     private lazy var imagePay: UIView = {
         let imagePay = UIView()
+        // TODO: unify color storaga
         imagePay.backgroundColor = UIColor(named: "LightGray")
         imagePay.layer.masksToBounds = true
         imagePay.layer.cornerRadius = 12
+        // TODO: read what it this
         imagePay.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner ]
         imagePay.translatesAutoresizingMaskIntoConstraints = false
         return imagePay
@@ -42,6 +44,8 @@ final class CartViewController: UIViewController {
     private lazy var amountLabel: UILabel = {
         let amountLabel = UILabel()
         amountLabel.font = .caption1
+        amountLabel.text = "0 NFT"
+        // TODO: unify color storage
         amountLabel.textColor = UIColor(named: "Black")
         amountLabel.translatesAutoresizingMaskIntoConstraints = false
         return amountLabel
@@ -50,6 +54,8 @@ final class CartViewController: UIViewController {
     private lazy var moneyLabel: UILabel = {
         let moneyLabel = UILabel()
         moneyLabel.font = .bodyBold
+        moneyLabel.text = "0,00 ETH"
+        // TODO: unify color storage
         moneyLabel.textColor = UIColor(named: "Green")
         moneyLabel.translatesAutoresizingMaskIntoConstraints = false
         return moneyLabel
@@ -57,8 +63,10 @@ final class CartViewController: UIViewController {
 
     private lazy var payButton: UIButton = {
         let button = UIButton()
+        // TODO: unify color storage
         button.backgroundColor =  UIColor(named: "Black")
         button.setTitle("К оплате", for: .normal)
+        // TODO: unify color storage
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .bodyBold
         button.layer.cornerRadius = 16
@@ -71,15 +79,19 @@ final class CartViewController: UIViewController {
         let label = UILabel()
         label.text = "Корзина пуста"
         label.font = .bodyBold
+        // TODO: unify color storage
         label.textColor = UIColor(named: "Black")
         label.isHidden = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
-    private let loaderView = LoaderView()
+    // TODO: use from Common via protocol
+    private let activityIndicator = LoaderView()
 
-    init(presenter: CartPresenterProtocol) {
+    // MARK: - Init
+
+    init(presenter: CartPresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -87,6 +99,8 @@ final class CartViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Lifecycle
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -103,6 +117,8 @@ final class CartViewController: UIViewController {
         setupLayout()
         setupNavigationBar()
     }
+
+    // MARK: - Private
 
     @objc private func didTapSortButton() {
         let alert = UIAlertController(title: "Сортировка", message: nil, preferredStyle: .actionSheet)
@@ -142,26 +158,27 @@ final class CartViewController: UIViewController {
     }
 
     @objc private func didTapPayButton() {
-        let presenter = PayPresenter(
-            payService: presenter.getPayService(),
-            orderService: presenter.getOrderService()
-        )
-
-        let payController = PayViewController(presenter: presenter, cartController: self)
-        presenter.payController = payController
-
-        payController.hidesBottomBarWhenPushed = true
-        navigationItem.backButtonTitle = ""
-        navigationController?.pushViewController(payController, animated: true)
+//        let presenter = PayPresenter(
+//            payService: presenter.getPayService(),
+//            orderService: presenter.getOrderService()
+//        )
+//
+//        let payController = PayViewController(presenter: presenter, cartController: self)
+//        presenter.payController = payController
+//
+//        payController.hidesBottomBarWhenPushed = true
+//        navigationItem.backButtonTitle = ""
+//        navigationController?.pushViewController(payController, animated: true)
     }
 
     private func addSubviews() {
-        view.addSubview(tableView)
-        view.addSubview(imagePay)
-        imagePay.addSubview(amountLabel)
-        imagePay.addSubview(moneyLabel)
-        imagePay.addSubview(payButton)
-        view.addSubview(emptyCartLabel)
+        [amountLabel, moneyLabel, payButton].forEach {
+            imagePay.addSubview($0)
+        }
+
+        [tableView, imagePay, emptyCartLabel, activityIndicator].forEach {
+            view.addSubview($0)
+        }
     }
 
     private func setupNavigationBar() {
@@ -174,8 +191,10 @@ final class CartViewController: UIViewController {
             target: self,
             action: #selector(didTapSortButton)
         )
+
+        // TODO: unify color storage
         rightButton.tintColor = UIColor(named: "Black")
-        navigationBar.topItem?.setRightBarButton(rightButton, animated: false)
+        navigationBar.topItem?.rightBarButtonItem = rightButton
     }
 
     private func setupLayoutImagePay() {
@@ -197,6 +216,8 @@ final class CartViewController: UIViewController {
     }
 
     private func setupLayout() {
+        activityIndicator.constraintCenters(to: view)
+
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -233,11 +254,11 @@ extension CartViewController: CartViewControllerProtocol {
     }
 
     func startLoadIndicator() {
-        loaderView.showLoading()
+        activityIndicator.showLoading()
     }
 
     func stopLoadIndicator() {
-        loaderView.hideLoading()
+        activityIndicator.hideLoading()
     }
 }
 
@@ -266,15 +287,15 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
 extension CartViewController: CartTableViewCellDelegate {
     func didTapDeleteButton(id: String, image: UIImage) {
 
-        let deletePresenter = DeleteCardPresenter(orderService: presenter.getOrderService(),
-                                                  nftIdForDelete: id)
-
-        let deleteViewController = DeleteCardViewController(presenter: deletePresenter,
-                                                            cartContrroller: self,
-                                                            nftImage: image)
-        deletePresenter.viewController = deleteViewController
-
-        deleteViewController.modalPresentationStyle = .overCurrentContext
-        self.tabBarController?.present(deleteViewController, animated: true)
+//        let deletePresenter = DeleteCardPresenter(orderService: presenter.getOrderService(),
+//                                                  nftIdForDelete: id)
+//
+//        let deleteViewController = DeleteCardViewController(presenter: deletePresenter,
+//                                                            cartContrroller: self,
+//                                                            nftImage: image)
+//        deletePresenter.viewController = deleteViewController
+//
+//        deleteViewController.modalPresentationStyle = .overCurrentContext
+//        self.tabBarController?.present(deleteViewController, animated: true)
     }
 }

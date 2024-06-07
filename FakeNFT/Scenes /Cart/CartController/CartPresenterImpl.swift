@@ -8,14 +8,13 @@
 import Foundation
 import UIKit
 
-protocol CartPresenterProtocol {
+protocol CartPresenter {
     var cartContent: [Nft] { get set}
     var viewController: CartViewControllerProtocol? { get set}
 
     func totalPrice() -> Double
     func count() -> Int
     func getOrder()
-    func getNftById(id: String)
     func setOrder()
     func getModel(indexPath: IndexPath) -> Nft
     func sortCart(filter: CartFilter.FilterBy)
@@ -23,7 +22,7 @@ protocol CartPresenterProtocol {
     func getPayService() -> PayServiceProtocol
 }
 
-final class CartPresenter: CartPresenterProtocol {
+final class CartPresenterImpl: CartPresenter {
 
     weak var viewController: CartViewControllerProtocol?
     private var orderService: OrderServiceProtocol
@@ -45,8 +44,8 @@ final class CartPresenter: CartPresenterProtocol {
     var cartContent: [Nft] = []
     var orderIds: [String] = []
 
-    var order: OrderDataModel?
-    var nftById: Nft?
+//    var order: Order?
+//    var nftById: Nft?
 
     init(orderService: OrderServiceProtocol, nftByIdService: NftByIdServiceProtocol, payService: PayServiceProtocol) {
         self.orderService = orderService
@@ -71,52 +70,54 @@ final class CartPresenter: CartPresenterProtocol {
     func getOrder() {
         viewController?.startLoadIndicator()
         orderService.loadOrder { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch result {
                 case .success(let order):
-                    self.order = order
-                    if !order.nfts.isEmpty {
-                        order.nfts.forEach {
-                            self.getNftById(id: $0)
-                        }
-                    }
 
+                    if !order.nfts.isEmpty {
+
+                        self.getNfts(with: order.nfts)
+
+                    } else {
+                        self.viewController?.stopLoadIndicator()
+                        self.viewController?.updateCart()
+                    }
+                case .failure:
                     self.viewController?.stopLoadIndicator()
-                    self.viewController?.updateCart()
-                case .failure(let error):
-                    self.viewController?.stopLoadIndicator()
+                    // TODO: add error alert
                 }
             }
         }
     }
 
-    func getNftById(id: String) {
-        viewController?.startLoadIndicator()
-        nftByIdService.loadNft(id: id) { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                switch result {
-                case .success(let nft):
-                    self.nftById = nft
+    private func getNfts(with ids: [String]) {
 
-                    let contains = self.cartContent.contains {
-                        model in
-                        return model.id == nft.id
+        for id in ids {
+            nftByIdService.loadNft(id: id) { [weak self] result in
+                guard let self else { return }
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    switch result {
+                    case .success(let nft):
+
+                        let contains = self.cartContent.contains {
+                            model in
+                            return model.id == nft.id
+                        }
+
+                        if !contains {
+                            self.cartContent.append(nft)
+                        }
+
+                        self.viewController?.updateCart()
+                        self.viewController?.stopLoadIndicator()
+                        self.sortCart(filter: self.currentFilter)
+                    case .failure(let error):
+                        self.viewController?.stopLoadIndicator()
+                        // TODO: add error alert
                     }
-
-                    if !contains {
-                        self.cartContent.append(self.nftById!)
-                    }
-
-                    self.viewController?.updateCart()
-                    self.viewController?.stopLoadIndicator()
-                    self.sortCart(filter: self.currentFilter)
-                    self.viewController?.updateCartTable()
-                case .failure(let error):
-                    self.viewController?.stopLoadIndicator()
                 }
             }
         }
