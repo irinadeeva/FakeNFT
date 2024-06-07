@@ -149,9 +149,9 @@ final class MyOrderCell: UITableViewCell {
         ])
     }
 
-    func updateCell(with model: NftDataModel) {
+    func updateCell(with model: Nft) {
 
-        cardImageView.kf.setImage(with: URL(string: model.images[0]))
+        cardImageView.kf.setImage(with: model.images[0])
         nameCardLabel.text = model.name
         starImageView.setStar(with: model.rating)
         moneyLabel.text = "\(model.price) ETH"

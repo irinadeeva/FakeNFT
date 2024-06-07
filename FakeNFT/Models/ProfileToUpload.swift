@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProfileToUpload: Encodable {
+struct ProfileToUpload {
     let name: String
     let description: String
     let website: String

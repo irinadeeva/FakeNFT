@@ -8,23 +8,23 @@
 import Foundation
 
 protocol NftByIdStorageProtocol: AnyObject {
-    var storage: [String: NftDataModel] {get}
+    var storage: [String: Nft] {get}
 
-    func saveNftById(_ nftById: NftDataModel)
-    func getNftById(with id: String) -> NftDataModel?
+    func saveNftById(_ nftById: Nft)
+    func getNftById(with id: String) -> Nft?
     func removeNftById(with id: String)
     func removeAllNft()
 }
 
 final class NftByIdStorage: NftByIdStorageProtocol {
 
-    var storage: [String: NftDataModel] = [:]
+    var storage: [String: Nft] = [:]
 
-    func saveNftById(_ nftById: NftDataModel) {
+    func saveNftById(_ nftById: Nft) {
         storage[nftById.id] = nftById
     }
 
-    func getNftById(with id: String) -> NftDataModel? {
+    func getNftById(with id: String) -> Nft? {
         storage[id]
     }
 

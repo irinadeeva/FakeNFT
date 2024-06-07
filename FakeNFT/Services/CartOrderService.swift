@@ -13,7 +13,7 @@ typealias RemoveAllNftCompletion = (Result<Int, Error>) -> Void
 
 protocol OrderServiceProtocol {
     var cartPresenter: CartPresenterProtocol? { get set}
-    var nftsStorage: [NftDataModel] { get }
+    var nftsStorage: [Nft] { get }
 
     func loadOrder(completion: @escaping OrderCompletion)
     func removeNftFromStorage(id: String, completion: @escaping RemoveOrderCompletion)
@@ -27,7 +27,7 @@ final class CartOrderService: OrderServiceProtocol {
     private let nftByIdService: NftByIdServiceProtocol
     private var nftStorage: NftByIdStorageProtocol
     private var idsStorage: [String] = []
-    var nftsStorage: [NftDataModel] = []
+    var nftsStorage: [Nft] = []
 
     var cartPresenter: CartPresenterProtocol?
 

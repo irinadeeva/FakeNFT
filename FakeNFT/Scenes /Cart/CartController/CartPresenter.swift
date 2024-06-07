@@ -9,18 +9,17 @@ import Foundation
 import UIKit
 
 protocol CartPresenterProtocol {
-    var cartContent: [NftDataModel] { get set}
+    var cartContent: [Nft] { get set}
     var viewController: CartViewControllerProtocol? { get set}
 
-    func totalPrice() -> Float
+    func totalPrice() -> Double
     func count() -> Int
     func getOrder()
     func getNftById(id: String)
     func setOrder()
-    func getModel(indexPath: IndexPath) -> NftDataModel
+    func getModel(indexPath: IndexPath) -> Nft
     func sortCart(filter: CartFilter.FilterBy)
     func getOrderService() -> OrderServiceProtocol
-    func getNftByIdService() -> NftByIdServiceProtocol
     func getPayService() -> PayServiceProtocol
 }
 
@@ -43,11 +42,11 @@ final class CartPresenter: CartPresenterProtocol {
         }
     }
 
-    var cartContent: [NftDataModel] = []
+    var cartContent: [Nft] = []
     var orderIds: [String] = []
 
     var order: OrderDataModel?
-    var nftById: NftDataModel?
+    var nftById: Nft?
 
     init(orderService: OrderServiceProtocol, nftByIdService: NftByIdServiceProtocol, payService: PayServiceProtocol) {
         self.orderService = orderService
@@ -56,8 +55,8 @@ final class CartPresenter: CartPresenterProtocol {
         self.orderService.cartPresenter = self
     }
 
-    func totalPrice() -> Float {
-        var price: Float = 0
+    func totalPrice() -> Double {
+        var price: Double = 0
         for nft in cartContent {
             price += nft.price
         }
@@ -130,7 +129,7 @@ final class CartPresenter: CartPresenterProtocol {
         viewController?.updateCartTable()
     }
 
-    func getModel(indexPath: IndexPath) -> NftDataModel {
+    func getModel(indexPath: IndexPath) -> Nft {
         let model = cartContent[indexPath.row]
         return model
     }
@@ -144,16 +143,12 @@ final class CartPresenter: CartPresenterProtocol {
         orderService
     }
 
-    func getNftByIdService() -> any NftByIdServiceProtocol {
-        nftByIdService
-    }
-
     func getPayService() -> any PayServiceProtocol {
         payService
     }
 
     @objc private func didCartSorted(_ notification: Notification) {
-        let orderUnsorted = orderService.nftsStorage.compactMap { NftDataModel(nft: $0) }
+        let orderUnsorted = orderService.nftsStorage.compactMap { Nft(nft: $0) }
         cartContent = orderUnsorted.sorted(by: CartFilter.filter[currentFilter] ?? CartFilter.filterById )
     }
 

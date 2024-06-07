@@ -9,7 +9,7 @@ import Foundation
 
 struct CartFilter {
 
-    typealias FilterSorting = (NftDataModel, NftDataModel) -> Bool
+    typealias FilterSorting = (Nft, Nft) -> Bool
 
     enum FilterBy: Int {
         case id

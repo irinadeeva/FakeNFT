@@ -551,7 +551,9 @@
 		3F6806C929CBBCAF00B4F915 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				30010FA62BEBEFF700C1F223 /* Models */,
 				1FA3B31F2BF40330001DB0AA /* CartFilter.swift */,
+				BE1BF1882BF4AFE7006CD495 /* ProfileToUpload.swift */,
 				3F6806D829CC979D00B4F915 /* Network */,
 			);
 			path = Models;
@@ -560,7 +562,6 @@
 		3F6806CE29CBBD1B00B4F915 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
-				30010FA62BEBEFF700C1F223 /* Models */,
 				0CFCB74C2A7817C30009A829 /* MemoryStorage */,
 				3F6806CF29CBBDB100B4F915 /* NetworkClient */,
 				3F6806D629CBC50A00B4F915 /* CellsReusingUtils.swift */,
@@ -583,7 +584,6 @@
 		3F6806D829CC979D00B4F915 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				BE1BF1882BF4AFE7006CD495 /* ProfileToUpload.swift */,
 				0CFCB7412A78013E0009A829 /* Nft.swift */,
 				BED4C78C2BE237A700213628 /* Profile.swift */,
 				1F853CEE2BE8C2AD00A1ECA2 /* NftDataModel.swift */,
