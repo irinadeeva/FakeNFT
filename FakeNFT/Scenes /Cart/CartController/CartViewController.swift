@@ -5,7 +5,6 @@
 //  Created by Ольга Чушева on 05.05.2024.
 //
 
-import Foundation
 import UIKit
 
 final class CartViewController: UIViewController {
@@ -158,17 +157,21 @@ final class CartViewController: UIViewController {
     }
 
     @objc private func didTapPayButton() {
-//        let presenter = PayPresenter(
-//            payService: presenter.getPayService(),
-//            orderService: presenter.getOrderService()
-//        )
-//
-//        let payController = PayViewController(presenter: presenter, cartController: self)
-//        presenter.payController = payController
-//
-//        payController.hidesBottomBarWhenPushed = true
-//        navigationItem.backButtonTitle = ""
-//        navigationController?.pushViewController(payController, animated: true)
+        let presenter = PayPresenter(
+            payService: presenter.getPayService(),
+            orderService: presenter.getOrderService()
+        )
+
+        let payController = PayViewController(
+            presenter: presenter
+        )
+        payController.delegate = self
+
+        presenter.payController = payController
+
+        payController.hidesBottomBarWhenPushed = true
+        navigationItem.backButtonTitle = ""
+        navigationController?.pushViewController(payController, animated: true)
     }
 
     private func addSubviews() {
@@ -292,7 +295,8 @@ extension CartViewController: CartTableViewCellDelegate {
 
         let deleteViewController = DeleteCardViewController(
             presenter: deletePresenter,
-            nftImage: image)
+            nftImage: image
+        )
 
         deleteViewController.delegate = self
 
@@ -306,5 +310,12 @@ extension CartViewController: CartTableViewCellDelegate {
 extension CartViewController: DeleteCardViewControllerDelegate {
     func didTapDeleteButton() {
         presenter.loadOrder()
+    }
+}
+
+extension CartViewController: PayViewControllerDelegate {
+    func didPaid() {
+        presenter.cartContent = []
+        updateCart()
     }
 }

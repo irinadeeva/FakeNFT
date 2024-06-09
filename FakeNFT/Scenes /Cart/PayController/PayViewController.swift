@@ -5,7 +5,6 @@
 //  Created by Ольга Чушева on 07.05.2024.
 //
 
-import Foundation
 import UIKit
 
 protocol PayViewControllerProtocol: AnyObject {
@@ -16,11 +15,15 @@ protocol PayViewControllerProtocol: AnyObject {
     func stopLoadIndicator()
 }
 
+protocol PayViewControllerDelegate: AnyObject {
+    func didPaid()
+}
+
 final class PayViewController: UIViewController, PayViewControllerProtocol, UITextViewDelegate {
 
+    weak var delegate: PayViewControllerDelegate?
     private var presenter: PayPresenterProtocol
     private let agreeUrl = URL(string: "https://yandex.ru/legal/practicum_termsofuse/")
-    var cartController: CartViewController
 
     private lazy var payCollectionView: UICollectionView = {
         let collectionView = UICollectionView(
@@ -29,18 +32,20 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         collectionView.register(PayCell.self,
                                 forCellWithReuseIdentifier: PayCell.identifier)
         collectionView.allowsMultipleSelection = false
+        collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-
         return collectionView
     }()
 
     private lazy var imagePay: UIView = {
         let imagePay = UIView()
+        // TODO: unify color storage
         imagePay.backgroundColor = UIColor(named: "LightGray")
-        imagePay.translatesAutoresizingMaskIntoConstraints = false
         imagePay.layer.masksToBounds = true
         imagePay.layer.cornerRadius = 12
-        imagePay.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner ]
+        imagePay.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        imagePay.translatesAutoresizingMaskIntoConstraints = false
         return imagePay
     }()
 
@@ -48,6 +53,7 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         let textLabel = UILabel()
         textLabel.text = "Совершая покупку, вы соглашаетесь с условиями"
         textLabel.font = .caption2
+        // TODO: unify color storage
         textLabel.textColor = UIColor(named: "Black")
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         return textLabel
@@ -64,21 +70,22 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         agreementTextView.attributedText = attributedString
         agreementTextView.isUserInteractionEnabled = true
         agreementTextView.isEditable = false
-
+        // TODO: unify color storage
         agreementTextView.linkTextAttributes = [
             .foregroundColor: UIColor(named: "Blue"),
             .font: UIFont.caption2
         ]
-        agreementTextView.translatesAutoresizingMaskIntoConstraints = false
         agreementTextView.delegate = self
-
+        agreementTextView.translatesAutoresizingMaskIntoConstraints = false
         return agreementTextView
     }()
 
     private lazy var payButton: UIButton = {
         let button = UIButton()
+        // TODO: unify color storage
         button.backgroundColor = .black
         button.setTitle("Оплатить", for: .normal)
+        // TODO: unify color storage
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .bodyBold
         button.layer.cornerRadius = 16
@@ -89,9 +96,8 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
 
     private let loaderView = LoaderView()
 
-    init(presenter: PayPresenterProtocol, cartController: CartViewController) {
+    init(presenter: PayPresenterProtocol) {
         self.presenter = presenter
-        self.cartController = cartController
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -101,14 +107,13 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // TODO: unify color storage
         view.backgroundColor = UIColor(named: "White")
 
         makeNavBar()
         addSubviews()
         setupLayoutImagePay()
         setupLayout()
-        payCollectionView.dataSource = self
-        payCollectionView.delegate = self
 
         presenter.getCurrencies()
     }
@@ -117,9 +122,11 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         if let navBar = navigationController?.navigationBar {
             navigationItem.title = "Выберите способ оплаты"
             navBar.titleTextAttributes = [.font: UIFont.bodyBold]
+            // TODO: unify color storage
             navBar.tintColor = UIColor(named: "Black")
 
             let leftButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(toCart))
+            // TODO: unify color storage
             leftButton.image = UIImage(named: "Back")
         }
     }
@@ -142,7 +149,6 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
 
     private func setupLayoutImagePay() {
         NSLayoutConstraint.activate([
-
             textLabel.leadingAnchor.constraint(equalTo: imagePay.leadingAnchor, constant: 18),
             textLabel.topAnchor.constraint(equalTo: imagePay.topAnchor, constant: 16),
 
@@ -159,7 +165,6 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
     }
 
     private func setupLayout() {
-
         NSLayoutConstraint.activate([
             payCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             payCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
@@ -195,9 +200,7 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         if payResult {
             let successPayController = SuccessPayController()
             successPayController.modalPresentationStyle = .fullScreen
-            self.cartController.presenter.cartContent = []
-            self.cartController.updateCartTable()
-            self.cartController.updateCart()
+            delegate?.didPaid()
             present(successPayController, animated: true) {
                 self.navigationController?.popViewController(animated: true)
                 self.tabBarController?.selectedViewController = self.tabBarController?.viewControllers?[1]
@@ -232,14 +235,16 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
 
 extension  PayViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       let count = presenter.count()
-        return count
+       return presenter.count()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PayCell.identifier, for: indexPath) as? PayCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: PayCell.identifier,
+            for: indexPath) as? PayCell else {
             return UICollectionViewCell()
         }
+
         let model = presenter.getModel(indexPath: indexPath)
         cell.updateCell(currency: model)
         return cell

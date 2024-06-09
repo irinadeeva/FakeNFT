@@ -5,7 +5,6 @@
 //  Created by Ольга Чушева on 07.05.2024.
 //
 
-import Foundation
 import UIKit
 
 final class PayCell: UICollectionViewCell {
@@ -15,29 +14,29 @@ final class PayCell: UICollectionViewCell {
 
     private lazy var cardView: UIView = {
         let cardView = UIView()
-        cardView.translatesAutoresizingMaskIntoConstraints = false
         cardView.backgroundColor = UIColor(named: "LightGray")
         cardView.layer.masksToBounds = true
         cardView.layer.cornerRadius = 12
         cardView.layer.borderColor = UIColor(named: "Black")?.cgColor
+        cardView.translatesAutoresizingMaskIntoConstraints = false
         return cardView
     }()
 
     lazy var backView: UIImageView = {
-       let  backView = UIImageView()
+        let backView = UIImageView()
         backView.layer.cornerRadius = 6
         backView.layer.backgroundColor = UIColor(named: "Black")?.cgColor
         backView.translatesAutoresizingMaskIntoConstraints = false
-       return  backView
-   }()
-
-     lazy var moneyImageView: UIImageView = {
-        let  moneyImageView = UIImageView()
-         moneyImageView.translatesAutoresizingMaskIntoConstraints = false
-        return  moneyImageView
+        return backView
     }()
 
-     lazy var moneyNameLabel: UILabel = {
+    lazy var moneyImageView: UIImageView = {
+        let  moneyImageView = UIImageView()
+        moneyImageView.translatesAutoresizingMaskIntoConstraints = false
+        return moneyImageView
+    }()
+
+    lazy var moneyNameLabel: UILabel = {
         let moneyNameLabel = UILabel()
         moneyNameLabel.font = .caption2
         moneyNameLabel.textColor = UIColor(named: "Black")
@@ -45,7 +44,7 @@ final class PayCell: UICollectionViewCell {
         return moneyNameLabel
     }()
 
-     lazy var moneyShotLabel: UILabel = {
+    lazy var moneyShotLabel: UILabel = {
         let moneyShotLabel = UILabel()
         moneyShotLabel.font = .caption2
         moneyShotLabel.textColor = UIColor(named: "Green")

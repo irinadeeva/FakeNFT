@@ -46,7 +46,6 @@ final class CartPresenterImpl: CartPresenter {
         self.orderService = orderService
         self.nftService = nftService
         self.payService = payService
-        self.orderService.cartPresenter = self
     }
 
     func totalPrice() -> String {

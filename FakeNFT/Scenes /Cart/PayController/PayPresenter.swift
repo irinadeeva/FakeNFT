@@ -5,7 +5,6 @@
 //  Created by Ольга Чушева on 08.05.2024.
 //
 
-import Foundation
 import UIKit
 
 protocol PayPresenterProtocol {
