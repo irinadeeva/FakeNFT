@@ -240,11 +240,12 @@ extension CartViewController: CartViewControllerProtocol {
             emptyCartLabel.isHidden = false
         } else {
             emptyCartLabel.isHidden = true
-            let count = presenter.count()
-            let moneyText = presenter.totalPrice()
-            moneyLabel.text = "\(moneyText) ETH"
-            amountLabel.text = "\(count) NFT"
         }
+
+        let count = presenter.count()
+        let moneyText = presenter.totalPrice()
+        moneyLabel.text = "\(moneyText) ETH"
+        amountLabel.text = "\(count) NFT"
 
         tableView.reloadData()
     }
@@ -313,8 +314,6 @@ extension CartViewController: DeleteCardViewControllerDelegate {
 
 extension CartViewController: PayViewControllerDelegate {
     func didPaid() {
-
-        presenter.cartContent = []
-        updateCart()
+        presenter.payOrder()
     }
 }

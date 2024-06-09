@@ -14,6 +14,7 @@ protocol CartPresenter {
     func totalPrice() -> String
     func count() -> Int
     func loadOrder()
+    func payOrder()
     func setOrder()
     func getNft(with index: Int) -> Nft
     func sortCart(filter: CartFilter.FilterBy)
@@ -151,19 +152,16 @@ final class CartPresenterImpl: CartPresenter {
         cartContent = orderUnsorted.sorted(by: CartFilter.filter[currentFilter] ?? CartFilter.filterById )
     }
 
-    func paidOrder() {
-
-        orderService.removeAllNftFromStorage { [weak self] result in
+    func payOrder() {
+        orderService.removeAllNftFromStorage{ [weak self] result in
             guard let self else { return }
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 switch result {
                 case .success(let order):
-
                     self.cartContent = []
                     self.viewController?.stopLoadIndicator()
                     self.viewController?.updateCart()
-
                 case .failure:
                     self.viewController?.stopLoadIndicator()
                     // TODO: add error alert

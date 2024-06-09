@@ -63,9 +63,10 @@ final class PayViewController: UIViewController, PayViewControllerProtocol, UITe
         let agreementTextView = UITextView()
         let attributedString = NSMutableAttributedString(string: "Пользовательского соглашения")
         let lenOfLink = "Пользовательского соглашения".count
-
-        attributedString.setAttributes([.link: agreeUrl], range: NSRange(location: 0, length: attributedString.length))
-
+        attributedString.setAttributes(
+            [.link: agreeUrl],
+            range: NSRange(location: 0, length: attributedString.length)
+        )
         agreementTextView.backgroundColor = .clear
         agreementTextView.attributedText = attributedString
         agreementTextView.isUserInteractionEnabled = true
