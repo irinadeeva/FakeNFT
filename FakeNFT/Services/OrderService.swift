@@ -24,17 +24,13 @@ final class OrderService: OrderServiceProtocol {
 
     private let networkClient: NetworkClient
     private let storage: OrderStorageProtocol
-    private let nftByIdService: NftByIdServiceProtocol
-    private var nftStorage: NftByIdStorageProtocol
     var nftsStorage: [Nft] = []
 
     var cartPresenter: CartPresenter?
 
-    init(networkClient: NetworkClient, orderStorage: OrderStorageProtocol, nftByIdService: NftByIdServiceProtocol, nftStorage: NftByIdStorageProtocol) {
+    init(networkClient: NetworkClient, orderStorage: OrderStorageProtocol) {
         self.networkClient = networkClient
         self.storage = orderStorage
-        self.nftByIdService = nftByIdService
-        self.nftStorage = nftStorage
     }
 
     func loadOrder(completion: @escaping OrderCompletion) {
@@ -56,18 +52,19 @@ final class OrderService: OrderServiceProtocol {
     }
 
     func removeNftFromStorage(id: String, completion: @escaping RemoveOrderCompletion) {
-        self.nftStorage.removeNftById(with: id)
+        let order = storage.getOrder()
 
-        let request = ChangeOrderRequest(nfts: Array(self.nftStorage.storage.keys))
+        let leftNfts = order?.nfts.filter {
+            $0 != id
+        }
+
+        let request = ChangeOrderRequest(nfts: leftNfts)
+
         networkClient.send(request: request, type: ChangedOrderDataModel.self) { result in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 switch result {
                 case let .success(data):
-                    self.nftsStorage.removeAll(where: { $0.id == id })
-                    self.cartPresenter?.cartContent.removeAll(where: { $0.id == id })
-                    self.nftStorage.removeNftById(with: id)
-
                     self.storage.removeNftFromOrder(with: id)
                     completion(.success(data.nfts))
                 case let .failure(error):
@@ -80,25 +77,25 @@ final class OrderService: OrderServiceProtocol {
     }
 
     func removeAllNftFromStorage(completion: @escaping RemoveAllNftCompletion) {
-        let request = EmptyOrderRequest(nfts: [])
-
-        networkClient.send(request: request, type: ChangedOrderDataModel.self) { result in
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                switch result {
-                case let .success(data):
-                    self.nftsStorage.removeAll()
-                    self.cartPresenter?.cartContent = []
-                    self.cartPresenter?.viewController?.updateCartTable()
-                    self.cartPresenter?.viewController?.updateCart()
-                    self.nftStorage.removeAllNft()
-                    self.storage.removeOrder()
-                    completion(.success(data.nfts.count))
-                case let .failure(error):
-                    completion(.failure(error))
-                }
-            }
-        }
-        return
+//        let request = EmptyOrderRequest(nfts: [])
+//
+//        networkClient.send(request: request, type: ChangedOrderDataModel.self) { result in
+//            DispatchQueue.main.async { [weak self] in
+//                guard let self = self else { return }
+//                switch result {
+//                case let .success(data):
+//                    self.nftsStorage.removeAll()
+//                    self.cartPresenter?.cartContent = []
+//                    self.cartPresenter?.viewController?.updateCartTable()
+//                    self.cartPresenter?.viewController?.updateCart()
+//                    self.nftStorage.removeAllNft()
+//                    self.storage.removeOrder()
+//                    completion(.success(data.nfts.count))
+//                case let .failure(error):
+//                    completion(.failure(error))
+//                }
+//            }
+//        }
+//        return
     }
 }

@@ -31,8 +31,4 @@ struct ChangeOrderRequest: NetworkRequest {
     var endpoint: URL? {
         URL(string: "\(RequestConstants.baseURL)/api/v1/orders/1")
     }
-
-    init(nfts: [String]) {
-        self.nfts = nfts
-    }
 }

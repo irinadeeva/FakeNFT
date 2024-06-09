@@ -73,7 +73,7 @@ final class CartPresenterImpl: CartPresenter {
                 case .success(let order):
 
                     if !order.nfts.isEmpty {
-
+                        self.cartContent = []
                         self.loadNft(with: order.nfts)
 
                     } else {

@@ -292,12 +292,19 @@ extension CartViewController: CartTableViewCellDelegate {
 
         let deleteViewController = DeleteCardViewController(
             presenter: deletePresenter,
-            cartContrroller: self,
             nftImage: image)
+
+        deleteViewController.delegate = self
 
         deletePresenter.viewController = deleteViewController
 
         deleteViewController.modalPresentationStyle = .overCurrentContext
         self.tabBarController?.present(deleteViewController, animated: true)
+    }
+}
+
+extension CartViewController: DeleteCardViewControllerDelegate {
+    func didTapDeleteButton() {
+        presenter.loadOrder()
     }
 }

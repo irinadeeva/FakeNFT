@@ -8,8 +8,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         nftStorage: NftStorageImpl(),
         usersStorage: UsersStorage(),
         profileStofare: ProfileStorageImpl(),
-        orderStorage: OrderStorage(),
-        nftByIdStorage: NftByIdStorage()
+        orderStorage: OrderStorage()
     )
 
     func scene(_: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {

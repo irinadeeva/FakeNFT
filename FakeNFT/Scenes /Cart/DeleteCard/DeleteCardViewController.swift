@@ -11,17 +11,21 @@ protocol CartDeleteControllerProtocol: AnyObject {
     func showNetworkError(message: String)
     func startLoadIndicator()
     func stopLoadIndicator()
+    func dismissView()
+}
+
+protocol DeleteCardViewControllerDelegate: AnyObject {
+    func didTapDeleteButton()
 }
 
 final class DeleteCardViewController: UIViewController, CartDeleteControllerProtocol {
 
+    weak var delegate: DeleteCardViewControllerDelegate?
     private var presenter: DeleteCardPresenter
     private (set) var nftImage: UIImage
-    var cartController: CartViewController
 
-    init(presenter: DeleteCardPresenter, cartContrroller: CartViewController, nftImage: UIImage) {
+    init(presenter: DeleteCardPresenter, nftImage: UIImage) {
         self.presenter = presenter
-        self.cartController = cartContrroller
         self.nftImage = nftImage
         super.init(nibName: nil, bundle: nil)
     }
@@ -39,8 +43,8 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
 
     private lazy var deleteCardView: UIView = {
         let deleteCardView = UIView()
-        deleteCardView.translatesAutoresizingMaskIntoConstraints = false
         deleteCardView.layer.masksToBounds = true
+        deleteCardView.translatesAutoresizingMaskIntoConstraints = false
         return deleteCardView
     }()
 
@@ -48,7 +52,7 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
         let  cardImageView = UIImageView()
         cardImageView.layer.masksToBounds = true
         cardImageView.layer.cornerRadius = 12
-        cardImageView.image = self.nftImage
+        cardImageView.image = nftImage
         cardImageView.translatesAutoresizingMaskIntoConstraints = false
         return  cardImageView
     }()
@@ -59,6 +63,7 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
         confirmationLabel.numberOfLines = 2
         confirmationLabel.font = .caption2
         confirmationLabel.textAlignment = .center
+        // TODO: unify color storage
         confirmationLabel.textColor = UIColor(named: "Black")
         confirmationLabel.translatesAutoresizingMaskIntoConstraints = false
         return confirmationLabel
@@ -66,8 +71,10 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
 
     private lazy var deleteButton: UIButton = {
         let button = UIButton()
+        // TODO: unify color storage
         button.backgroundColor = UIColor(named: "Black")
         button.setTitle("Удалить", for: .normal)
+        // TODO: unify color storage
         button.setTitleColor(UIColor(named: "Red"), for: .normal)
         button.titleLabel?.font = .bodyBold
         button.layer.cornerRadius = 12
@@ -78,8 +85,10 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
 
     private lazy var backButton: UIButton = {
         let button = UIButton()
+        // TODO: unify color storage
         button.backgroundColor = UIColor(named: "Black")
         button.setTitle("Вернуться", for: .normal)
+        // TODO: unify color storage
         button.setTitleColor(UIColor(named: "White"), for: .normal)
         button.titleLabel?.font = .bodyBold
         button.layer.cornerRadius = 12
@@ -116,7 +125,6 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
 
     private func setupLayoutDeleteCardView() {
         NSLayoutConstraint.activate([
-
             deleteCardImageView.heightAnchor.constraint(equalToConstant: 108),
             deleteCardImageView.widthAnchor.constraint(equalToConstant: 108),
             deleteCardImageView.centerXAnchor.constraint(equalTo: deleteCardView.centerXAnchor),
@@ -139,9 +147,7 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
     }
 
     private func setupLayout() {
-
         NSLayoutConstraint.activate([
-
             blurView.topAnchor.constraint(equalTo: view.topAnchor),
             blurView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             blurView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -154,22 +160,12 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
         ])
     }
 
-    @objc func didTapDeleteButton() {
-        presenter.deleteNftFromCart { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success:
-                self.cartController.presenter.loadOrder()
-                self.cartController.updateCartTable()
-                self.dismiss(animated: true)
-            case let .failure(error):
-                print(error)
-            }
-        }
+    @objc private func didTapDeleteButton() {
+        presenter.deleteNftFromCart()
     }
 
     @objc private func didTapReturnButton() {
-        self.dismiss(animated: true)
+        dismiss(animated: true)
     }
 
     func startLoadIndicator() {
@@ -180,18 +176,15 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
         loaderView.hideLoading()
     }
 
+    func dismissView() {
+        delegate?.didTapDeleteButton()
+        dismiss(animated: true)
+    }
+
     func showNetworkError(message: String) {
         let alert = UIAlertController(title: "Что-то пошло не так", message: message, preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: "Еще раз", style: .default) { _ in
-            self.presenter.deleteNftFromCart { [weak self] result in
-                guard let self = self else { return }
-                switch result {
-                case .success:
-                    self.dismiss(animated: true)
-                case let .failure(error):
-                    print(error)
-                }
-            }
+            self.presenter.deleteNftFromCart()
         }
         let cancelAction = UIAlertAction(title: "Отменить", style: .default) { _ in
             self.dismiss(animated: true)
@@ -200,5 +193,4 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
         alert.addAction(deleteAction)
         self.present(alert, animated: true, completion: nil)
     }
-
 }

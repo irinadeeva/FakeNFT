@@ -8,7 +8,7 @@
 import Foundation
 
 protocol DeleteCardPresenter {
-    func deleteNftFromCart(completion: @escaping (Result<[String], Error>) -> Void)
+    func deleteNftFromCart()
 }
 
 final class DeleteCardPresenterImpl: DeleteCardPresenter {
@@ -22,17 +22,18 @@ final class DeleteCardPresenterImpl: DeleteCardPresenter {
         self.nftIdForDelete = nftIdForDelete
     }
 
-    func deleteNftFromCart(completion: @escaping (Result<[String], Error>) -> Void) {
+    func deleteNftFromCart() {
         viewController?.startLoadIndicator()
+
         orderService.removeNftFromStorage(id: nftIdForDelete, completion: { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             switch result {
             case let .success(data):
                 self.viewController?.stopLoadIndicator()
-                completion(.success(data))
+                self.viewController?.dismissView()
             case let .failure(error):
-                self.viewController?.showNetworkError(message: "\(error)")
                 self.viewController?.stopLoadIndicator()
+                self.viewController?.showNetworkError(message: "\(error)")
             }
         })
     }
