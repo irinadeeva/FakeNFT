@@ -20,7 +20,6 @@ final class PayPresenter: PayPresenterProtocol {
     weak var payController: PayViewControllerProtocol?
     private var currencies: [CurrencyDataModel] = []
     private var payService: PayServiceProtocol?
-    private var orderService: OrderServiceProtocol?
     var selectedCurrency: CurrencyDataModel? {
         didSet {
             if selectedCurrency != nil {
@@ -29,9 +28,8 @@ final class PayPresenter: PayPresenterProtocol {
         }
     }
 
-    init(payService: PayServiceProtocol, orderService: OrderServiceProtocol) {
+    init(payService: PayServiceProtocol) {
         self.payService = payService
-        self.orderService = orderService
     }
 
     func count() -> Int {
@@ -50,7 +48,6 @@ final class PayPresenter: PayPresenterProtocol {
             guard let self = self else { return }
             switch result {
             case let .success(data):
-                self.emptyCart()
                 self.payController?.didPay(payResult: data.success)
                 self.payController?.stopLoadIndicator()
             case .failure:
@@ -74,16 +71,4 @@ final class PayPresenter: PayPresenterProtocol {
             }
         }
     }
-
-    func emptyCart() {
-        orderService?.removeAllNftFromStorage { result in
-            switch result {
-            case let .success(data):
-                break
-            case .failure:
-                break
-            }
-        }
-    }
-
 }

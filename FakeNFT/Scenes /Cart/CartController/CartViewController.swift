@@ -158,8 +158,7 @@ final class CartViewController: UIViewController {
 
     @objc private func didTapPayButton() {
         let presenter = PayPresenter(
-            payService: presenter.getPayService(),
-            orderService: presenter.getOrderService()
+            payService: presenter.getPayService()
         )
 
         let payController = PayViewController(
@@ -239,16 +238,15 @@ extension CartViewController: CartViewControllerProtocol {
     func updateCart() {
         if presenter.count() == 0 {
             emptyCartLabel.isHidden = false
-            imagePay.isHidden = true
         } else {
             emptyCartLabel.isHidden = true
-            imagePay.isHidden = false
             let count = presenter.count()
             let moneyText = presenter.totalPrice()
             moneyLabel.text = "\(moneyText) ETH"
             amountLabel.text = "\(count) NFT"
-            tableView.reloadData()
         }
+
+        tableView.reloadData()
     }
 
     func updateCartTable() {
@@ -315,6 +313,7 @@ extension CartViewController: DeleteCardViewControllerDelegate {
 
 extension CartViewController: PayViewControllerDelegate {
     func didPaid() {
+
         presenter.cartContent = []
         updateCart()
     }

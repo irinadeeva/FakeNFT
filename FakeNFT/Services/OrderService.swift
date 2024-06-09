@@ -73,25 +73,20 @@ final class OrderService: OrderServiceProtocol {
     }
 
     func removeAllNftFromStorage(completion: @escaping RemoveAllNftCompletion) {
-//        let request = EmptyOrderRequest(nfts: [])
-//
-//        networkClient.send(request: request, type: ChangedOrderDataModel.self) { result in
-//            DispatchQueue.main.async { [weak self] in
-//                guard let self = self else { return }
-//                switch result {
-//                case let .success(data):
-//                    self.nftsStorage.removeAll()
-//                    self.cartPresenter?.cartContent = []
-//                    self.cartPresenter?.viewController?.updateCartTable()
-//                    self.cartPresenter?.viewController?.updateCart()
-//                    self.nftStorage.removeAllNft()
-//                    self.storage.removeOrder()
-//                    completion(.success(data.nfts.count))
-//                case let .failure(error):
-//                    completion(.failure(error))
-//                }
-//            }
-//        }
-//        return
+        let request = EmptyOrderRequest(nfts: [])
+
+        networkClient.send(request: request, type: ChangedOrderDataModel.self) { result in
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                switch result {
+                case let .success(data):
+                    self.storage.removeOrder()
+
+                    completion(.success(data.nfts.count))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
     }
 }

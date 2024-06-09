@@ -151,4 +151,24 @@ final class CartPresenterImpl: CartPresenter {
         cartContent = orderUnsorted.sorted(by: CartFilter.filter[currentFilter] ?? CartFilter.filterById )
     }
 
+    func paidOrder() {
+
+        orderService.removeAllNftFromStorage { [weak self] result in
+            guard let self else { return }
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                switch result {
+                case .success(let order):
+
+                    self.cartContent = []
+                    self.viewController?.stopLoadIndicator()
+                    self.viewController?.updateCart()
+
+                case .failure:
+                    self.viewController?.stopLoadIndicator()
+                    // TODO: add error alert
+                }
+            }
+        }
+    }
 }
