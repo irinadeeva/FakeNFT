@@ -12,7 +12,7 @@ protocol CartPresenter {
     var cartContent: [Nft] { get set}
     var viewController: CartViewControllerProtocol? { get set}
 
-    func totalPrice() -> Double
+    func totalPrice() -> String
     func count() -> Int
     func getOrder()
     func setOrder()
@@ -42,10 +42,6 @@ final class CartPresenterImpl: CartPresenter {
     }
 
     var cartContent: [Nft] = []
-    var orderIds: [String] = []
-
-//    var order: Order?
-//    var nftById: Nft?
 
     init(orderService: OrderServiceProtocol, nftByIdService: NftByIdServiceProtocol, payService: PayServiceProtocol) {
         self.orderService = orderService
@@ -54,12 +50,13 @@ final class CartPresenterImpl: CartPresenter {
         self.orderService.cartPresenter = self
     }
 
-    func totalPrice() -> Double {
+    func totalPrice() -> String {
         var price: Double = 0
         for nft in cartContent {
             price += nft.price
         }
-        return price
+        let moneyText = String(NSString(format: "%.2f", price))
+        return moneyText
     }
 
     func count() -> Int {
@@ -93,33 +90,37 @@ final class CartPresenterImpl: CartPresenter {
     }
 
     private func getNfts(with ids: [String]) {
+        let group = DispatchGroup()
 
         for id in ids {
+            group.enter()
             nftByIdService.loadNft(id: id) { [weak self] result in
                 guard let self else { return }
-                DispatchQueue.main.async { [weak self] in
-                    guard let self else { return }
-                    switch result {
-                    case .success(let nft):
+                switch result {
+                case .success(let nft):
 
-                        let contains = self.cartContent.contains {
-                            model in
-                            return model.id == nft.id
-                        }
-
-                        if !contains {
-                            self.cartContent.append(nft)
-                        }
-
-                        self.viewController?.updateCart()
-                        self.viewController?.stopLoadIndicator()
-                        self.sortCart(filter: self.currentFilter)
-                    case .failure(let error):
-                        self.viewController?.stopLoadIndicator()
-                        // TODO: add error alert
+                    let contains = self.cartContent.contains { model in
+                        return model.id == nft.id
                     }
+
+                    if !contains {
+                        self.cartContent.append(nft)
+                    }
+
+                case .failure:
+                    self.viewController?.stopLoadIndicator()
+                    // TODO: add error alert
                 }
+
+                group.leave()
             }
+        }
+
+        group.notify(queue: .main) { [weak self] in
+            guard let self else { return }
+            self.sortCart(filter: self.currentFilter)
+            self.viewController?.updateCart()
+            self.viewController?.stopLoadIndicator()
         }
     }
 

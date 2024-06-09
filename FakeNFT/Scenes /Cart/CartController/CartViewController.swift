@@ -239,13 +239,12 @@ extension CartViewController: CartViewControllerProtocol {
             imagePay.isHidden = true
         } else {
             emptyCartLabel.isHidden = true
+            imagePay.isHidden = false
             let count = presenter.count()
-            let totalPrice = presenter.totalPrice()
-            let moneyText = String(NSString(format: "%.2f", totalPrice))
+            let moneyText = presenter.totalPrice()
             moneyLabel.text = "\(moneyText) ETH"
             amountLabel.text = "\(count) NFT"
             tableView.reloadData()
-            imagePay.isHidden = false
         }
     }
 
