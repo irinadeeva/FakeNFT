@@ -16,11 +16,11 @@ protocol CartDeleteControllerProtocol: AnyObject {
 
 final class DeleteCardViewController: UIViewController, CartDeleteControllerProtocol {
 
-    private var presenter: DeleteCardPresenterProtocol
+    private var presenter: DeleteCardPresenter
     private (set) var nftImage: UIImage
     var cartController: CartViewController
 
-    init(presenter: DeleteCardPresenterProtocol, cartContrroller: CartViewController, nftImage: UIImage) {
+    init(presenter: DeleteCardPresenter, cartContrroller: CartViewController, nftImage: UIImage) {
         self.presenter = presenter
         self.cartController = cartContrroller
         self.nftImage = nftImage
@@ -156,7 +156,7 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
     }
 
     @objc func didTapDeleteButton() {
-        presenter.deleteNFTfromCart { [weak self] result in
+        presenter.deleteNftFromCart { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success:
@@ -184,7 +184,7 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
     func showNetworkError(message: String) {
         let alert = UIAlertController(title: "Что-то пошло не так", message: message, preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: "Еще раз", style: .default) { _ in
-            self.presenter.deleteNFTfromCart { [weak self] result in
+            self.presenter.deleteNftFromCart { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success:

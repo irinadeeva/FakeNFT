@@ -6,15 +6,12 @@
 //
 
 import Foundation
-import UIKit
 
-protocol DeleteCardPresenterProtocol {
-
-//    var nftImage: UIImage { get }
-    func deleteNFTfromCart(completion: @escaping (Result<[String], Error>) -> Void)
+protocol DeleteCardPresenter {
+    func deleteNftFromCart(completion: @escaping (Result<[String], Error>) -> Void)
 }
 
-final class DeleteCardPresenter: DeleteCardPresenterProtocol {
+final class DeleteCardPresenterImpl: DeleteCardPresenter {
 
     weak var viewController: CartDeleteControllerProtocol?
     private var orderService: OrderServiceProtocol
@@ -25,7 +22,7 @@ final class DeleteCardPresenter: DeleteCardPresenterProtocol {
         self.nftIdForDelete = nftIdForDelete
     }
 
-    func deleteNFTfromCart(completion: @escaping (Result<[String], Error>) -> Void) {
+    func deleteNftFromCart(completion: @escaping (Result<[String], Error>) -> Void) {
         viewController?.startLoadIndicator()
         orderService.removeNftFromStorage(id: nftIdForDelete, completion: { [weak self] result in
             guard let self = self else { return }

@@ -49,7 +49,7 @@
 		1FEA644E2BEB818E00BE271F /* PayPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA644D2BEB818E00BE271F /* PayPresenter.swift */; };
 		1FEA64502BEBD27700BE271F /* SuccessPayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA644F2BEBD27700BE271F /* SuccessPayController.swift */; };
 		1FEA64532BECFA9B00BE271F /* DeleteCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA64522BECFA9B00BE271F /* DeleteCardViewController.swift */; };
-		1FEA64552BED4C9B00BE271F /* DeleteCardPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA64542BED4C9A00BE271F /* DeleteCardPresenter.swift */; };
+		1FEA64552BED4C9B00BE271F /* DeleteCardPresenterImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEA64542BED4C9A00BE271F /* DeleteCardPresenterImpl.swift */; };
 		30010F942BE4225C00C1F223 /* SortingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30010F932BE4225C00C1F223 /* SortingView.swift */; };
 		30010F972BE422E200C1F223 /* StatisticsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30010F962BE422E200C1F223 /* StatisticsAssembly.swift */; };
 		30010F992BE422F900C1F223 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30010F982BE422F900C1F223 /* StatisticsViewController.swift */; };
@@ -190,7 +190,7 @@
 		1FEA644D2BEB818E00BE271F /* PayPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayPresenter.swift; sourceTree = "<group>"; };
 		1FEA644F2BEBD27700BE271F /* SuccessPayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessPayController.swift; sourceTree = "<group>"; };
 		1FEA64522BECFA9B00BE271F /* DeleteCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCardViewController.swift; sourceTree = "<group>"; };
-		1FEA64542BED4C9A00BE271F /* DeleteCardPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCardPresenter.swift; sourceTree = "<group>"; };
+		1FEA64542BED4C9A00BE271F /* DeleteCardPresenterImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCardPresenterImpl.swift; sourceTree = "<group>"; };
 		30010F932BE4225C00C1F223 /* SortingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingView.swift; sourceTree = "<group>"; };
 		30010F962BE422E200C1F223 /* StatisticsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsAssembly.swift; sourceTree = "<group>"; };
 		30010F982BE422F900C1F223 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
@@ -391,7 +391,7 @@
 			isa = PBXGroup;
 			children = (
 				1FEA64522BECFA9B00BE271F /* DeleteCardViewController.swift */,
-				1FEA64542BED4C9A00BE271F /* DeleteCardPresenter.swift */,
+				1FEA64542BED4C9A00BE271F /* DeleteCardPresenterImpl.swift */,
 			);
 			path = DeleteCard;
 			sourceTree = "<group>";
@@ -986,7 +986,7 @@
 				BE1BF1852BF34D3B006CD495 /* NftsInput.swift in Sources */,
 				BED4C7942BE4BFFE00213628 /* ProfileRequest.swift in Sources */,
 				1FA3B3342BFBEFF2001DB0AA /* EmptyOrderRequest.swift in Sources */,
-				1FEA64552BED4C9B00BE271F /* DeleteCardPresenter.swift in Sources */,
+				1FEA64552BED4C9B00BE271F /* DeleteCardPresenterImpl.swift in Sources */,
 				1FA3B3282BF69E7B001DB0AA /* PayService.swift in Sources */,
 				1FEA64462BEA8FC400BE271F /* PayViewController.swift in Sources */,
 				0CF2C2E12A784C7000FDC837 /* LinePageControl.swift in Sources */,

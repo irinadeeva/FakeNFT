@@ -289,7 +289,10 @@ extension CartViewController: CartTableViewCellDelegate {
 
         let nft = presenter.getNft(with: indexPath.row)
 
-        let deletePresenter = DeleteCardPresenter(orderService: presenter.getOrderService(), nftIdForDelete: nft.id)
+        let deletePresenter = DeleteCardPresenterImpl(
+            orderService: presenter.getOrderService(),
+            nftIdForDelete: nft.id
+        )
 //
 //        let deleteViewController = DeleteCardViewController(presenter: deletePresenter,
 //                                                            cartContrroller: self,
