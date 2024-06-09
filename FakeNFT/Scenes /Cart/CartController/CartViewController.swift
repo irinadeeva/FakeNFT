@@ -284,10 +284,12 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension CartViewController: CartTableViewCellDelegate {
-    func didTapDeleteButton(id: String, image: UIImage) {
+    func didTapDeleteButton(_ cell: MyOrderCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
 
-//        let deletePresenter = DeleteCardPresenter(orderService: presenter.getOrderService(),
-//                                                  nftIdForDelete: id)
+        let nft = presenter.getNft(with: indexPath.row)
+
+        let deletePresenter = DeleteCardPresenter(orderService: presenter.getOrderService(), nftIdForDelete: nft.id)
 //
 //        let deleteViewController = DeleteCardViewController(presenter: deletePresenter,
 //                                                            cartContrroller: self,
