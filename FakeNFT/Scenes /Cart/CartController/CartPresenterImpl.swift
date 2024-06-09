@@ -8,18 +8,14 @@
 import Foundation
 
 protocol CartPresenter {
-    var cartContent: [Nft] { get set}
-    var viewController: CartViewControllerProtocol? { get set}
-
     func totalPrice() -> String
     func count() -> Int
     func loadOrder()
     func payOrder()
-    func setOrder()
     func getNft(with index: Int) -> Nft
-    func sortCart(filter: CartFilter.FilterBy)
     func getOrderService() -> OrderServiceProtocol
     func getPayService() -> PayServiceProtocol
+    func sortCart(filter: CartFilter.FilterBy)
 }
 
 final class CartPresenterImpl: CartPresenter {
@@ -123,13 +119,6 @@ final class CartPresenterImpl: CartPresenter {
         }
     }
 
-    func setOrder() {
-        let order = self.orderService.nftsStorage
-        self.cartContent = order
-
-        viewController?.updateCartTable()
-    }
-
     func getNft(with index: Int) -> Nft {
         cartContent[index]
     }
@@ -147,13 +136,8 @@ final class CartPresenterImpl: CartPresenter {
         payService
     }
 
-    @objc private func didCartSorted(_ notification: Notification) {
-        let orderUnsorted = orderService.nftsStorage.compactMap { Nft(nft: $0) }
-        cartContent = orderUnsorted.sorted(by: CartFilter.filter[currentFilter] ?? CartFilter.filterById )
-    }
-
     func payOrder() {
-        orderService.removeAllNftFromStorage{ [weak self] result in
+        orderService.removeAllNftFromStorage { [weak self] result in
             guard let self else { return }
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }

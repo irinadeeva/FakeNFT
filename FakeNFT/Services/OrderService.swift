@@ -12,7 +12,6 @@ typealias RemoveOrderCompletion = (Result<[String], Error>) -> Void
 typealias RemoveAllNftCompletion = (Result<Int, Error>) -> Void
 
 protocol OrderServiceProtocol {
-    var nftsStorage: [Nft] { get }
     func loadOrder(completion: @escaping OrderCompletion)
     func removeNftFromStorage(id: String, completion: @escaping RemoveOrderCompletion)
     func removeAllNftFromStorage(completion: @escaping RemoveAllNftCompletion)
@@ -22,8 +21,6 @@ final class OrderService: OrderServiceProtocol {
 
     private let networkClient: NetworkClient
     private let storage: OrderStorageProtocol
-    // TODO: delete after logic fixing
-    var nftsStorage: [Nft] = []
 
     init(networkClient: NetworkClient, orderStorage: OrderStorageProtocol) {
         self.networkClient = networkClient

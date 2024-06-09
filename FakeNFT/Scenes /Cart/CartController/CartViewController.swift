@@ -250,10 +250,6 @@ extension CartViewController: CartViewControllerProtocol {
         tableView.reloadData()
     }
 
-    func updateCartTable() {
-        tableView.reloadData()
-    }
-
     func startLoadIndicator() {
         activityIndicator.showLoading()
     }

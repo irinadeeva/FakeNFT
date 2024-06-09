@@ -9,7 +9,6 @@ import Foundation
 
 protocol CartViewControllerProtocol: AnyObject {
     func updateCart()
-    func updateCartTable()
     func startLoadIndicator()
     func stopLoadIndicator()
 }
