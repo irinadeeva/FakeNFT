@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 protocol CartPresenter {
     var cartContent: [Nft] { get set}
@@ -14,9 +13,9 @@ protocol CartPresenter {
 
     func totalPrice() -> String
     func count() -> Int
-    func getOrder()
+    func loadOrder()
     func setOrder()
-    func getModel(indexPath: IndexPath) -> Nft
+    func getNft(with index: Int) -> Nft
     func sortCart(filter: CartFilter.FilterBy)
     func getOrderService() -> OrderServiceProtocol
     func getPayService() -> PayServiceProtocol
@@ -64,7 +63,7 @@ final class CartPresenterImpl: CartPresenter {
         return count
     }
 
-    func getOrder() {
+    func loadOrder() {
         viewController?.startLoadIndicator()
         orderService.loadOrder { [weak self] result in
             guard let self else { return }
@@ -75,7 +74,7 @@ final class CartPresenterImpl: CartPresenter {
 
                     if !order.nfts.isEmpty {
 
-                        self.getNfts(with: order.nfts)
+                        self.loadNft(with: order.nfts)
 
                     } else {
                         self.viewController?.stopLoadIndicator()
@@ -89,7 +88,7 @@ final class CartPresenterImpl: CartPresenter {
         }
     }
 
-    private func getNfts(with ids: [String]) {
+    private func loadNft(with ids: [String]) {
         let group = DispatchGroup()
 
         for id in ids {
@@ -131,9 +130,8 @@ final class CartPresenterImpl: CartPresenter {
         viewController?.updateCartTable()
     }
 
-    func getModel(indexPath: IndexPath) -> Nft {
-        let model = cartContent[indexPath.row]
-        return model
+    func getNft(with index: Int) -> Nft {
+        cartContent[index]
     }
 
     func sortCart(filter: CartFilter.FilterBy) {

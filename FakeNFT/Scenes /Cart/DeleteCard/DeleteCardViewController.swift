@@ -160,7 +160,7 @@ final class DeleteCardViewController: UIViewController, CartDeleteControllerProt
             guard let self = self else { return }
             switch result {
             case .success:
-                self.cartController.presenter.getOrder()
+                self.cartController.presenter.loadOrder()
                 self.cartController.updateCartTable()
                 self.dismiss(animated: true)
             case let .failure(error):

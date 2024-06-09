@@ -105,7 +105,7 @@ final class CartViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        presenter.getOrder()
+        presenter.loadOrder()
     }
 
     override func viewDidLoad() {
@@ -272,7 +272,7 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
             for: indexPath) as? MyOrderCell else {
             return UITableViewCell()
         }
-        let model = presenter.getModel(indexPath: indexPath)
+        let model = presenter.getNft(with: indexPath.row)
         cell.delegate = self
         cell.updateCell(with: model)
         return cell
