@@ -22,6 +22,7 @@ final class MyOrderCell: UITableViewCell {
     private lazy var cardView: UIView = {
         let cardView = UIView()
         cardView.translatesAutoresizingMaskIntoConstraints = false
+        // TODO: unify color storage
         cardView.backgroundColor = .white
         return cardView
     }()
@@ -44,8 +45,8 @@ final class MyOrderCell: UITableViewCell {
 
     private lazy var nameCardLabel: UILabel = {
         let nameCardLabel = UILabel()
-        nameCardLabel.text = "April"
         nameCardLabel.font = .bodyBold
+        // TODO: unify color storage
         nameCardLabel.textColor = UIColor(named: "Black")
         nameCardLabel.translatesAutoresizingMaskIntoConstraints = false
         return nameCardLabel
@@ -69,6 +70,7 @@ final class MyOrderCell: UITableViewCell {
     private lazy var moneyLabel: UILabel = {
         let moneyLabel = UILabel()
         moneyLabel.font = .bodyBold
+        // TODO: unify color storage
         moneyLabel.textColor = UIColor(named: "Black")
         moneyLabel.translatesAutoresizingMaskIntoConstraints = false
         return moneyLabel
@@ -97,19 +99,15 @@ final class MyOrderCell: UITableViewCell {
         contentView.addSubview(cardView)
         contentView.addSubview(cartButton)
 
-        cardView.addSubview(cardImageView)
-        cardView.addSubview(nameCardLabel)
-
-        cardView.addSubview(priceLabel)
-        cardView.addSubview(moneyLabel)
-
         cardImageView.addSubview(likeImageView)
-        cardView.addSubview(starImageView)
+
+        [cardImageView, nameCardLabel, priceLabel, moneyLabel, starImageView].forEach {
+            cardView.addSubview($0)
+        }
     }
 
     private func setupLayoutCardView() {
         NSLayoutConstraint.activate([
-
             cardImageView.heightAnchor.constraint(equalToConstant: 108),
             cardImageView.widthAnchor.constraint(equalToConstant: 108),
             cardImageView.topAnchor.constraint(equalTo: cardView.topAnchor),
@@ -136,7 +134,6 @@ final class MyOrderCell: UITableViewCell {
 
     private func setupLayout() {
         NSLayoutConstraint.activate([
-
             cardView.heightAnchor.constraint(equalToConstant: 108),
             cardView.widthAnchor.constraint(equalToConstant: 203),
             cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
@@ -150,17 +147,15 @@ final class MyOrderCell: UITableViewCell {
     }
 
     func updateCell(with model: Nft) {
-
         cardImageView.kf.setImage(with: model.images[0])
         nameCardLabel.text = model.name
         starImageView.setStar(with: model.rating)
         moneyLabel.text = "\(model.price) ETH"
-        self.id = model.id
+        id = model.id
     }
 
     @objc private func didTapDeleteButton() {
-
-        guard let id = self.id else { return }
+        guard let id else { return }
         guard let image = cardImageView.image else { return }
         delegate?.didTapDeleteButton(id: id, image: image)
     }

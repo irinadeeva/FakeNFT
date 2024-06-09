@@ -31,7 +31,7 @@ final class CartViewController: UIViewController {
 
     private lazy var imagePay: UIView = {
         let imagePay = UIView()
-        // TODO: unify color storaga
+        // TODO: unify color storage
         imagePay.backgroundColor = UIColor(named: "LightGray")
         imagePay.layer.masksToBounds = true
         imagePay.layer.cornerRadius = 12
@@ -272,9 +272,9 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
             for: indexPath) as? MyOrderCell else {
             return UITableViewCell()
         }
-        let model = presenter.getNft(with: indexPath.row)
+        let nft = presenter.getNft(with: indexPath.row)
         cell.delegate = self
-        cell.updateCell(with: model)
+        cell.updateCell(with: nft)
         return cell
     }
 

@@ -25,7 +25,7 @@ final class CartPresenterImpl: CartPresenter {
 
     weak var viewController: CartViewControllerProtocol?
     private var orderService: OrderServiceProtocol
-    private var nftByIdService: NftByIdServiceProtocol
+    private var nftService: NftByIdServiceProtocol
     private var payService: PayServiceProtocol
     private var userDefaults = UserDefaults.standard
     private let filterKey = "filter"
@@ -42,9 +42,9 @@ final class CartPresenterImpl: CartPresenter {
 
     var cartContent: [Nft] = []
 
-    init(orderService: OrderServiceProtocol, nftByIdService: NftByIdServiceProtocol, payService: PayServiceProtocol) {
+    init(orderService: OrderServiceProtocol, nftService: NftByIdServiceProtocol, payService: PayServiceProtocol) {
         self.orderService = orderService
-        self.nftByIdService = nftByIdService
+        self.nftService = nftService
         self.payService = payService
         self.orderService.cartPresenter = self
     }
@@ -93,7 +93,7 @@ final class CartPresenterImpl: CartPresenter {
 
         for id in ids {
             group.enter()
-            nftByIdService.loadNft(id: id) { [weak self] result in
+            nftService.loadNft(id: id) { [weak self] result in
                 guard let self else { return }
                 switch result {
                 case .success(let nft):
