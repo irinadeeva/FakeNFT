@@ -82,7 +82,7 @@ final class EditProfileDetailsPresenterImpl: EditProfileDetailsPresenter {
     }
 
     private func loadProfile() {
-        service.loadProfile { [weak self] result in
+        service.getProfile { [weak self] result in
             switch result {
             case .success(let profile):
                 self?.state = .data(profile)

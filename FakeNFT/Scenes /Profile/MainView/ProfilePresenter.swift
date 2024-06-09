@@ -131,7 +131,11 @@ final class ProfilePresenterImpl: ProfilePresenter {
     }
 
     private func updateFavourites(with nftIds: [String]) {
-        profileService.updateFavourites(with: nftIds) { [weak self] result in
+        let leftNfts = favouriteNFTsIds.filter {
+            !nftIds.contains($0)
+        }
+
+        profileService.putFavourites(with: leftNfts) { [weak self] result in
             switch result {
             case .success(let profile):
                 self?.favouriteNFTsIds = profile.likes
@@ -154,7 +158,7 @@ final class ProfilePresenterImpl: ProfilePresenter {
     }
 
     private func loadProfile() {
-        profileService.loadProfile { [weak self] result in
+        profileService.getProfile { [weak self] result in
             switch result {
             case .success(let profile):
                 self?.state = .data(profile)

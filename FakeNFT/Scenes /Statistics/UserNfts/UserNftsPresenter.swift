@@ -27,7 +27,7 @@ final class UserNftsPresenter: UserNftsPresenterProtocol {
 
     private let nftsInput: [String]
     private let userNftService: UserNftsServiceProtocol
-    private let likeService: LikesServiceProtocol
+    private let profileService: ProfileService
     private let orderService: OrderService
 
     private var state = UserNftsState.initial {
@@ -40,13 +40,13 @@ final class UserNftsPresenter: UserNftsPresenterProtocol {
     init(
         nftsInput: [String],
         userNftService: UserNftsServiceProtocol,
-        likeService: LikesServiceProtocol,
+        profileService: ProfileService,
         orderService: OrderService
     ) {
         self.nftsInput = nftsInput
         self.userNftService = userNftService
-        self.likeService = likeService
         self.orderService = orderService
+        self.profileService = profileService
     }
 
     // MARK: - Functions
@@ -96,17 +96,14 @@ final class UserNftsPresenter: UserNftsPresenterProtocol {
     }
 
     private func loadLikesProfile() {
-        likeService.getLikes(completion: { [weak self] result in
-            guard let self = self else {
-                return
-            }
+        profileService.getProfile { [weak self] result in
             switch result {
-            case .success(let likes):
-                self.likesProfile = likes.likes
+            case .success(let profile):
+                self?.likesProfile = profile.likes
             case .failure(let error):
-                self.state = .failed(error)
+                self?.state = .failed(error)
             }
-        })
+        }
     }
 
     private func loadOrdersProfile() {
@@ -171,13 +168,13 @@ final class UserNftsPresenter: UserNftsPresenterProtocol {
     }
 
     private func putLikes(cell: UserNftCell, like: Bool) {
-        likeService.putLikes(likes: likesProfile) { [weak self] result in
-            guard let self = self else {
+        profileService.putFavourites(with: likesProfile) { [weak self] result in
+            guard let self else {
                 return
             }
             switch result {
-            case .success(let likes):
-                self.likesProfile = likes.likes
+            case .success(let profile):
+                self.likesProfile = profile.likes
                 cell.setLike(to: like)
             case .failure(let error):
                 self.state = .failed(error)
