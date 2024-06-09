@@ -8,14 +8,14 @@
 import UIKit
 import Kingfisher
 
-protocol CartTableViewCellDelegate: AnyObject {
+protocol MyOrderCellDelegate: AnyObject {
     func didTapDeleteButton(id: String, image: UIImage)
 }
 
 final class MyOrderCell: UITableViewCell {
 
     static let identifier = "MyOrderCell"
-    weak var delegate: CartTableViewCellDelegate?
+    weak var delegate: MyOrderCellDelegate?
     private var id: String?
 
     private lazy var cardView: UIView = {

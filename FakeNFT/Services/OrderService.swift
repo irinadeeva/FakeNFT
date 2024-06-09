@@ -11,13 +11,13 @@ typealias OrderCompletion = (Result<Order, Error>) -> Void
 typealias RemoveOrderCompletion = (Result<[String], Error>) -> Void
 typealias RemoveAllNftCompletion = (Result<Int, Error>) -> Void
 
-protocol OrderServiceProtocol {
+protocol OrderService {
     func loadOrder(completion: @escaping OrderCompletion)
     func removeNftFromStorage(id: String, completion: @escaping RemoveOrderCompletion)
     func removeAllNftFromStorage(completion: @escaping RemoveAllNftCompletion)
 }
 
-final class OrderService: OrderServiceProtocol {
+final class OrderServiceImpl: OrderService {
 
     private let networkClient: NetworkClient
     private let storage: OrderStorageProtocol

@@ -281,7 +281,7 @@ extension CartViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension CartViewController: CartTableViewCellDelegate {
+extension CartViewController: MyOrderCellDelegate {
     func didTapDeleteButton(id: String, image: UIImage) {
         let deletePresenter = DeleteCardPresenterImpl(
             orderService: presenter.getOrderService(),

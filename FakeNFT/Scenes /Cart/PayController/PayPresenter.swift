@@ -19,7 +19,7 @@ final class PayPresenter: PayPresenterProtocol {
 
     weak var payController: PayViewControllerProtocol?
     private var currencies: [CurrencyDataModel] = []
-    private var payService: PayServiceProtocol?
+    private var payService: PayService?
     var selectedCurrency: CurrencyDataModel? {
         didSet {
             if selectedCurrency != nil {
@@ -28,7 +28,7 @@ final class PayPresenter: PayPresenterProtocol {
         }
     }
 
-    init(payService: PayServiceProtocol) {
+    init(payService: PayService) {
         self.payService = payService
     }
 

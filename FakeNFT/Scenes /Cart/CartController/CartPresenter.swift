@@ -13,17 +13,17 @@ protocol CartPresenter {
     func loadOrder()
     func payOrder()
     func getNft(with index: Int) -> Nft
-    func getOrderService() -> OrderServiceProtocol
-    func getPayService() -> PayServiceProtocol
+    func getOrderService() -> OrderService
+    func getPayService() -> PayService
     func sortCart(filter: CartFilter.FilterBy)
 }
 
 final class CartPresenterImpl: CartPresenter {
 
     weak var viewController: CartViewControllerProtocol?
-    private var orderService: OrderServiceProtocol
+    private var orderService: OrderService
     private var nftService: NftService
-    private var payService: PayServiceProtocol
+    private var payService: PayService
     private var userDefaults = UserDefaults.standard
     private let filterKey = "filter"
 
@@ -39,7 +39,7 @@ final class CartPresenterImpl: CartPresenter {
 
     var cartContent: [Nft] = []
 
-    init(orderService: OrderServiceProtocol, nftService: NftService, payService: PayServiceProtocol) {
+    init(orderService: OrderService, nftService: NftService, payService: PayService) {
         self.orderService = orderService
         self.nftService = nftService
         self.payService = payService
@@ -128,11 +128,11 @@ final class CartPresenterImpl: CartPresenter {
         cartContent = cartContent.sorted(by: CartFilter.filter[currentFilter] ?? CartFilter.filterById)
     }
 
-    func getOrderService() -> any OrderServiceProtocol {
+    func getOrderService() -> any OrderService {
         orderService
     }
 
-    func getPayService() -> any PayServiceProtocol {
+    func getPayService() -> any PayService {
         payService
     }
 

@@ -14,10 +14,10 @@ protocol DeleteCardPresenter {
 final class DeleteCardPresenterImpl: DeleteCardPresenter {
 
     weak var viewController: CartDeleteControllerProtocol?
-    private var orderService: OrderServiceProtocol
+    private var orderService: OrderService
     private var nftIdForDelete: String
 
-    init(orderService: OrderServiceProtocol, nftIdForDelete: String) {
+    init(orderService: OrderService, nftIdForDelete: String) {
         self.orderService = orderService
         self.nftIdForDelete = nftIdForDelete
     }

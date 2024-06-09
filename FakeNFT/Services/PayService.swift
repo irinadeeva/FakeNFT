@@ -10,12 +10,12 @@ import Foundation
 typealias CurrenciesCompletion = (Result<[CurrencyDataModel], Error>) -> Void
 typealias PayCompletion = (Result<PayDataModel, Error>) -> Void
 
-protocol PayServiceProtocol {
+protocol PayService {
     func getCurrencies(completion: @escaping CurrenciesCompletion)
     func payOrder(currencyId: String, completion: @escaping PayCompletion)
 }
 
-final class PayService: PayServiceProtocol {
+final class PayServiceImpl: PayService {
 
     let networkClient: NetworkClient
 

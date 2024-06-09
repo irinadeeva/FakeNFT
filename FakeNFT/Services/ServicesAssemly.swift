@@ -41,15 +41,15 @@ final class ServicesAssembly {
         )
     }
 
-    var orderService: OrderServiceProtocol {
-        OrderService(
+    var orderService: OrderService {
+        OrderServiceImpl(
             networkClient: networkClient,
             orderStorage: orderStorage
         )
     }
 
-    var payService: PayServiceProtocol {
-        PayService(
+    var payService: PayService {
+        PayServiceImpl(
             networkClient: networkClient
         )
     }
