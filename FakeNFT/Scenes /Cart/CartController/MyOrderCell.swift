@@ -10,13 +10,14 @@ import UIKit
 import Kingfisher
 
 protocol CartTableViewCellDelegate: AnyObject {
-    func didTapDeleteButton(_ cell: MyOrderCell)
+    func didTapDeleteButton(id: String, image: UIImage)
 }
 
 final class MyOrderCell: UITableViewCell {
 
     static let identifier = "MyOrderCell"
     weak var delegate: CartTableViewCellDelegate?
+    private var id: String?
 
     private lazy var cardView: UIView = {
         let cardView = UIView()
@@ -150,9 +151,12 @@ final class MyOrderCell: UITableViewCell {
         nameCardLabel.text = model.name
         starImageView.setStar(with: model.rating)
         moneyLabel.text = "\(model.price) ETH"
+        id = model.id
     }
 
     @objc private func didTapDeleteButton() {
-        delegate?.didTapDeleteButton(self)
+        guard let id else { return }
+        guard let image = cardImageView.image else { return }
+        delegate?.didTapDeleteButton(id: id, image: image)
     }
 }
