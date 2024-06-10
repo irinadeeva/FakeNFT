@@ -13,10 +13,7 @@ protocol OrderStorage: AnyObject {
 }
 
 final class OrderStorageImpl: OrderStorage {
-
     private var storage: Order?
-
-    private let syncQueue = DispatchQueue(label: "sync-order-queue")
 
     func saveOrder(_ order: Order) {
         storage = order

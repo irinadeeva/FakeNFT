@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias CurrenciesCompletion = (Result<[CurrencyDataModel], Error>) -> Void
+typealias CurrenciesCompletion = (Result<[Currency], Error>) -> Void
 typealias PayCompletion = (Result<PayDataModel, Error>) -> Void
 
 protocol PayService {
@@ -26,7 +26,7 @@ final class PayServiceImpl: PayService {
     func getCurrencies(completion: @escaping CurrenciesCompletion) {
         let request = CurrenciesRequest()
 
-        networkClient.send(request: request, type: [CurrencyDataModel].self) { result in
+        networkClient.send(request: request, type: [Currency].self) { result in
             DispatchQueue.main.async {
                 switch result {
                 case let .success(data):

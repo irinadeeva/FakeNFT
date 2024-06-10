@@ -10,7 +10,7 @@ import UIKit
 final class PayCell: UICollectionViewCell {
 
     static let identifier = "PayCell"
-    private (set) var currency: CurrencyDataModel?
+    private (set) var currency: Currency?
 
     private lazy var cardView: UIView = {
         let cardView = UIView()
@@ -104,7 +104,7 @@ final class PayCell: UICollectionViewCell {
         ])
     }
 
-    func updateCell(currency: CurrencyDataModel) {
+    func updateCell(currency: Currency) {
         self.currency = currency
         let image = URL(string: currency.image)
         moneyImageView.kf.setImage(with: image, placeholder: UIImage(named: "close"))

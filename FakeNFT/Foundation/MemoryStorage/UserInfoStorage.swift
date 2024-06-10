@@ -5,7 +5,6 @@ protocol UserInfoStorage: AnyObject {
 }
 
 final class UserInfoStorageImpl: UserInfoStorage {
-
     private var storage: UserInfo?
 
     private let syncQueue = DispatchQueue(label: "sync-user-queue")

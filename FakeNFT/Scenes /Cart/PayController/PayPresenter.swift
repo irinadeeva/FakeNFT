@@ -8,9 +8,9 @@
 import UIKit
 
 protocol PayPresenterProtocol {
-    var selectedCurrency: CurrencyDataModel? { get set }
+    var selectedCurrency: Currency? { get set }
     func count() -> Int
-    func getModel(indexPath: IndexPath) -> CurrencyDataModel
+    func getModel(indexPath: IndexPath) -> Currency
     func payOrder()
     func getCurrencies()
 }
@@ -18,9 +18,9 @@ protocol PayPresenterProtocol {
 final class PayPresenter: PayPresenterProtocol {
 
     weak var payController: PayViewControllerProtocol?
-    private var currencies: [CurrencyDataModel] = []
+    private var currencies: [Currency] = []
     private var payService: PayService?
-    var selectedCurrency: CurrencyDataModel? {
+    var selectedCurrency: Currency? {
         didSet {
             if selectedCurrency != nil {
                 payController?.didSelectCurrency(isEnable: true)
@@ -36,7 +36,7 @@ final class PayPresenter: PayPresenterProtocol {
         return currencies.count
     }
 
-    func getModel(indexPath: IndexPath) -> CurrencyDataModel {
+    func getModel(indexPath: IndexPath) -> Currency {
         let model = currencies[indexPath.row]
         return model
     }
