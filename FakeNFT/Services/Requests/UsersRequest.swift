@@ -21,15 +21,3 @@ struct UserInfoRequest: NetworkRequest {
         URL(string: "\(RequestConstants.baseURL)/api/v1/users/\(id)")
     }
 }
-
-struct UserNftRequest: NetworkRequest {
-    var dto: Data?
-
-    let id: String
-
-    var httpMethod: HttpMethod { .get }
-
-    var endpoint: URL? {
-        URL(string: "\(RequestConstants.baseURL)/api/v1/nft/\(id)")
-    }
-}

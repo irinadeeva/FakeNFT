@@ -26,7 +26,7 @@ final class UserNftsPresenter: UserNftsPresenterProtocol {
     private var userNfts = [Nft]()
 
     private let nftsInput: [String]
-    private let userNftService: UserNftsServiceProtocol
+    private let nftService: NftService
     private let profileService: ProfileService
     private let orderService: OrderService
 
@@ -39,12 +39,12 @@ final class UserNftsPresenter: UserNftsPresenterProtocol {
     // MARK: - Init
     init(
         nftsInput: [String],
-        userNftService: UserNftsServiceProtocol,
+        nftService: NftService,
         profileService: ProfileService,
         orderService: OrderService
     ) {
         self.nftsInput = nftsInput
-        self.userNftService = userNftService
+        self.nftService = nftService
         self.orderService = orderService
         self.profileService = profileService
     }
@@ -76,20 +76,27 @@ final class UserNftsPresenter: UserNftsPresenterProtocol {
 
     private func loadUserNfts() {
         if !nftsInput.isEmpty {
-            userNftService.loadNfts(with: nftsInput, completion: { [weak self] result in
-                guard let self = self else {
-                    return
-                }
-                switch result {
-                case .success(let nfts):
-                    self.userNfts = nfts
-                    if self.nftsInput.count == self.userNfts.count {
-                        self.state = .data
+            var loadedNfts: [Nft] = []
+
+            let group = DispatchGroup()
+
+            for id in nftsInput {
+                group.enter()
+                nftService.loadNft(id: id) { [weak self] result in
+                    switch result {
+                    case .success(let nft):
+                        loadedNfts.append(nft)
+                    case .failure(let error):
+                        self?.state = .failed(error)
                     }
-                case .failure(let error):
-                    self.state = .failed(error)
+                    group.leave()
                 }
-            })
+            }
+
+            group.notify(queue: .main) { [weak self] in
+                self?.userNfts = loadedNfts
+                self?.state = .data
+            }
         } else {
             view?.hideLoadingAndUnblockUI()
         }
