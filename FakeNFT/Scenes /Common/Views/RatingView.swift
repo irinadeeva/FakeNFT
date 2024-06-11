@@ -45,7 +45,7 @@ final class RatingView: UIView {
         repeat {
             let view = UIImageView()
             starStackView.addArrangedSubview(view)
-            view.image = index < rating ? UIImage(named: "starGold") : UIImage(named: "starGrey")
+            view.image = index < rating ? UIImage(named: "star_enable") : UIImage(named: "star_disable")
             index += 1
         }
          while index < 5

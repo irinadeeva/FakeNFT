@@ -39,7 +39,8 @@ final class TabBarController: UITabBarController {
         let profileController = UINavigationController(rootViewController: profileAssembly.build())
         profileController.tabBarItem = profileTabBarItem
 
-        let catalogController = TestCatalogViewController(servicesAssembly: servicesAssembly)
+        let catalogAssembly = CatalogAssembly(servicesAssembly: servicesAssembly)
+        let catalogController = UINavigationController(rootViewController: catalogAssembly.build())
         catalogController.tabBarItem = catalogTabBarItem
 
         let cartAssembly = CartAssembly(servicesAssembler: servicesAssembly)

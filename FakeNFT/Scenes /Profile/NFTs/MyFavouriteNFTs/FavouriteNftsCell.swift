@@ -22,7 +22,7 @@ final class FavouriteNftsCell: UICollectionViewCell {
 
     private lazy var likeButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "Favourite"), for: .normal)
+        button.setImage(UIImage(named: "like_enable"), for: .normal)
         button.addTarget(self, action: #selector(didTapLike), for: .touchUpInside)
         return button
     }()

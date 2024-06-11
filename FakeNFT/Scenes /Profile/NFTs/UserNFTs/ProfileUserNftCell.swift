@@ -85,7 +85,7 @@ final class ProfileUserNftCell: UITableViewCell {
         nftNameLabel.text = nft.name
         starImageView.setStar(with: nft.rating)
         moneyLabel.text = "\(nft.price) ETH"
-        likeView.image = UIImage(named: "Unfauvorite") ?? UIImage()
+        likeView.image = UIImage(named: "like_disable") ?? UIImage()
     }
 }
 

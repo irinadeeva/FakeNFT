@@ -101,7 +101,7 @@ extension ProfileViewController {
 
         if let navBar = navigationController?.navigationBar {
             let rightButton = UIBarButtonItem(
-                image: UIImage(named: "editNavBar"),
+                image: UIImage(named: "edit"),
                 style: .plain,
                 target: self,
                 action: #selector(editProfileDetails)
